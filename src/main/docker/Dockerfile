@@ -35,13 +35,14 @@ RUN apt-get update && \
 # Install apache2
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y apache2 && \
-    rm -rf /var/lib/apt/lists/* \
+    rm -rf /var/lib/apt/lists/* 
 
 # Install other named tools
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y git gradle curl wget openssl && \
     rm -rf /var/lib/apt/lists/*
 
+# Install build tools
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential && \
     rm -rf /var/lib/apt/lists/*
