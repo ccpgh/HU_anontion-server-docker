@@ -1,0 +1,89 @@
+#!/bin/bash 
+
+DOCKER_FILE=src/main/docker/Dockerfile
+BUILD_DIR=build
+TAG_ORG=shlibnet
+TAG_ID=HU_anontion-server
+TAG_VERSION=latest
+TAG_PREFIX="$TAG_ORG/$TAG_ID"
+TAG="$TAG_PREFIX:$TAG_VERSION"
+ANONTION_DOCKER_GITUSER=ccpgh
+
+if [[ "$1" == "" ]]
+then
+  echo "defaulted user for build"
+  ANONTION_SERVER_USER=user
+else
+  echo "set user for build"
+  ANONTION_SERVER_USER="${1}"
+fi
+
+if [[ "$2" == "" ]]
+then
+  echo "defaulted password for build"
+  ANONTION_SERVER_PASSWORD=password
+else
+  echo "set password for build"
+  ANONTION_SERVER_PASSWORD="${2}"
+fi
+
+for i in ` (docker ps 2>&1) | grep -v 'CONTAINER ID' | grep "${TAG_PREFIX}" | cut -d' ' -f1`
+do
+  echo "stopping container $i"
+  docker stop "$i" 2>/dev/null
+  sleep 5
+done
+
+for i in ` (docker ps --all 2>&1) | grep -v 'CONTAINER ID' | grep "${TAG_PREFIX}" | cut -d' ' -f1 `
+do
+  echo "removing container $i"
+  docker rm "$i" 2>/dev/null
+done
+
+for i in ` (docker images -a 2>&1) | grep -v 'REPOSITORY' | egrep "${TAG_PREFIX}|ubuntu(.*)22.04" | awk '{ print $3 }' `
+do
+  echo "removing image $i"
+  docker rmi -f "$i" 2>/dev/null
+done
+
+docker images -a
+
+cd ..
+
+pwd
+
+if [[ ! -f "$DOCKER_FILE" ]]
+then
+  echo "docker file '$DOCKER_FILE' missing"
+  exit 1
+fi
+
+echo dockerfile "$DOCKER_FILE"
+
+rm -fr "$BUILD_DIR" 2>/dev/null
+
+if [[ -d "$BUILD_DIR"  ]]
+then 
+  echo "dir '$BUILD_DIR' could not be deleted"
+  exit 1
+fi
+
+mkdir -p "$BUILD_DIR"
+
+if [[ ! -d "$BUILD_DIR" ]]
+then 
+  echo "dir '$BUILD_DIR' could not be created"
+  exit 1
+fi
+
+pwd
+
+docker build --no-cache --rm -f "$DOCKER_FILE"  --build-arg "ANONTION_DOCKER_GITUSER=$ANONTION_DOCKER_GITUSER" \
+       --build-arg "ANONTION_SERVER_USER=$ANONTION_SERVER_USER" \
+       --build-arg "ANONTION_SERVER_PASSWORD=$ANONTION_SERVER_PASSWORD" -t "$TAG" "$BUILD_DIR"
+
+docker images
+
+docker run -d -p 80:80 "$TAG_PREFIX"
+
+docker ps --all
