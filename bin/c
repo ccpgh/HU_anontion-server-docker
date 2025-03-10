@@ -3,7 +3,7 @@
 DOCKER_FILE=src/main/docker/Dockerfile
 BUILD_DIR=build
 TAG_ORG=shlibnet
-TAG_ID=HU_anontion-server
+TAG_ID=HU_Anontion-server
 TAG_VERSION=latest
 TAG_PREFIX=`echo "$TAG_ORG/$TAG_ID" | tr '[:upper:]' '[:lower:]' ` 
 TAG="$TAG_PREFIX:$TAG_VERSION"
@@ -80,11 +80,15 @@ ECHO PWD is `pwd`
 
 ECHO running docker build --no-cache --rm -f "$DOCKER_FILE"  --build-arg "ANONTION_DOCKER_GITUSER=$ANONTION_DOCKER_GITUSER" \
        --build-arg "ANONTION_SERVER_USER=$ANONTION_SERVER_USER" \
-       --build-arg "ANONTION_SERVER_PASSWORD=$ANONTION_SERVER_PASSWORD" -t "$TAG" "$BUILD_DIR"
+       --build-arg "ANONTION_SERVER_PASSWORD=$ANONTION_SERVER_PASSWORD" \
+       --build-arg "ANONTION_SERVER_REPO=$TAG_ID" \
+       -t "$TAG" "$BUILD_DIR"
 
 docker build --no-cache --rm -f "$DOCKER_FILE"  --build-arg "ANONTION_DOCKER_GITUSER=$ANONTION_DOCKER_GITUSER" \
        --build-arg "ANONTION_SERVER_USER=$ANONTION_SERVER_USER" \
-       --build-arg "ANONTION_SERVER_PASSWORD=$ANONTION_SERVER_PASSWORD" -t "$TAG" "$BUILD_DIR"
+       --build-arg "ANONTION_SERVER_PASSWORD=$ANONTION_SERVER_PASSWORD" \
+       --build-arg "ANONTION_SERVER_REPO=$TAG_ID" \
+       -t "$TAG" "$BUILD_DIR"
 
 docker images
 
