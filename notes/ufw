@@ -1,0 +1,5 @@
+!#/bin/bash
+
+echo sudo ufw allow ssh
+echo sudo ufw allow 443
+echo sudo ufw allow http
