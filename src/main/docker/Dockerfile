@@ -50,7 +50,7 @@ RUN apt-get update && \
 
 # Install other named tools
 RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y git gradle curl wget openssl && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y git gradle curl wget openssl gosu openssh && \
     rm -rf /var/lib/apt/lists/*
 
 # Install build tools
@@ -67,27 +67,49 @@ RUN echo git clone "https://github.com/${ANONTION_DOCKER_GITUSER}/${TAG_ID}.git"
 # Clone HU_anontion-server
 RUN git clone "https://github.com/${ANONTION_DOCKER_GITUSER}/${TAG_ID}.git"
 
+# Create ssl placeholders
+RUN mkdir /etc/ssl/certs/anontion
+
+RUN chmod 750 /etc/ssl/certs/anontion
+
+RUN chgrp www-data /etc/ssl/certs/anontion
+
 # Set the working directory
-# WORKDIR /usr/local/src/${TAG_ID}/.../webapp/WEB-INF
+WORKDIR /etc/ssl/certs/anontion
 
-# Update web.xml with user and password
-# RUN sed -i.bak "s/__________USER_REPLACE_ME__________/${ANONTION_SERVER_USER}/" web.xml
+# Create empty files
+RUN touch anontion.key
+RUN touch anontion.ca-bundle
+RUN touch anontion.crt
 
-# RUN sed -i,bak "s/__________PASSWORD_REPLACE_ME__________/${ANONTION_SERVER_PASSWORD}/" web.xml
+RUN chmod 640 *key *bundle *crt
 
-# Gen private key
-# RUN openssl genpkey -out server-private.key -algorithm RSA -pkeyopt rsa_keygen_bits:4096
+RUN chgrp www-data *key *bundle *crt
 
-# Check private key
-# RUN if [ ! -e server-private.key ]; then echo "missing private key "; exit 1; fi
+# Apache ssl
+RUN a2enmod ssl
 
-# Generate public key
-# RUN openssl rsa -pubout -outform pem -in server-private.key -out server-public.key
+RUN a2ensite default-ssl.conf
 
-# Check public key
-# RUN if [ ! -e server-public.key ]; then echo "missing public key "; exit 1; fi
+RUN apachectl restart
 
-# RUN cat server-public.key
+# Set the working directory
+WORKDIR /etc/apache2/sites-enabled
+
+# Update 000-default.conf
+ARG LHS1=/etc/ssl/certs/ssl-cert-snakeoil.pem
+ARG RHS1=/etc/ssl/certs/anontion/anontion.crt
+RUN sed -i.bak1 "s/${LHS1}/${RHS1}/" 000-default.conf
+
+ARG LHS2=/etc/ssl/private/ssl-cert-snakeoil.key
+ARG RHS2=/etc/ssl/certs/anontion/anontion.key
+RUN sed -i.bak2 "s/${LHS2}/${RHS2}/" 000-default.conf
+
+ARG LHS3='#SSLCertificateChainFile /etc/apache2/ssl.crt/server-ca.crt'
+ARG RHS3='SSLCertificateChainFile /etc/ssl/certs/anontion/nontion.ca-bundle'
+RUN sed -i.bak3 "s/${LHS3}/${RHS3}/" 000-default.conf
+
+RUN apachectl restart
 
 # Set the working directory
 WORKDIR /usr/local/src/${TAG_ID}/bin
@@ -95,14 +117,9 @@ WORKDIR /usr/local/src/${TAG_ID}/bin
 # Build
 RUN ./c
 
-# Check war
-# RUN if [ ! -e /usr/local/src/dynip-server/dynip-server/build/libs/ipserver.war ]; then echo "missing war file "; exit 1; fi
+# NYI proxy or j2conn
 
-# Copy war into place
-# RUN cp /usr/local/src/dynip-server/dynip-server/build/libs/ipserver.war /var/lib/tomcat10/webapps/ipserver.war
-
-# Check war copy
-# RUN if [ ! -f /var/lib/tomcat10/webapps/ipserver.war ]; then echo "missing war copy "; exit 1; fi
+# NYI war
 
 # Config
 RUN cp -f /var/lib/tomcat10/conf/server.xml /var/lib/tomcat10/conf/server.xml.bak
@@ -121,9 +138,10 @@ RUN if [ ! -f /var/lib/tomcat10/conf/server.xml.bak ]; then echo "missing server
 #     { print; }' /var/lib/tomcat10/conf/server.xml.bak > /var/lib/tomcat10/conf/server.xml
      
 # Empty default app 
-# RUN echo "." >  /var/lib/tomcat10/webapps/ROOT/index.html
+RUN echo "." >  /var/lib/tomcat10/webapps/ROOT/index.html
 
 # Expose the default Tomcat port
+EXPOSE 22
 EXPOSE 80
 EXPOSE 443
 EXPOSE 8080
