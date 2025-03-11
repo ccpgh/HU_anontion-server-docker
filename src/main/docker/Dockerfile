@@ -106,7 +106,7 @@ ARG RHS2=/etc/ssl/certs/anontion/anontion.key
 RUN sed -i.bak2 "s|${LHS2}|${RHS2}|" default-ssl.conf
 
 ARG LHS3='#SSLCertificateChainFile /etc/apache2/ssl.crt/server-ca.crt'
-ARG RHS3='SSLCertificateChainFile /etc/ssl/certs/anontion/nontion.ca-bundle'
+ARG RHS3='SSLCertificateChainFile /etc/ssl/certs/anontion/anontion.ca-bundle'
 RUN sed -i.bak3 "s|${LHS3}|${RHS3}|" default-ssl.conf
 
 ARG LHS4=SSLEngine on
