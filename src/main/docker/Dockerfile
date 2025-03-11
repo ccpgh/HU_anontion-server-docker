@@ -23,7 +23,7 @@ RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y apt-utils && \
     rm -rf /var/lib/apt/lists/*
 
-# Install necessary build tools for C++
+# Install necessary build tools for Java
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y default-jdk && \
     rm -rf /var/lib/apt/lists/*

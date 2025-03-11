@@ -109,3 +109,5 @@ docker run -d --name "$TAG_NAME" -p 80:80 -p 443:443 -p 8080:8080 -p 12121:22 "$
 docker ps --all
 
 docker exec -it "$TAG_NAME" bash
+
+rm -fr ./build/*
