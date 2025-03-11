@@ -7,9 +7,6 @@ echo openssl req -new -newkey rsa:2048 -nodes -keyout anontion.key -out anontion
 echo openssl rsa -in anontion.key -pubout -out anontion.pub
 
 <VirtualHost *:443>
-    ServerAdmin webmaster@yourdomain.com
-    ServerName yourdomain.com
-    DocumentRoot /var/www/html
 
     SSLEngine on
 
@@ -25,18 +22,18 @@ echo openssl rsa -in anontion.key -pubout -out anontion.pub
     # Optional: Set the strong Diffie-Hellman group for additional security
     SSLOpenSSLConfCmd DHParameters "/etc/ssl/private/dhparam.pem"
 
-    # Additional SSL settings can go here
 </VirtualHost>
 
 sudo a2enmod ssl
+
 sudo a2ensite default-ssl.conf
 
-sudo systemctl restart apache2   # For systems using systemd (like Ubuntu/Debian)
+sudo apachectl restart
 
 openssl dhparam -out /etc/ssl/private/dhparam.pem 2048
 
 sudo chmod 600 /etc/ssl/private/dhparam.pem
+
 sudo chown root:root /etc/ssl/private/dhparam.pem
 
-sudo systemctl restart apache2   # For systems using systemd (like Ubuntu/Debian)
-
+sudo apachectl restart
