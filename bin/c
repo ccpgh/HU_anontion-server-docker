@@ -77,9 +77,9 @@ then
   exit 1
 fi
 
-ECHO PWD is `pwd`
+echo PWD is `pwd`
 
-ECHO running docker build --no-cache --rm -f "$DOCKER_FILE"  --build-arg "ANONTION_DOCKER_GITUSER=$ANONTION_DOCKER_GITUSER" \
+echo running docker build --no-cache --rm -f "$DOCKER_FILE"  --build-arg "ANONTION_DOCKER_GITUSER=$ANONTION_DOCKER_GITUSER" \
        --build-arg "ANONTION_SERVER_USER=$ANONTION_SERVER_USER" \
        --build-arg "ANONTION_SERVER_PASSWORD=$ANONTION_SERVER_PASSWORD" \
        --build-arg "TAG_ID=$TAG_ID" \

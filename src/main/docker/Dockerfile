@@ -91,7 +91,7 @@ RUN a2enmod ssl
 
 RUN a2ensite default-ssl.conf
 
-RUN apachectl restart
+RUN apachectl stop
 
 # Set the working directory
 WORKDIR /etc/apache2/sites-enabled
@@ -109,7 +109,11 @@ ARG LHS3='#SSLCertificateChainFile /etc/apache2/ssl.crt/server-ca.crt'
 ARG RHS3='SSLCertificateChainFile /etc/ssl/certs/anontion/nontion.ca-bundle'
 RUN sed -i.bak3 "s|${LHS3}|${RHS3}|" default-ssl.conf
 
-RUN apachectl restart
+ARG LHS4=SSLEngine on
+ARG RHS4=SSLEngine off
+RUN sed -i.bak4 "s|${LHS4}|${RHS4}|" default-ssl.conf
+
+RUN apachectl start
 
 # Set the working directory
 WORKDIR /usr/local/src/${TAG_ID}/bin
