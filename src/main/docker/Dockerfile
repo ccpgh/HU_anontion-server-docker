@@ -141,8 +141,9 @@ RUN if [ ! -f /var/lib/tomcat10/conf/server.xml.bak ]; then echo "missing server
 #     }                                                                     \
 #     { print; }' /var/lib/tomcat10/conf/server.xml.bak > /var/lib/tomcat10/conf/server.xml
      
-# Empty default app 
+# Empty default homepages
 RUN echo "." >  /var/lib/tomcat10/webapps/ROOT/index.html
+RUN echo "." >  /var/www/html/index.html
 
 # Expose the default Tomcat port
 EXPOSE 22
