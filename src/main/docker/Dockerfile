@@ -99,15 +99,15 @@ WORKDIR /etc/apache2/sites-enabled
 # Update 000-default.conf
 ARG LHS1=/etc/ssl/certs/ssl-cert-snakeoil.pem
 ARG RHS1=/etc/ssl/certs/anontion/anontion.crt
-RUN sed -i.bak1 "s/${LHS1}/${RHS1}/" 000-default.conf
+RUN sed -i.bak1 "s|${LHS1}|${RHS1}|" default-ssl.conf
 
 ARG LHS2=/etc/ssl/private/ssl-cert-snakeoil.key
 ARG RHS2=/etc/ssl/certs/anontion/anontion.key
-RUN sed -i.bak2 "s/${LHS2}/${RHS2}/" 000-default.conf
+RUN sed -i.bak2 "s|${LHS2}|${RHS2}|" default-ssl.conf
 
 ARG LHS3='#SSLCertificateChainFile /etc/apache2/ssl.crt/server-ca.crt'
 ARG RHS3='SSLCertificateChainFile /etc/ssl/certs/anontion/nontion.ca-bundle'
-RUN sed -i.bak3 "s/${LHS3}/${RHS3}/" 000-default.conf
+RUN sed -i.bak3 "s|${LHS3}|${RHS3}|" default-ssl.conf
 
 RUN apachectl restart
 
