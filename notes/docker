@@ -1,0 +1,8 @@
+!#/bin/bash
+
+echo docker save -o myapp_latest.tar myapp:latest
+
+echo docker load -i /path/to/myapp_latest.tar
+
+echo --platform linux/amd64
+
