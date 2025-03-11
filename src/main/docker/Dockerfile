@@ -50,7 +50,7 @@ RUN apt-get update && \
 
 # Install other named tools
 RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y git gradle curl wget openssl gosu openssh && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y git gradle curl wget openssl gosu openssh-server && \
     rm -rf /var/lib/apt/lists/*
 
 # Install build tools
