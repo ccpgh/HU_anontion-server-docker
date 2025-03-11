@@ -1,13 +1,19 @@
 # Dockerfile
 
-# Use the official Ubuntu 22.04 base image
+# Use the official Ubuntu 24.04 base image
 FROM ubuntu:24.04
 
 # Environment
 ARG ANONTION_DOCKER_GITUSER=default_value
 ARG ANONTION_SERVER_USER=default_value
 ARG ANONTION_SERVER_PASSWORD=default_value
-ARG ANONTION_SERVER_REPO=default_value
+ARG TAG_ID=default_value
+
+# Diagnostic
+RUN echo ANONTION_DOCKER_GITUSER=$ANONTION_DOCKER_GITUSER
+RUN echo ANONTION_SERVER_USER=$ANONTION_SERVER_USER
+RUN echo ANONTION_SERVER_PASSWORD=$ANONTION_SERVER_PASSWORD
+RUN echo TAG_ID=$TAG_ID
 
 # Info
 RUN bash -c "echo starting using github user ${ANONTION_DOCKER_GITUSER} "
@@ -50,11 +56,14 @@ RUN apt-get update && \
 # Set the working directory
 WORKDIR /usr/local/src
 
+# debug
+RUN echo git clone "https://github.com/${ANONTION_DOCKER_GITUSER}/${TAG_ID}.git"
+
 # Clone HU_anontion-server
-RUN git clone https://github.com/${ANONTION_DOCKER_GITUSER}/${ANONTION_SERVER_REPO}.git
+RUN git clone "https://github.com/${ANONTION_DOCKER_GITUSER}/${TAG_ID}.git"
 
 # Set the working directory
-# WORKDIR /usr/local/src/${ANONTION_SERVER_REPO}/.../webapp/WEB-INF
+# WORKDIR /usr/local/src/${TAG_ID}/.../webapp/WEB-INF
 
 # Update web.xml with user and password
 # RUN sed -i.bak "s/__________USER_REPLACE_ME__________/${ANONTION_SERVER_USER}/" web.xml
@@ -76,7 +85,7 @@ RUN git clone https://github.com/${ANONTION_DOCKER_GITUSER}/${ANONTION_SERVER_RE
 # RUN cat server-public.key
 
 # Set the working directory
-WORKDIR /usr/local/src/${ANONTION_SERVER_REPO}/bin
+WORKDIR /usr/local/src/${TAG_ID}/bin
 
 # Build
 RUN ./c
@@ -121,9 +130,6 @@ ENV PATH $CATALINA_HOME/bin:$PATH
 
 WORKDIR /var/lib/tomcat10/
 
-# start apache
-CMD service apache2 start  
-
-# start tomcat when the container starts
-CMD ["catalina.sh", "run"]
+# start apache and tomcat when the container starts
+CMD apachectl start && catalina.sh run
 
