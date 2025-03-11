@@ -3,4 +3,4 @@
 *crt
 *pem
 *pub
-ssl/
+*bundle
