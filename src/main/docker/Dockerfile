@@ -78,9 +78,9 @@ RUN chgrp www-data /etc/ssl/certs/anontion
 WORKDIR /etc/ssl/certs/anontion
 
 # Create empty files
-RUN touch anontion.key
-RUN touch anontion.ca-bundle
-RUN touch anontion.crt
+COPY ./anontion.key anontion.key
+COPY ./www_anontion_com.ca-bundle anontion.ca-bundle
+COPY ./www_anontion_com.crt anontion.crt
 
 RUN chmod 640 *key *bundle *crt
 

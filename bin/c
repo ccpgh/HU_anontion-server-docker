@@ -79,12 +79,14 @@ fi
 
 echo PWD is `pwd`
 
-for i in anontion.key ssl/www_anontion_com.ca-bundle ssl/www_anontion_com.crt
+for i in anontion.key www_anontion_com.ca-bundle www_anontion_com.crt
 do
   if [ ! -f "keys/${i}" ]
   then
     echo "mandatory keys file keys/${i} missing"
     exit 1
+  else
+    cp "keys/${i}" "build/${i}"
   fi
 done
 
