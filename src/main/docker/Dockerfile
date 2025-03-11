@@ -43,6 +43,11 @@ RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y apache2 && \
     rm -rf /var/lib/apt/lists/* 
 
+# Install certbot python3-certbot-apache
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y certbot python3-certbot-apache && \
+    rm -rf /var/lib/apt/lists/*
+
 # Install other named tools
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y git gradle curl wget openssl && \
