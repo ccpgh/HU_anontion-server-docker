@@ -50,7 +50,7 @@ RUN apt-get update && \
 
 # Install other named tools
 RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y git gradle curl wget openssl gosu openssh-server xemacs21 && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y git software-properties-common curl wget openssl gosu openssh-server xemacs21 unzip && \
     rm -rf /var/lib/apt/lists/*
 
 # Install build tools
@@ -58,8 +58,31 @@ RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential && \
     rm -rf /var/lib/apt/lists/*
 
+# New repo
+#RUN yes | add-apt-repository ppa:cwchien/gradle
+
+# Install gradle
+#RUN apt-get update && \
+#    DEBIAN_FRONTEND=noninteractive apt-get install -y gradle && \
+#    rm -rf /var/lib/apt/lists/*
+
+#RUN apt upgrade gradle
+
 # Set the working directory
 WORKDIR /usr/local/src
+
+# Manual gradle
+RUN wget https://services.gradle.org/distributions/gradle-8.12-bin.zip
+
+RUN unzip -d /opt/gradle gradle-8.12-bin.zip
+
+RUN echo export GRADLE_HOME=/opt/gradle/gradle-8.12 > /etc/profile.d/gradle.sh
+
+RUN echo 'export PATH=${GRADLE_HOME}/bin:${PATH}' >> /etc/profile.d/gradle.sh
+
+RUN chmod +x /etc/profile.d/gradle.sh
+
+RUN . /etc/profile.d/gradle.sh
 
 # debug
 RUN echo git clone "https://github.com/${ANONTION_DOCKER_GITUSER}/${TAG_ID}.git"
@@ -137,9 +160,14 @@ WORKDIR /usr/local/src/${TAG_ID}/bin
 # Build
 RUN ./c
 
-# NYI proxy or j2conn
+# Check war
+#RUN if [ ! -e /usr/local/src/sudoku-server/sudoku-server/build/libs/sudoku.war ]; then echo "missing war file "; exit 1; fi
 
-# NYI war
+# Copy war into place
+#RUN cp /usr/local/src/sudoku-server/sudoku-server/build/libs/sudoku.war /var/lib/tomcat9/webapps/sudoku.war
+
+# Check war copy
+#RUN if [ ! -f /var/lib/tomcat9/webapps/sudoku.war ]; then echo "missing war copy "; exit 1; fi
 
 # Config
 RUN cp -f /var/lib/tomcat10/conf/server.xml /var/lib/tomcat10/conf/server.xml.bak
@@ -150,12 +178,12 @@ RUN if [ ! -f /var/lib/tomcat10/conf/server.xml ]; then echo "missing server.xml
 RUN if [ ! -f /var/lib/tomcat10/conf/server.xml.bak ]; then echo "missing server.xml.bak "; exit 1; fi
 
 # Customise config
-# RUN awk 'BEGIN { found = 0; RS = "\0"; ORS = ""; }                         \
-#      /<\/Host>[[:space:]\n]*<\/Engine>/ && !found {                        \
-#         sub(/<\/Host>[[:space:]\n]*<\/Engine>/, "<Context docBase=\"ipserver\" path=\"/iserver\" reloadable=\"true\" /></Host></Engine>");  \
-#         found = 1;                                                        \
-#     }                                                                     \
-#     { print; }' /var/lib/tomcat10/conf/server.xml.bak > /var/lib/tomcat10/conf/server.xml
+#RUN awk 'BEGIN { found = 0; RS = "\0"; ORS = ""; }                         \
+#     /<\/Host>[[:space:]\n]*<\/Engine>/ && !found {                        \
+#        sub(/<\/Host>[[:space:]\n]*<\/Engine>/, "<Context docBase=\"account\" path=\"/account\" reloadable=\"true\" /></Host></Engine>");  \
+#        found = 1;                                                        \
+#    }                                                                     \
+#    { print; }' /var/lib/tomcat10/conf/server.xml.bak > /var/lib/tomcat10/conf/server.xml
      
 # Empty default homepages
 RUN echo "." >  /var/lib/tomcat10/webapps/ROOT/index.html
