@@ -50,7 +50,7 @@ RUN apt-get update && \
 
 # Install other named tools
 RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y git gradle curl wget openssl gosu openssh-server && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y git gradle curl wget openssl gosu openssh-server xemacs21 && \
     rm -rf /var/lib/apt/lists/*
 
 # Install build tools
@@ -86,10 +86,11 @@ RUN chmod 640 *key *bundle *crt
 
 RUN chgrp www-data *key *bundle *crt
 
-# Apache ssl
+# Apache modules
 RUN a2enmod ssl
-
 RUN a2ensite default-ssl.conf
+RUN a2enmod proxy
+RUN a2enmod proxy_http
 
 RUN apachectl stop
 
@@ -112,6 +113,21 @@ RUN sed -i.bak3 "s|${LHS3}|${RHS3}|" default-ssl.conf
 ARG LHS4=SSLEngine on
 ARG RHS4=SSLEngine off
 RUN sed -i.bak4 "s|${LHS4}|${RHS4}|" default-ssl.conf
+
+# Config
+RUN cp -f default-ssl.conf default-ssl.conf.bak5
+
+# Check config
+RUN if [ ! -f default-ssl.conf ]; then echo "missing default-ssl.conf "; exit 1; fi
+
+RUN if [ ! -f default-ssl.conf.bak5 ]; then echo "missing default-ssl.conf.bak "; exit 1; fi
+
+RUN awk 'BEGIN { found = 0; RS = "\0"; ORS = ""; }                         \
+     /<\/Directory>[[:space:]\n]*<\/VirtualHost>/ && !found {              \
+         sub(/<\/Directory>[[:space:]\n]*<\/VirtualHost>/, "\n</Directory>\nProxyRequests Off\nProxyPass / http://localhost:8080/\nProxyPassReverse / http://localhost:8080/\n</VirtualHost>");  \
+         found = 1;                                                        \
+     }                                                                     \
+     { print; }' default-ssl.conf.bak5 > default-ssl.conf
 
 RUN apachectl start
 
@@ -147,9 +163,9 @@ RUN echo "." >  /var/www/html/index.html
 
 # Expose the default Tomcat port
 EXPOSE 22
-EXPOSE 80
+#EXPOSE 80
 EXPOSE 443
-EXPOSE 8080
+#EXPOSE 8080
 
 # Set CATALINA_BASE and update PATH to include catalina.sh
 ENV CATALINA_BASE /var/lib/tomcat10

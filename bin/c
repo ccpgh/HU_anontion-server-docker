@@ -104,7 +104,8 @@ docker build --no-cache --rm -f "$DOCKER_FILE"  --build-arg "ANONTION_DOCKER_GIT
 
 docker images
 
-docker run -d --name "$TAG_NAME" -p 80:80 -p 443:443 -p 8080:8080 -p 12121:22 "$TAG_PREFIX"
+#docker run -d --name "$TAG_NAME" -p 80:80 -p 443:443 -p 8080:8080 -p 12121:22 "$TAG_PREFIX"
+docker run -d --name "$TAG_NAME" -p 443:443 -p 12121:22 "$TAG_PREFIX"
 
 docker ps --all
 
