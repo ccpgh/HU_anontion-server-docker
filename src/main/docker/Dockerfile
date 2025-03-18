@@ -130,24 +130,28 @@ ARG LHS3='#SSLCertificateChainFile /etc/apache2/ssl.crt/server-ca.crt'
 ARG RHS3='SSLCertificateChainFile /etc/ssl/certs/anontion/anontion.ca-bundle'
 RUN sed -i.bak3 "s|${LHS3}|${RHS3}|" default-ssl.conf
 
-ARG LHS4=SSLEngine on
-ARG RHS4=SSLEngine off
-RUN sed -i.bak4 "s|${LHS4}|${RHS4}|" default-ssl.conf
+#ARG LHS4=SSLEngine on
+#ARG RHS4=SSLEngine off
+#RUN sed -i.bak4 "s|${LHS4}|${RHS4}|" default-ssl.conf
+
+ARG LHS5='SSLEngine on'
+ARG RHS5='\nServerName anontion.com\nServerAlias www.anontion.com\nSSLEngine on'
+RUN sed -i.bak5 "s|${LHS5}|${RHS5}|" default-ssl.conf
 
 # Config
-RUN cp -f default-ssl.conf default-ssl.conf.bak5
+RUN cp -f default-ssl.conf default-ssl.conf.bak6
 
 # Check config
 RUN if [ ! -f default-ssl.conf ]; then echo "missing default-ssl.conf "; exit 1; fi
 
-RUN if [ ! -f default-ssl.conf.bak5 ]; then echo "missing default-ssl.conf.bak "; exit 1; fi
+RUN if [ ! -f default-ssl.conf.bak6 ]; then echo "missing default-ssl.conf.bak "; exit 1; fi
 
 RUN awk 'BEGIN { found = 0; RS = "\0"; ORS = ""; }                         \
      /<\/Directory>[[:space:]\n]*<\/VirtualHost>/ && !found {              \
          sub(/<\/Directory>[[:space:]\n]*<\/VirtualHost>/, "\n</Directory>\nProxyRequests Off\nProxyPass / http://localhost:8080/\nProxyPassReverse / http://localhost:8080/\n</VirtualHost>");  \
          found = 1;                                                        \
      }                                                                     \
-     { print; }' default-ssl.conf.bak5 > default-ssl.conf
+     { print; }' default-ssl.conf.bak6 > default-ssl.conf
 
 RUN apachectl start
 
