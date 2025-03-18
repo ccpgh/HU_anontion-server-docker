@@ -157,31 +157,43 @@ WORKDIR /usr/local/src/${TAG_ID}/bin
 # Build
 RUN ./c
 
-# Check war
-RUN if [ ! -e "/usr/local/src/HU_anontion-server/anontion/build/libs/account-1.0.0.war" ]; then echo "missing war file "; exit 1; fi
+# Account war
+RUN if [ ! -e "/usr/local/src/HU_anontion-server/anontion/build/libs/account-1.0.0.war" ]; then echo "missing account war file "; exit 1; fi
 
-# Copy war into place
 RUN cp "/usr/local/src/HU_anontion-server/anontion/build/libs/account-1.0.0.war" /var/lib/tomcat10/webapps/account.war
 
-# Check war copy
-RUN if [ ! -f /var/lib/tomcat10/webapps/account.war ]; then echo "missing war copy "; exit 1; fi
+RUN if [ ! -f /var/lib/tomcat10/webapps/account.war ]; then echo "missing account war copy "; exit 1; fi
 
-# Config
-RUN cp -f /var/lib/tomcat10/conf/server.xml /var/lib/tomcat10/conf/server.xml.bak
+# System war
+RUN if [ ! -e "/usr/local/src/HU_anontion-server/anontion/build/libs/system-1.0.0.war" ]; then echo "missing system war file "; exit 1; fi
+
+RUN cp "/usr/local/src/HU_anontion-server/anontion/build/libs/system-1.0.0.war" /var/lib/tomcat10/webapps/system.war
+
+RUN if [ ! -f /var/lib/tomcat10/webapps/system.war ]; then echo "missing system war copy "; exit 1; fi
 
 # Check config
 RUN if [ ! -f /var/lib/tomcat10/conf/server.xml ]; then echo "missing server.xml "; exit 1; fi
 
-RUN if [ ! -f /var/lib/tomcat10/conf/server.xml.bak ]; then echo "missing server.xml.bak "; exit 1; fi
+RUN cp -f /var/lib/tomcat10/conf/server.xml /var/lib/tomcat10/conf/server.xml.bak
 
-# Customise config
-#RUN awk 'BEGIN { found = 0; RS = "\0"; ORS = ""; }                         \
-#     /<\/Host>[[:space:]\n]*<\/Engine>/ && !found {                        \
-#        sub(/<\/Host>[[:space:]\n]*<\/Engine>/, "<Context docBase=\"account\" path=\"/account\" reloadable=\"true\" /></Host></Engine>");  \
-#        found = 1;                                                        \
-#    }                                                                     \
-#    { print; }' /var/lib/tomcat10/conf/server.xml.bak > /var/lib/tomcat10/conf/server.xml
-     
+RUN awk 'BEGIN { found = 0; RS = "\0"; ORS = ""; }                         \
+     /<\/Host>[[:space:]\n]*<\/Engine>/ && !found {                        \
+        sub(/<\/Host>[[:space:]\n]*<\/Engine>/, "<Context docBase=\"account\" path=\"/account\" reloadable=\"true\" />\n</Host></Engine>");  \
+        found = 1;                                                        \
+    }                                                                     \
+    { print; }' /var/lib/tomcat10/conf/server.xml.bak > /var/lib/tomcat10/conf/server.xml
+
+RUN cp -f /var/lib/tomcat10/conf/server.xml /var/lib/tomcat10/conf/server.xml.bak2
+
+RUN if [ ! -f /var/lib/tomcat10/conf/server.xml.bak2 ]; then echo "missing server.xml.bak2 "; exit 1; fi
+
+RUN awk 'BEGIN { found = 0; RS = "\0"; ORS = ""; }                         \
+     /<\/Host>[[:space:]\n]*<\/Engine>/ && !found {                        \
+        sub(/<\/Host>[[:space:]\n]*<\/Engine>/, "<Context docBase=\"system\" path=\"/system\" reloadable=\"true\" />\n</Host></Engine>");  \
+        found = 1;                                                        \
+    }                                                                     \
+    { print; }' /var/lib/tomcat10/conf/server.xml.bak2 > /var/lib/tomcat10/conf/server.xml
+
 # Empty default homepages
 RUN echo "." >  /var/lib/tomcat10/webapps/ROOT/index.html
 RUN echo "." >  /var/www/html/index.html
