@@ -25,7 +25,7 @@ RUN apt-get update && \
 
 # Install necessary build tools for Java
 RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y default-jdk && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y openjdk-21-jdk && \
     rm -rf /var/lib/apt/lists/*
 
 # Install tomcat
@@ -50,23 +50,13 @@ RUN apt-get update && \
 
 # Install other named tools
 RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y git software-properties-common curl wget openssl gosu openssh-server xemacs21 unzip && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y git software-properties-common curl wget openssl gosu openssh-server xemacs21 unzip zip && \
     rm -rf /var/lib/apt/lists/*
 
 # Install build tools
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential && \
     rm -rf /var/lib/apt/lists/*
-
-# New repo
-#RUN yes | add-apt-repository ppa:cwchien/gradle
-
-# Install gradle
-#RUN apt-get update && \
-#    DEBIAN_FRONTEND=noninteractive apt-get install -y gradle && \
-#    rm -rf /var/lib/apt/lists/*
-
-#RUN apt upgrade gradle
 
 # Set the working directory
 WORKDIR /usr/local/src
@@ -82,7 +72,14 @@ RUN echo 'export PATH=${GRADLE_HOME}/bin:${PATH}' >> /etc/profile.d/gradle.sh
 
 RUN chmod +x /etc/profile.d/gradle.sh
 
-RUN . /etc/profile.d/gradle.sh
+RUN echo "" >> ${HOME}/.bashrc
+
+RUN echo . /etc/profile.d/gradle.sh >> ${HOME}/.bashrc
+
+# Manual gradle - alternative method
+#RUN curl -s "https://get.sdkman.io" | bash
+
+#RUN apt update && source "/root/.sdkman/bin/sdkman-init.sh" && sdk install gradle
 
 # debug
 RUN echo git clone "https://github.com/${ANONTION_DOCKER_GITUSER}/${TAG_ID}.git"
@@ -161,13 +158,13 @@ WORKDIR /usr/local/src/${TAG_ID}/bin
 RUN ./c
 
 # Check war
-#RUN if [ ! -e /usr/local/src/sudoku-server/sudoku-server/build/libs/sudoku.war ]; then echo "missing war file "; exit 1; fi
+RUN if [ ! -e "/usr/local/src/HU_anontion-server/anontion/build/libs/account-1.0.0.war" ]; then echo "missing war file "; exit 1; fi
 
 # Copy war into place
-#RUN cp /usr/local/src/sudoku-server/sudoku-server/build/libs/sudoku.war /var/lib/tomcat9/webapps/sudoku.war
+RUN cp "/usr/local/src/HU_anontion-server/anontion/build/libs/account-1.0.0.war" /var/lib/tomcat10/webapps/account.war
 
 # Check war copy
-#RUN if [ ! -f /var/lib/tomcat9/webapps/sudoku.war ]; then echo "missing war copy "; exit 1; fi
+RUN if [ ! -f /var/lib/tomcat10/webapps/account.war ]; then echo "missing war copy "; exit 1; fi
 
 # Config
 RUN cp -f /var/lib/tomcat10/conf/server.xml /var/lib/tomcat10/conf/server.xml.bak
