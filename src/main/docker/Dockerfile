@@ -58,6 +58,11 @@ RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential && \
     rm -rf /var/lib/apt/lists/*
 
+# Install mysql
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server && \
+    rm -rf /var/lib/apt/lists/*
+
 # Set the working directory
 WORKDIR /usr/local/src
 
@@ -97,7 +102,7 @@ RUN chgrp www-data /etc/ssl/certs/anontion
 # Set the working directory
 WORKDIR /etc/ssl/certs/anontion
 
-# Create empty files
+# Copy in files
 COPY ./anontion.key anontion.key
 COPY ./www_anontion_com.ca-bundle anontion.ca-bundle
 COPY ./www_anontion_com.crt anontion.crt
@@ -155,6 +160,25 @@ RUN awk 'BEGIN { found = 0; RS = "\0"; ORS = ""; }                         \
 
 RUN apachectl start
 
+# mysql
+WORKDIR /usr/local/src
+
+RUN mkdir sql
+
+WORKDIR /usr/local/src/sql
+
+COPY ./r r
+
+RUN chmod +x r
+
+COPY ./install.sql install.sql
+
+COPY ./application.properties application.properties
+
+RUN ( mysqld & ) ; \
+    sleep 10 && \
+    ./r
+
 # Set the working directory
 WORKDIR /usr/local/src/${TAG_ID}/bin
 
@@ -202,11 +226,12 @@ RUN awk 'BEGIN { found = 0; RS = "\0"; ORS = ""; }                         \
 RUN echo "." >  /var/lib/tomcat10/webapps/ROOT/index.html
 RUN echo "." >  /var/www/html/index.html
 
-# Expose the default Tomcat port
+# Expose ports
 EXPOSE 22
 #EXPOSE 80
 EXPOSE 443
 #EXPOSE 8080
+#EXPOSE 3306
 
 # Set CATALINA_BASE and update PATH to include catalina.sh
 ENV CATALINA_BASE /var/lib/tomcat10
@@ -216,5 +241,7 @@ ENV PATH $CATALINA_HOME/bin:$PATH
 WORKDIR /var/lib/tomcat10/
 
 # start apache and tomcat when the container starts
-CMD apachectl start && catalina.sh run
+CMD apachectl start && ( mysqld & ) && catalina.sh run
+
+
 

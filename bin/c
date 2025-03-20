@@ -9,23 +9,25 @@ TAG_PREFIX=`echo "$TAG_ORG/$TAG_ID" | tr '[:upper:]' '[:lower:]' `
 TAG="$TAG_PREFIX:$TAG_VERSION"
 TAG_NAME=anontion
 ANONTION_DOCKER_GITUSER=ccpgh
+SQL_ROOTPWD=
+SQL_ANONTIONPWD=
 
 if [[ "$1" == "" ]]
 then
-  echo "defaulted user for build"
-  ANONTION_SERVER_USER=user
+  echo "defaulted password for sql root"
+  SQL_ROOTPWD=password
 else
-  echo "set user for build"
-  ANONTION_SERVER_USER="${1}"
+  echo "set password for sql root"
+  SQL_ROOTPWD="${1}"
 fi
 
 if [[ "$2" == "" ]]
 then
-  echo "defaulted password for build"
-  ANONTION_SERVER_PASSWORD=password
+  echo "defaulted password sql user"
+  SQL_ANONTIONPWD=password
 else
-  echo "set password for build"
-  ANONTION_SERVER_PASSWORD="${2}"
+  echo "set password for sql user"
+  SQL_ANONTIONPWD="${2}"
 fi
 
 for i in ` (docker ps 2>&1) | grep -v 'CONTAINER ID' | grep "${TAG_PREFIX}" | cut -d' ' -f1`
@@ -86,9 +88,68 @@ do
     echo "mandatory keys file keys/${i} missing"
     exit 1
   else
-    cp "keys/${i}" "build/${i}"
+    cp -ip "keys/${i}" "build/${i}"
   fi
 done
+
+for i in r install.sql application.properties
+do
+  if [ ! -f "sql/${i}" ]
+  then
+    echo "mandatory sql file sql/${i} missing"
+    exit 1
+  else
+    cp -ip "sql/${i}" "build/${i}"
+  fi
+done
+
+cd ./build
+
+if [[ "$?" != "0" ]]
+then
+  echo "cd to build failed"
+  exit 1
+fi
+
+for i in r install.sql application.properties
+do
+  if [ ! -f "${i}" ]
+  then
+    echo "sql file ${i} is missing"
+    exit 1
+  fi
+done
+
+LHS1=NNNNN
+RHS1="${SQL_ROOTPWD}"
+sed -i.bak1 "s|${LHS1}|${RHS1}|" r
+
+if [[ "$?" != "0" ]]
+then
+  echo "sed of r failed"
+  exit 1
+fi
+
+for i in install.sql application.properties
+do
+LHS2=NNNNN
+RHS2="${SQL_ANONTIONPWD}"
+sed -i.bak1 "s|${LHS2}|${RHS2}|" ${i}
+
+if [[ "$?" != "0" ]]
+then
+  echo "sed of ${i} failed"
+  exit 1
+fi
+done
+
+cd ./..
+
+if [[ "$?" != "0" ]]
+then
+  echo "cd from build failed"
+  exit 1
+fi
 
 echo running docker build --no-cache --rm -f "$DOCKER_FILE"  --build-arg "ANONTION_DOCKER_GITUSER=$ANONTION_DOCKER_GITUSER" \
        --build-arg "ANONTION_SERVER_USER=$ANONTION_SERVER_USER" \
@@ -104,7 +165,6 @@ docker build --no-cache --rm -f "$DOCKER_FILE"  --build-arg "ANONTION_DOCKER_GIT
 
 docker images
 
-#docker run -d --name "$TAG_NAME" -p 80:80 -p 443:443 -p 8080:8080 -p 12121:22 "$TAG_PREFIX"
 docker run -d --name "$TAG_NAME" -p 443:443 -p 12121:22 "$TAG_PREFIX"
 
 docker ps --all
