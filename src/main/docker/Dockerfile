@@ -182,6 +182,8 @@ RUN ( mysqld & ) ; \
 # Set the working directory
 WORKDIR /usr/local/src/${TAG_ID}/bin
 
+RUN for i in `find /usr/local/src/${TAG_ID}/anontion/src/main -type f -name application.properties`; do ( \cp -f /usr/local/src/sql/application.properties "${i}" ); done
+
 # Build
 RUN ./c
 
@@ -198,6 +200,8 @@ RUN if [ ! -e "/usr/local/src/HU_anontion-server/anontion/build/libs/system-1.0.
 RUN cp "/usr/local/src/HU_anontion-server/anontion/build/libs/system-1.0.0.war" /var/lib/tomcat10/webapps/system.war
 
 RUN if [ ! -f /var/lib/tomcat10/webapps/system.war ]; then echo "missing system war copy "; exit 1; fi
+
+RUN sleep 10
 
 # Check config
 RUN if [ ! -f /var/lib/tomcat10/conf/server.xml ]; then echo "missing server.xml "; exit 1; fi
