@@ -92,7 +92,9 @@ do
   fi
 done
 
-for i in r install.sql application.properties
+echo -n "${SQL_ANONTIONPWD}" > build/password
+
+for i in r install.sql
 do
   if [ ! -f "sql/${i}" ]
   then
@@ -111,7 +113,7 @@ then
   exit 1
 fi
 
-for i in r install.sql application.properties
+for i in r install.sql password
 do
   if [ ! -f "${i}" ]
   then
@@ -130,7 +132,7 @@ then
   exit 1
 fi
 
-for i in install.sql application.properties
+for i in install.sql
 do
 LHS2=NNNNN
 RHS2="${SQL_ANONTIONPWD}"

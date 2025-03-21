@@ -173,7 +173,7 @@ RUN chmod +x r
 
 COPY ./install.sql install.sql
 
-COPY ./application.properties application.properties
+COPY ./password password
 
 RUN ( mysqld & ) ; \
     sleep 10 && \
@@ -182,7 +182,9 @@ RUN ( mysqld & ) ; \
 # Set the working directory
 WORKDIR /usr/local/src/${TAG_ID}/bin
 
-RUN for i in `find /usr/local/src/${TAG_ID}/anontion/src/main -type f -name application.properties`; do ( \cp -f /usr/local/src/sql/application.properties "${i}" ); done
+RUN for i in `find /usr/local/src/${TAG_ID}/anontion/src/main -type f -name application-context.xml`; do ( sed -i "s|NNNNN|`cat /usr/local/src/sql/password`|" "${i}" ); done
+
+RUN rm -f /usr/local/src/sql/password
 
 # Build
 RUN ./c
