@@ -10,24 +10,6 @@ TAG="$TAG_PREFIX:$TAG_VERSION"
 TAG_NAME=anontion
 ANONTION_DOCKER_GITUSER=ccpgh
 
-if [[ "$1" == "" ]]
-then
-  echo "defaulted user for build"
-  ANONTION_SERVER_USER=user
-else
-  echo "set user for build"
-  ANONTION_SERVER_USER="${1}"
-fi
-
-if [[ "$2" == "" ]]
-then
-  echo "defaulted password for build"
-  ANONTION_SERVER_PASSWORD=password
-else
-  echo "set password for build"
-  ANONTION_SERVER_PASSWORD="${2}"
-fi
-
 docker images -a
 
 for i in ` (docker ps 2>&1) | grep -v 'CONTAINER ID' | grep "${TAG_PREFIX}" | cut -d' ' -f1`

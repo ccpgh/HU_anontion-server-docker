@@ -182,12 +182,19 @@ RUN ( mysqld & ) ; \
 # Set the working directory
 WORKDIR /usr/local/src/${TAG_ID}/bin
 
-RUN for i in `find /usr/local/src/${TAG_ID}/anontion/src/main -type f -name application-context.xml`; do ( sed -i "s|NNNNN|`cat /usr/local/src/sql/password`|" "${i}" ); done
+RUN for i in `find /usr/local/src/${TAG_ID}/anontion/src/main/common -type f -name application-context.xml`; do ( sed -i "s|NNNNN|`cat /usr/local/src/sql/password`|" "${i}" ); done
 
 RUN rm -f /usr/local/src/sql/password
 
 # Build
 RUN ./c
+
+# Application war
+RUN if [ ! -e "/usr/local/src/HU_anontion-server/anontion/build/libs/application-1.0.0.war" ]; then echo "missing application war file "; exit 1; fi
+
+RUN cp "/usr/local/src/HU_anontion-server/anontion/build/libs/application-1.0.0.war" /var/lib/tomcat10/webapps/application.war
+
+RUN if [ ! -f /var/lib/tomcat10/webapps/application.war ]; then echo "missing application war copy "; exit 1; fi
 
 # Account war
 RUN if [ ! -e "/usr/local/src/HU_anontion-server/anontion/build/libs/account-1.0.0.war" ]; then echo "missing account war file "; exit 1; fi
