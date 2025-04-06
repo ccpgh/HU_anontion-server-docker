@@ -66,16 +66,13 @@ RUN menuselect/menuselect --enable-category MENUSELECT_CHANNELS --enable-categor
 
 RUN make -j$(nproc)
 
-#RUN make install
+RUN make install
 
 #RUN make basix-pbx
 
 ## Expose ports
-#EXPOSE 22
-##EXPOSE 80
-#EXPOSE 443
-##EXPOSE 8080
-##EXPOSE 3306
+EXPOSE 5060
+EXPOSE 5061
 
 WORKDIR /usr/local/src
 
