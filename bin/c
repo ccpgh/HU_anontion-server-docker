@@ -1,13 +1,18 @@
 #!/bin/bash 
 
-DOCKER_FILE=src/main/docker/Dockerfile
+DOCKER_FILE1=src/main/docker/Dockerfile1
+DOCKER_FILE2=src/main/docker/Dockerfile2
 BUILD_DIR=build
 TAG_ORG=shlibnet
 TAG_ID=HU_anontion-server
+TAG_ID2=HU_anontion-asterisk
 TAG_VERSION=latest
 TAG_PREFIX=`echo "$TAG_ORG/$TAG_ID" | tr '[:upper:]' '[:lower:]' ` 
+TAG_PREFIX2=`echo "$TAG_ORG/$TAG_ID2" | tr '[:upper:]' '[:lower:]' `
 TAG="$TAG_PREFIX:$TAG_VERSION"
+TAG2="$TAG_PREFIX2:$TAG_VERSION"
 TAG_NAME=anontion
+TAG_NAME2=asterisk
 ANONTION_DOCKER_GITUSER=ccpgh
 SQL_ROOTPWD=
 SQL_ANONTIONPWD=
@@ -30,20 +35,29 @@ else
   SQL_ANONTIONPWD="${2}"
 fi
 
-for i in ` (docker ps 2>&1) | grep -v 'CONTAINER ID' | grep "${TAG_PREFIX}" | cut -d' ' -f1`
+echo "(docker ps 2>&1) | grep -v 'CONTAINER ID' | egrep \"${TAG_PREFIX}|${TAG_PREFIX2}\" | cut -d' ' -f1"
+
+#for i in ` (docker ps 2>&1) | grep -v 'CONTAINER ID' | egrep "${TAG_PREFIX}|${TAG_PREFIX2}" | cut -d' ' -f1`
+for i in ` (docker ps 2>&1) | grep -v 'CONTAINER ID' | egrep "${TAG_PREFIX}|${TAG_PREFIX2}|asterix" | cut -d' ' -f1`
 do
   echo "stopping container $i"
   docker stop "$i" 2>/dev/null
   sleep 5
 done
 
-for i in ` (docker ps --all 2>&1) | grep -v 'CONTAINER ID' | grep "${TAG_PREFIX}" | cut -d' ' -f1 `
+echo "(docker ps --all 2>&1) | grep -v 'CONTAINER ID' | egrep \"${TAG_PREFIX}|${TAG_PREFIX2}\" | cut -d' ' -f1"
+
+#for i in ` (docker ps --all 2>&1) | grep -v 'CONTAINER ID' | egrep "${TAG_PREFIX}|${TAG_PREFIX2}" | cut -d' ' -f1 `
+for i in ` (docker ps --all 2>&1) | grep -v 'CONTAINER ID' | egrep "${TAG_PREFIX}|${TAG_PREFIX2}|asterix" | cut -d' ' -f1 `
 do
   echo "removing container $i"
   docker rm "$i" 2>/dev/null
 done
 
-for i in ` (docker images -a 2>&1) | grep -v 'REPOSITORY' | egrep "${TAG_PREFIX}|ubuntu(.*)22.04" | awk '{ print $3 }' `
+echo "(docker images -a 2>&1) | grep -v 'REPOSITORY' | egrep \"${TAG_PREFIX}|ubuntu(.*)2[24].04|${TAG_PREFIX2}\" | awk '{ print $3 }'"
+
+#for i in ` (docker images -a 2>&1) | grep -v 'REPOSITORY' | egrep "${TAG_PREFIX}|ubuntu(.*)2[24].04|${TAG_PREFIX2}" | awk '{ print $3 }' `
+for i in ` (docker images -a 2>&1) | grep -v 'REPOSITORY' | egrep "${TAG_PREFIX}|ubuntu(.*)2[24].04|${TAG_PREFIX2}|asterix" | awk '{ print $3 }' `
 do
   echo "removing image $i"
   docker rmi -f "$i" 2>/dev/null
@@ -55,13 +69,21 @@ cd ..
 
 pwd
 
-if [[ ! -f "$DOCKER_FILE" ]]
+if [[ ! -f "$DOCKER_FILE1" ]]
 then
-  echo "docker file '$DOCKER_FILE' missing"
+  echo "docker file '$DOCKER_FILE1' missing"
   exit 1
 fi
 
-echo dockerfile "$DOCKER_FILE"
+echo DOCKER_FILE1 "$DOCKER_FILE1"
+
+if [[ ! -f "$DOCKER_FILE2" ]]
+then
+  echo "docker file '$DOCKER_FILE2' missing"
+  exit 1
+fi
+
+echo DOCKER_FILE2 "$DOCKER_FILE2"
 
 rm -fr "$BUILD_DIR" 2>/dev/null
 
@@ -153,24 +175,38 @@ then
   exit 1
 fi
 
-echo running docker build --no-cache --rm -f "$DOCKER_FILE"  --build-arg "ANONTION_DOCKER_GITUSER=$ANONTION_DOCKER_GITUSER" \
+echo running docker build --no-cache --rm -f "$DOCKER_FILE1"  --build-arg "ANONTION_DOCKER_GITUSER=$ANONTION_DOCKER_GITUSER" \
        --build-arg "ANONTION_SERVER_USER=$ANONTION_SERVER_USER" \
        --build-arg "ANONTION_SERVER_PASSWORD=$ANONTION_SERVER_PASSWORD" \
        --build-arg "TAG_ID=$TAG_ID" \
        -t "$TAG" "$BUILD_DIR"
 
-docker build --no-cache --rm -f "$DOCKER_FILE"  --build-arg "ANONTION_DOCKER_GITUSER=$ANONTION_DOCKER_GITUSER" \
+echo docker build --no-cache --rm -f "$DOCKER_FILE1"  --build-arg "ANONTION_DOCKER_GITUSER=$ANONTION_DOCKER_GITUSER" \
        --build-arg "ANONTION_SERVER_USER=$ANONTION_SERVER_USER" \
        --build-arg "ANONTION_SERVER_PASSWORD=$ANONTION_SERVER_PASSWORD" \
        --build-arg "TAG_ID=$TAG_ID" \
        -t "$TAG" "$BUILD_DIR"
+
+echo running docker build --no-cache --rm -f "$DOCKER_FILE2" \
+       -t "$TAG2" "$BUILD_DIR"
+
+docker build --no-cache --rm -f "$DOCKER_FILE2" \
+       -t "$TAG2" "$BUILD_DIR"
 
 docker images
 
-docker run -d --name "$TAG_NAME" -p 443:443 -p 12121:22 "$TAG_PREFIX"
+echo docker run -d --name "$TAG_NAME" -p 443:443 -p 12121:22 "$TAG_PREFIX"
+
+docker run -d --name "$TAG_NAME2" "$TAG_PREFIX2"
 
 docker ps --all
 
-docker exec -it "$TAG_NAME" bash
+echo docker exec -it "$TAG_NAME" bash
+
+echo docker exec -it "$TAG_NAME" bash
+
+echo docker exec -it "$TAG_NAME2" bash
+
+docker exec -it "$TAG_NAME2" bash
 
 rm -fr ./build/*
