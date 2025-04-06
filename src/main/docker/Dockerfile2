@@ -76,7 +76,7 @@ RUN groupadd asterisk
 
 RUN useradd -r -d /var/lib/asterisk -g asterisk asterisk
 
-RUN chown -R asterisk.asterisk /etc/asterisk /var/{lib,log,spool}/asterisk /usr/lib/asterisk
+#RUN chown -R asterisk.asterisk /etc/asterisk /var/{lib,log,spool}/asterisk /usr/lib/asterisk
 
 RUN make samples
 
