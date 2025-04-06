@@ -70,6 +70,22 @@ RUN make install
 
 #RUN make basix-pbx
 
+RUN ldconfig
+
+RUN groupadd asterisk
+
+RUN useradd -r -d /var/lib/asterisk -g asterisk asterisk
+
+RUN chown -R asterisk.asterisk /etc/asterisk /var/{lib,log,spool}/asterisk /usr/lib/asterisk
+
+RUN make samples
+
+RUN make progdocs
+
+RUN make config
+
+#RUN sudo systemctl start asterisk
+
 ## Expose ports
 EXPOSE 5060
 EXPOSE 5061
