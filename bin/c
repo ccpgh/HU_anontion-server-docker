@@ -197,7 +197,11 @@ docker images
 
 echo docker run -d --name "$TAG_NAME" -p 443:443 -p 12121:22 "$TAG_PREFIX"
 
-docker run -d --name "$TAG_NAME2" "$TAG_PREFIX2"
+# 5060 SIP
+# 5060 encrypted SIP
+# 5060 10000-20000 RTP
+docker run -d --name "$TAG_NAME2" -p 5060:5060 -p 5061:5061 \
+   -p 10000-20000:10000-20000/udp "$TAG_PREFIX2"
 
 docker ps --all
 

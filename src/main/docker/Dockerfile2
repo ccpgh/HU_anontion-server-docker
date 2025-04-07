@@ -14,6 +14,10 @@ RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y openssh-server && \
     rm -rf /var/lib/apt/lists/*
 
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y kmod && \
+    rm -rf /var/lib/apt/lists/*
+
 WORKDIR /usr/local/src
 
 #libpri
@@ -82,14 +86,14 @@ RUN make progdocs
 
 RUN make config
 
-RUN chown -R asterisk:asterisk /etc/asterisk /var/{lib,log,spool}/asterisk /usr/lib/asterisk
-
-#RUN sudo systemctl start asterisk
+RUN chown -R asterisk:asterisk /etc/asterisk /var/lib/asterisk /var/log/asterisk /var/spool/asterisk /usr/lib/asterisk
 
 ## Expose ports
 EXPOSE 5060
 EXPOSE 5061
+EXPOSE 10000-20000/udp
 
 WORKDIR /usr/local/src
 
-CMD ["tail", "-f", "/dev/null"]
+# start asterisk and (blocking command) tail when the container starts
+CMD (service asterisk start) && (tail -f /dev/null)
