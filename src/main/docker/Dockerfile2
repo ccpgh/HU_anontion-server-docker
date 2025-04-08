@@ -97,3 +97,5 @@ WORKDIR /usr/local/src
 
 # start asterisk and (blocking command) tail when the container starts
 CMD (service asterisk start) && (tail -f /dev/null)
+
+# docker purge cache
