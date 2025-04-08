@@ -89,8 +89,10 @@ RUN make config
 RUN chown -R asterisk:asterisk /etc/asterisk /var/lib/asterisk /var/log/asterisk /var/spool/asterisk /usr/lib/asterisk
 
 ## Expose ports
-EXPOSE 5060
-EXPOSE 5061
+EXPOSE 5060/tcp
+EXPOSE 5061/tcp
+EXPOSE 5060/udp
+EXPOSE 5061/udp
 EXPOSE 10000-20000/udp
 
 WORKDIR /usr/local/src
