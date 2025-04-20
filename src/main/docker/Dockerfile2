@@ -11,11 +11,15 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y openssh-server && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y tcpdump openssh-server net-tools xemacs21 telnet iputils-ping iproute2 dnsutils && \
     rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y kmod && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y asterisk && \
     rm -rf /var/lib/apt/lists/*
 
 WORKDIR /usr/local/src
@@ -32,68 +36,78 @@ WORKDIR /usr/local/src
 #dahdi-complete
 #RUN wget https://downloads.asterisk.org/pub/telephony/dahdi-linux-complete/dahdi-linux-complete-current.tar.gz
 
-RUN wget "https://downloads.asterisk.org/pub/telephony/asterisk/asterisk-22.3.0.tar.gz"
+#RUN wget "https://downloads.asterisk.org/pub/telephony/asterisk/asterisk-22.3.0.tar.gz"
+#
+#RUN tar zxf asterisk-22.3.0.tar.gz
+#
+#RUN mkdir tar
+#
+#RUN mv *gz tar/.
+#
+#WORKDIR "/usr/local/src"
+#
+#RUN ln -s "asterisk-22.3.0" "asterisk"
+#
+#WORKDIR "/usr/local/src/asterisk/contrib/scripts"
+#
+#RUN ./get_mp3_source.sh
+#
+#RUN apt-get update && \
+#    DEBIAN_FRONTEND=noninteractive ./install_prereq install
+#
+##RUN ./install_prereq install-unpackaged
+#
+#WORKDIR "/usr/local/src/asterisk/"
+#
+##RUN ./configure --with-pjproject-bundled
+#RUN ./configure
+#
+#RUN make menuselect
+#
+##--enable-category MENUSELECT_OPTS_app_voicemail
+#RUN menuselect/menuselect --enable-category MENUSELECT_CHANNELS --enable-category MENUSELECT_APPS \
+#    --enable-category MENUSELECT_PBX --enable-category MENUSELECT_FUNCS --enable-category MENUSELECT_CODECS \
+#    --enable-category MENUSELECT_CDR --enable-category MENUSELECT_CORE_SOUNDS --enable-category MENUSELECT_MOH \
+#    --enable-category MENUSELECT_UTILS --enable-category MENUSELECT_AGIS --enable-category MENUSELECT_CEL \
+#    --enable-category MENUSELECT_EXTRA_SOUNDS --enable-category MENUSELECT_RES --enable-category MENUSELECT_TESTS \
+#    menuselect.makeopts
+#
+#RUN make -j$(nproc)
+#
+#RUN make install
+#
+##RUN make basix-pbx
+#
+#RUN ldconfig
+#
+#RUN groupadd asterisk
+#
+#RUN useradd -r -d /var/lib/asterisk -g asterisk asterisk
+#
+#RUN make samples
+#
+#RUN make progdocs
+#
+#RUN make config
+#
+#RUN chown -R asterisk:asterisk /etc/asterisk /var/lib/asterisk /var/log/asterisk /var/spool/asterisk
 
-RUN tar zxf asterisk-22.3.0.tar.gz
+WORKDIR /etc/asterisk
 
-RUN mkdir tar
+COPY ./extensions.conf extensions.conf
 
-RUN mv *gz tar/.
+COPY ./sip.conf sip.conf
 
-WORKDIR "/usr/local/src"
+COPY ./pjsip.conf pjsip.conf
 
-RUN ln -s "asterisk-22.3.0" "asterisk"
-
-WORKDIR "/usr/local/src/asterisk/contrib/scripts"
-
-RUN ./get_mp3_source.sh
-
-RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive ./install_prereq install
-
-#RUN ./install_prereq install-unpackaged
-
-WORKDIR "/usr/local/src/asterisk/"
-
-#RUN ./configure --with-pjproject-bundled
-RUN ./configure
-
-RUN make menuselect
-
-#--enable-category MENUSELECT_OPTS_app_voicemail
-RUN menuselect/menuselect --enable-category MENUSELECT_CHANNELS --enable-category MENUSELECT_APPS \
-    --enable-category MENUSELECT_PBX --enable-category MENUSELECT_FUNCS --enable-category MENUSELECT_CODECS \
-    --enable-category MENUSELECT_CDR --enable-category MENUSELECT_CORE_SOUNDS --enable-category MENUSELECT_MOH \
-    --enable-category MENUSELECT_UTILS --enable-category MENUSELECT_AGIS --enable-category MENUSELECT_CEL \
-    --enable-category MENUSELECT_EXTRA_SOUNDS --enable-category MENUSELECT_RES --enable-category MENUSELECT_TESTS \
-    menuselect.makeopts
-
-RUN make -j$(nproc)
-
-RUN make install
-
-#RUN make basix-pbx
-
-RUN ldconfig
-
-RUN groupadd asterisk
-
-RUN useradd -r -d /var/lib/asterisk -g asterisk asterisk
-
-RUN make samples
-
-RUN make progdocs
-
-RUN make config
-
-RUN chown -R asterisk:asterisk /etc/asterisk /var/lib/asterisk /var/log/asterisk /var/spool/asterisk /usr/lib/asterisk
+COPY ./voicemail.conf voicemail.conf
 
 ## Expose ports
 EXPOSE 5060/tcp
 EXPOSE 5061/tcp
 EXPOSE 5060/udp
-EXPOSE 5061/udp
-EXPOSE 10000-20000/udp
+#EXPOSE 10000-20000/udp
+EXPOSE 10000-33000/udp
 
 WORKDIR /usr/local/src
 

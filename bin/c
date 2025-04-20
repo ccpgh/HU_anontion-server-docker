@@ -17,6 +17,7 @@ ANONTION_DOCKER_GITUSER=ccpgh
 SQL_ROOTPWD=
 SQL_ANONTIONPWD=
 
+
 if [[ "$1" == "" ]]
 then
   echo "defaulted password for sql root"
@@ -127,6 +128,17 @@ do
   fi
 done
 
+for i in extensions.conf sip.conf voicemail.conf pjsip.conf
+do
+  if [ ! -f "conf/${i}" ]
+  then
+    echo "mandatory conf file conf/${i} missing"
+    exit 1
+  else
+    cp -ip "conf/${i}" "build/${i}"
+  fi
+done
+
 cd ./build
 
 if [[ "$?" != "0" ]]
@@ -175,6 +187,44 @@ then
   exit 1
 fi
 
+DOCKER_NETWORK_SUBSET=anontion_network
+
+echo "checking network '${DOCKER_NETWORK_SUBSET}' "
+
+FOUND=N
+
+for i in `docker network ls | awk '{ print $1 }' | grep -vi 'network'`
+do
+  NAME_COUNT="`docker network inspect $i | grep -i ${DOCKER_NETWORK_SUBSET} | grep -l "Name" | wc -l | awk '{ print $1 }'`"
+
+  if [[ "${NAME_COUNT}" -ne "0" ]]
+  then
+    FOUND=Y
+    break
+  fi
+done
+
+if [[ "${FOUND}" == "N" ]]
+then
+
+  echo NOT docker network create -d macvlan -o parent=eth0  \
+         --subnet=192.168.1.0/24 \
+         --gateway=192.168.0.110 \
+         --ip-range=192.168.1.0/27 \
+         --aux-address "host=192.168.1.2" \
+         ${DOCKER_NETWORK_SUBSET}
+
+  #docker network create -d macvlan -o parent=eth0 \
+  #  --subnet=192.168.1.0/24 \
+  #  --gateway=192.168.0.110 \
+  #  --ip-range=192.168.1.0/27 \
+  #  --aux-address "host=192.168.1.2" \
+  #  ${DOCKER_NETWORK_SUBSET}
+
+else
+  echo "creating network SKIP"
+fi
+
 echo running docker build --no-cache --rm -f "$DOCKER_FILE1"  --build-arg "ANONTION_DOCKER_GITUSER=$ANONTION_DOCKER_GITUSER" \
        --build-arg "ANONTION_SERVER_USER=$ANONTION_SERVER_USER" \
        --build-arg "ANONTION_SERVER_PASSWORD=$ANONTION_SERVER_PASSWORD" \
@@ -197,17 +247,17 @@ docker images
 
 echo docker run -d --name "$TAG_NAME" -p 443:443 -p 12121:22 "$TAG_PREFIX"
 
-# 5060 SIP
-# 5060 encrypted SIP
-# 5060 10000-20000 RTP
-
-#echo docker run -d --name "$TAG_NAME2" -p "5060:5060/udp" -p "5060:5060" -p "5061:5061" -p "10000-20000:10000-20000/udp" "$TAG_PREFIX2"
-#docker run -d --name "$TAG_NAME2" -p "5060:5060/udp" -p "5060:5060" -p "5061:5061" -p "10000-20000:10000-20000/udp" "$TAG_PREFIX2"
-#docker run -d --name "$TAG_NAME2" -p "5060:5060/udp" -p "5060:5060" -p "5061:5061" "$TAG_PREFIX2"
-echo docker run -d --name "$TAG_NAME2" --net=host "$TAG_PREFIX2"
-docker run -d --name "$TAG_NAME2" --net=host "$TAG_PREFIX2"
+#docker run -d --net ${DOCKER_NETWORK_SUBSET} --name "$TAG_NAME2" -p "5060:5060/udp" -p "5060:5060/tcp" -p "5061:5061/tcp" -p "10000-11000:10000-11000/udp" "$TAG_PREFIX2"
+#docker run -d --name "$TAG_NAME2" --network host "$TAG_PREFIX2"
+#docker run -d --name "$TAG_NAME2" "$TAG_PREFIX2"
+#docker run -d --name "$TAG_NAME2" -p "5060:5060/udp" -p "5060:5060/tcp" -p "5061:5061/tcp" -p "10000-20000:10000-20000/udp" "$TAG_PREFIX2"
+docker run -d --name "$TAG_NAME2" -p "5060:5060/udp" -p "5060:5060/tcp" -p "5061:5061/tcp" -p "10000-33000:10000-33000/udp" "$TAG_PREFIX2"
 
 docker ps --all
+
+nc -vz -u localhost 5060
+
+nc -vz -u localhost 5061
 
 echo docker exec -it "$TAG_NAME" bash
 
@@ -218,3 +268,5 @@ echo docker exec -it "$TAG_NAME2" bash
 docker exec -it "$TAG_NAME2" bash
 
 rm -fr ./build/*
+
+#sudo tcpdump -i any port 5060 -A
