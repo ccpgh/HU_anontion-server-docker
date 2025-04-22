@@ -249,9 +249,10 @@ echo docker run -d --name "$TAG_NAME" -p 443:443 -p 12121:22 "$TAG_PREFIX"
 
 #docker run -d --net ${DOCKER_NETWORK_SUBSET} --name "$TAG_NAME2" -p "5060:5060/udp" -p "5060:5060/tcp" -p "5061:5061/tcp" -p "10000-11000:10000-11000/udp" "$TAG_PREFIX2"
 #docker run -d --name "$TAG_NAME2" --network host "$TAG_PREFIX2"
+docker run -d --name "$TAG_NAME2" --network host "$TAG_PREFIX2"
 #docker run -d --name "$TAG_NAME2" "$TAG_PREFIX2"
 #docker run -d --name "$TAG_NAME2" -p "5060:5060/udp" -p "5060:5060/tcp" -p "5061:5061/tcp" -p "10000-20000:10000-20000/udp" "$TAG_PREFIX2"
-docker run -d --name "$TAG_NAME2" -p "5060:5060/udp" -p "5060:5060/tcp" -p "5061:5061/tcp" -p "10000-33000:10000-33000/udp" "$TAG_PREFIX2"
+#docker run -d --name "$TAG_NAME2" -p "5060:5060/udp" -p "5060:5060/tcp" -p "5061:5061/tcp" -p "10000-33000:10000-33000/udp" "$TAG_PREFIX2"
 
 docker ps --all
 
