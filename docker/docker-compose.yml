@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   anontion-server:
     container_name: "${TAG_ID_SERVER}"
