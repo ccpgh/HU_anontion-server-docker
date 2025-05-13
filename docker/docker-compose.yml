@@ -9,9 +9,10 @@ services:
         ANONTION_DOCKER_GITUSER: "${ANONTION_DOCKER_GIT_USER}"
         TAG_ID: "${TAG_ID_SERVER}"
     image: "${TAG_PREFIX_SERVER}"
-    ports:
-      - "443:443/tcp"
-      - "12121:22/tcp"
+    network_mode: host
+    #ports:
+    #  - "443:443/tcp"
+    #  - "12121:22/tcp"
 
   anontion-asterisk:
     container_name: "${TAG_ID_ASTERISK}"
