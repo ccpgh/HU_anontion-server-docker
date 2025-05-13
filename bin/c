@@ -1,129 +1,102 @@
 #!/bin/bash 
 
-DOCKER_FILE=src/main/docker/Dockerfile
-BUILD_DIR=build
-TAG_ORG=shlibnet
-TAG_ID=HU_anontion-server
-TAG_VERSION=latest
-TAG_PREFIX=`echo "$TAG_ORG/$TAG_ID" | tr '[:upper:]' '[:lower:]' ` 
-TAG="$TAG_PREFIX:$TAG_VERSION"
-TAG_NAME=anontion
-ANONTION_DOCKER_GITUSER=ccpgh
-SQL_ROOTPWD=
-SQL_ANONTIONPWD=
+# settings
+export BUILD_DIR=build
+export TAG_ORG=anontion
 
+export TAG_ID_SERVER=HU_anontion-server
+export TAG_PREFIX_SERVER=`echo "${TAG_ORG}/${TAG_ID_SERVER}" | tr '[:upper:]' '[:lower:]' `
+export TAG_SERVER="${TAG_PREFIX_SERVER}:latest"
+
+export TAG_ID_ASTERISK=HU_anontion-asterisk
+export TAG_PREFIX_ASTERISK=`echo "${TAG_ORG}/${TAG_ID_ASTERISK}" | tr '[:upper:]' '[:lower:]' `
+export TAG_ASTERISK="${TAG_PREFIX_ASTERISK}:latest"
+
+export ANONTION_DOCKER_GIT_USER=ccpgh
+
+export SQL_ROOT_PWD=
+export SQL_ANONTION_PWD=
+
+# password
 if [[ "$1" == "" ]]
 then
-  echo "defaulted password for sql root"
-  SQL_ROOTPWD=password
+  SQL_ROOT_PWD=password
 else
-  echo "set password for sql root"
-  SQL_ROOTPWD="${1}"
+  SQL_ROOT_PWD="${1}"
 fi
 
 if [[ "$2" == "" ]]
 then
-  echo "defaulted password sql user"
-  SQL_ANONTIONPWD=password
+  SQL_ANONTION_PWD=password
 else
-  echo "set password for sql user"
-  SQL_ANONTIONPWD="${2}"
+  SQL_ANONTION_PWD="${2}"
 fi
 
-for i in ` (docker ps 2>&1) | grep -v 'CONTAINER ID' | grep "${TAG_PREFIX}" | cut -d' ' -f1`
+# cleanup
+for i in ` (docker ps 2>&1) | grep -v 'CONTAINER ID' | grep "${TAG_PREFIX_SERVER}" | cut -d' ' -f1`
 do
-  echo "stopping container $i"
+  \echo "stop container $i"
   docker stop "$i" 2>/dev/null
-  sleep 5
+  \sleep 5
 done
 
-for i in ` (docker ps --all 2>&1) | grep -v 'CONTAINER ID' | grep "${TAG_PREFIX}" | cut -d' ' -f1 `
+for i in ` (docker ps --all 2>&1) | grep -v 'CONTAINER ID' | grep "${TAG_PREFIX_SERVER}" | cut -d' ' -f1 `
 do
-  echo "removing container $i"
+  \echo "remove container $i"
   docker rm "$i" 2>/dev/null
+  \sleep 1
 done
 
-for i in ` (docker images -a 2>&1) | grep -v 'REPOSITORY' | egrep "${TAG_PREFIX}|ubuntu(.*)22.04" | awk '{ print $3 }' `
+for i in ` (docker images -a 2>&1) | grep -v 'REPOSITORY' | egrep "${TAG_PREFIX_SERVER}" | awk '{ print $3 }' `
 do
-  echo "removing image $i"
+  \echo "remove image $i"
   docker rmi -f "$i" 2>/dev/null
+  \sleep 1
 done
-
-docker images -a
 
 cd ..
 
-pwd
-
-if [[ ! -f "$DOCKER_FILE" ]]
-then
-  echo "docker file '$DOCKER_FILE' missing"
-  exit 1
-fi
-
-echo dockerfile "$DOCKER_FILE"
-
-rm -fr "$BUILD_DIR" 2>/dev/null
+\rm -fr "$BUILD_DIR" 2>/dev/null
 
 if [[ -d "$BUILD_DIR"  ]]
-then 
+then
   echo "dir '$BUILD_DIR' could not be deleted"
   exit 1
 fi
 
-mkdir -p "$BUILD_DIR"
+\mkdir -p "$BUILD_DIR"
 
 if [[ ! -d "$BUILD_DIR" ]]
-then 
-  echo "dir '$BUILD_DIR' could not be created"
+then
+  \echo "dir '$BUILD_DIR' could not be created"
   exit 1
 fi
 
-echo PWD is `pwd`
-
-for i in anontion.key www_anontion_com.ca-bundle www_anontion_com.crt
+for i in "keys/anontion.key" "keys/www_anontion_com.ca-bundle" "keys/www_anontion_com.crt" "sql/r" "sql/install.sql"
 do
-  if [ ! -f "keys/${i}" ]
+  if [ ! -f "${i}" ]
   then
-    echo "mandatory keys file keys/${i} missing"
-    exit 1
+    \echo "mandatory keys file '${i}' missing"
+    \exit 1
   else
-    cp -ip "keys/${i}" "build/${i}"
+    \cp -ip "${i}" build/`basename "${i}"`
   fi
 done
 
 echo -n "${SQL_ANONTIONPWD}" > build/password
 
-for i in r install.sql
-do
-  if [ ! -f "sql/${i}" ]
-  then
-    echo "mandatory sql file sql/${i} missing"
-    exit 1
-  else
-    cp -ip "sql/${i}" "build/${i}"
-  fi
-done
-
 cd ./build
 
 if [[ "$?" != "0" ]]
 then
-  echo "cd to build failed"
-  exit 1
+  \echo "cd to build failed"
+  \exit 1
 fi
 
-for i in r install.sql password
-do
-  if [ ! -f "${i}" ]
-  then
-    echo "sql file ${i} is missing"
-    exit 1
-  fi
-done
+\pwd
 
 LHS1=NNNNN
-RHS1="${SQL_ROOTPWD}"
+RHS1="${SQL_ROOT_PWD}"
 sed -i.bak1 "s|${LHS1}|${RHS1}|" r
 
 if [[ "$?" != "0" ]]
@@ -132,45 +105,37 @@ then
   exit 1
 fi
 
-for i in install.sql
-do
 LHS2=NNNNN
-RHS2="${SQL_ANONTIONPWD}"
-sed -i.bak1 "s|${LHS2}|${RHS2}|" ${i}
+RHS2="${SQL_ANONTION_PWD}"
+sed -i.bak1 "s|${LHS2}|${RHS2}|" install.sql
 
 if [[ "$?" != "0" ]]
 then
-  echo "sed of ${i} failed"
+  echo "sed of install.sql failed"
   exit 1
 fi
-done
 
 cd ./..
 
+docker compose -f ./docker/docker-compose.yml build
+
 if [[ "$?" != "0" ]]
 then
-  echo "cd from build failed"
+  echo "command docker-compose -f ./docker/docker-compose.yml build failed"
   exit 1
 fi
 
-echo running docker build --no-cache --rm -f "$DOCKER_FILE"  --build-arg "ANONTION_DOCKER_GITUSER=$ANONTION_DOCKER_GITUSER" \
-       --build-arg "ANONTION_SERVER_USER=$ANONTION_SERVER_USER" \
-       --build-arg "ANONTION_SERVER_PASSWORD=$ANONTION_SERVER_PASSWORD" \
-       --build-arg "TAG_ID=$TAG_ID" \
-       -t "$TAG" "$BUILD_DIR"
+docker compose -f ./docker/docker-compose.yml up -d
 
-docker build --no-cache --rm -f "$DOCKER_FILE"  --build-arg "ANONTION_DOCKER_GITUSER=$ANONTION_DOCKER_GITUSER" \
-       --build-arg "ANONTION_SERVER_USER=$ANONTION_SERVER_USER" \
-       --build-arg "ANONTION_SERVER_PASSWORD=$ANONTION_SERVER_PASSWORD" \
-       --build-arg "TAG_ID=$TAG_ID" \
-       -t "$TAG" "$BUILD_DIR"
-
-docker images
-
-docker run -d --name "$TAG_NAME" -p 443:443 -p 12121:22 "$TAG_PREFIX"
+if [[ "$?" != "0" ]]
+then
+  echo "command docker-compose -f ./docker/docker-compose.yml up -d failed"
+  exit 1
+fi
 
 docker ps --all
 
-docker exec -it "$TAG_NAME" bash
+rm -fr "./build/*"
 
-rm -fr ./build/*
+docker exec -it "${TAG_ID_SERVER}" bash
+

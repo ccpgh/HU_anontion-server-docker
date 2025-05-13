@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  anontion-server:
+    container_name: "${TAG_ID_SERVER}"
+    build:
+      context: "../${BUILD_DIR}"
+      dockerfile: "../src/main/docker/Dockerfile_WAS"
+      no_cache: true
+      args:
+        ANONTION_DOCKER_GITUSER: "${ANONTION_DOCKER_GIT_USER}"
+        TAG_ID: "${TAG_ID_SERVER}"
+    image: "${TAG_PREFIX_SERVER}"
+    ports:
+      - "443:443/tcp"
+      - "12121:22/tcp"
+
+  anontion-asterisk:
+    container_name: "${TAG_ID_ASTERISK}"
+    build:
+      context: "../${BUILD_DIR}"
+      dockerfile: "../src/main/docker/Dockerfile_ASTERISK"
+      no_cache: true
+    image: "${TAG_PREFIX_ASTERISK}"
+    ports:
+      - "5060:5060/tcp"
+      - "5061:5061/tcp"
+      - "5060:5060/udp"
+      - "5061:5061/udp"
+      - "10000-20000:10000-20000/udp"
