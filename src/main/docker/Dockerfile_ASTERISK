@@ -1,0 +1,116 @@
+# Dockerfile
+
+# Use the official Ubuntu 24.04 base image
+FROM ubuntu:24.04
+
+RUN apt update && \
+    apt upgrade -y
+
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y unzip git sox gnupg2 curl libnewt-dev libssl-dev libncurses5-dev \
+    subversion libsqlite3-dev build-essential libjansson-dev libxml2-dev libedit-dev uuid-dev && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y openssh-server net-tools && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y kmod && \
+    rm -rf /var/lib/apt/lists/*
+
+WORKDIR /usr/local/src
+
+#libpri
+#RUN wget https://downloads.asterisk.org/pub/telephony/libpri/libpri-current.tar.gz
+
+#dahdi linux
+#RUN wget https://downloads.asterisk.org/pub/telephony/dahdi-linux/dahdi-linux-current.tar.gz
+
+#dahdi tools
+#RUN wget https://downloads.asterisk.org/pub/telephony/dahdi-tools/dahdi-tools-current.tar.gz
+
+#dahdi-complete
+#RUN wget https://downloads.asterisk.org/pub/telephony/dahdi-linux-complete/dahdi-linux-complete-current.tar.gz
+
+RUN wget "https://downloads.asterisk.org/pub/telephony/asterisk/asterisk-22.4.0.tar.gz"
+
+RUN tar -zxf asterisk-22.4.0.tar.gz
+
+RUN mkdir tar
+
+RUN mv *gz tar/.
+
+WORKDIR "/usr/local/src"
+
+RUN ln -s "asterisk-22.4.0" "asterisk"
+
+WORKDIR "/usr/local/src/asterisk/contrib/scripts"
+
+RUN ./get_mp3_source.sh
+
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive ./install_prereq install
+
+#RUN ./install_prereq install-unpackaged
+
+WORKDIR "/usr/local/src/asterisk/"
+
+#RUN ./configure --with-pjproject-bundled
+RUN ./configure
+
+RUN make menuselect
+
+#--enable-category MENUSELECT_OPTS_app_voicemail
+RUN menuselect/menuselect --enable-category MENUSELECT_CHANNELS --enable-category MENUSELECT_APPS \
+    --enable-category MENUSELECT_PBX --enable-category MENUSELECT_FUNCS --enable-category MENUSELECT_CODECS \
+    --enable-category MENUSELECT_CDR --enable-category MENUSELECT_CORE_SOUNDS --enable-category MENUSELECT_MOH \
+    --enable-category MENUSELECT_UTILS --enable-category MENUSELECT_AGIS --enable-category MENUSELECT_CEL \
+    --enable-category MENUSELECT_EXTRA_SOUNDS --enable-category MENUSELECT_RES --enable-category MENUSELECT_TESTS \
+    menuselect.makeopts
+
+RUN make -j$(nproc)
+
+RUN make install
+
+#RUN make basix-pbx
+
+RUN ldconfig
+
+RUN groupadd asterisk
+
+RUN useradd -r -d /var/lib/asterisk -g asterisk asterisk
+
+RUN make samples
+
+RUN make progdocs
+
+RUN make config
+
+RUN chown -R asterisk:asterisk /etc/asterisk /var/lib/asterisk /var/log/asterisk /var/spool/asterisk /usr/lib/asterisk
+
+WORKDIR /etc/asterisk
+
+COPY ./extensions.conf extensions.conf
+
+RUN chown asterisk:asterisk extensions.conf
+
+COPY ./pjsip.conf pjsip.conf
+
+RUN chown asterisk:asterisk pjsip.conf
+
+COPY ./voicemail.conf voicemail.conf
+
+RUN chown asterisk:asterisk voicemail.conf
+
+## Expose ports
+EXPOSE 5060/tcp
+EXPOSE 5061/tcp
+EXPOSE 5060/udp
+EXPOSE 5061/udp
+EXPOSE 10000-20000/udp
+
+WORKDIR /usr/local/src
+
+# start asterisk and (blocking command) tail when the container starts
+CMD ( service asterisk start ) && ( tail -f /dev/null )

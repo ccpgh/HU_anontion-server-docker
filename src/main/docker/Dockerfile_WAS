@@ -249,7 +249,6 @@ ENV PATH $CATALINA_HOME/bin:$PATH
 
 WORKDIR /var/lib/tomcat10/
 
-# start apache and tomcat when the container starts
 CMD apachectl start && ( mysqld & ) && catalina.sh run
 
 

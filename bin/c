@@ -33,21 +33,21 @@ else
 fi
 
 # cleanup
-for i in ` (docker ps 2>&1) | grep -v 'CONTAINER ID' | grep "${TAG_PREFIX_SERVER}" | cut -d' ' -f1`
+for i in ` (docker ps 2>&1) | grep -v 'CONTAINER ID' | egrep "${TAG_PREFIX_SERVER}|${TAG_PREFIX_ASTERISK}" | cut -d' ' -f1`
 do
   \echo "stop container $i"
   docker stop "$i" 2>/dev/null
   \sleep 5
 done
 
-for i in ` (docker ps --all 2>&1) | grep -v 'CONTAINER ID' | grep "${TAG_PREFIX_SERVER}" | cut -d' ' -f1 `
+for i in ` (docker ps --all 2>&1) | grep -v 'CONTAINER ID' | egrep "${TAG_PREFIX_SERVER}|${TAG_PREFIX_ASTERISK}" | cut -d' ' -f1 `
 do
   \echo "remove container $i"
   docker rm "$i" 2>/dev/null
   \sleep 1
 done
 
-for i in ` (docker images -a 2>&1) | grep -v 'REPOSITORY' | egrep "${TAG_PREFIX_SERVER}" | awk '{ print $3 }' `
+for i in ` (docker images -a 2>&1) | grep -v 'REPOSITORY' | egrep "${TAG_PREFIX_SERVER}|${TAG_PREFIX_ASTERISK}" | awk '{ print $3 }' `
 do
   \echo "remove image $i"
   docker rmi -f "$i" 2>/dev/null
@@ -72,7 +72,7 @@ then
   exit 1
 fi
 
-for i in "keys/anontion.key" "keys/www_anontion_com.ca-bundle" "keys/www_anontion_com.crt" "sql/r" "sql/install.sql"
+for i in "keys/anontion.key" "keys/www_anontion_com.ca-bundle" "keys/www_anontion_com.crt" "sql/r" "sql/install.sql"  "conf/extensions.conf" "conf/voicemail.conf" "conf/pjsip.conf"
 do
   if [ ! -f "${i}" ]
   then
@@ -137,5 +137,5 @@ docker ps --all
 
 rm -fr "./build/*"
 
-docker exec -it "${TAG_ID_SERVER}" bash
+docker exec -it "${TAG_ID_ASTERISK}" bash
 
