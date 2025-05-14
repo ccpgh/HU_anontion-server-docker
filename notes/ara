@@ -1,0 +1,34 @@
+ARA compatible options 
+
+| Config File                       | Realtime Tables Needed                                     | Purpose                         |
+| --------------------------------- | ---------------------------------------------------------- | ------------------------------- |
+| `pjsip.conf`                      | `ps_endpoints`, `ps_auths`, `ps_aors`, `ps_contacts`, etc. | SIP endpoints (PJSIP)           |
+| `extensions.conf`                 | `extensions`, `exten_pattern_map`, `contexts`, etc.        | Dialplan logic                  |
+| `voicemail.conf`                  | `voicemail_users`                                          | Voicemail users                 |
+| `queues.conf`                     | `queues`, `queue_members`                                  | Call queues and members         |
+| `meetme.conf` / `confbridge.conf` | `meetme`, `confbridge_users`, etc.                         | Conference bridges              |
+| `sip.conf`                        | `sipusers`, `sippeers`                                     | Legacy chan\_sip (deprecated)   |
+| `users.conf`                      | `users`                                                    | Legacy general user definitions |
+
+You map each of these config files to a database table in extconfig.conf.
+For example:
+
+[settings]
+ps_endpoints => odbc,asterisk,ps_endpoints
+ps_auths     => odbc,asterisk,ps_auths
+ps_aors      => odbc,asterisk,ps_aors
+voicemail    => odbc,asterisk,voicemail_users
+extensions   => odbc,asterisk,extensions
+queues       => odbc,asterisk,queues
+queue_members => odbc,asterisk,queue_members
+
+PJSIP → contrib/realtime/mysql/pjsip.sql
+
+Voicemail → contrib/realtime/mysql/voicemail.sql
+
+Extensions → contrib/realtime/mysql/extensions.sql
+
+Queues → Often needs to be custom or adapted from community
+
+If you're using PostgreSQL, use the .pgsql equivalents in the same folder.
+
