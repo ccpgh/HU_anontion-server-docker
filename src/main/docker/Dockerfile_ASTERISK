@@ -103,6 +103,10 @@ COPY ./voicemail.conf voicemail.conf
 
 RUN chown asterisk:asterisk voicemail.conf
 
+RUN sed -i '/^;runuser = asterisk/s/^;//' asterisk.conf
+
+RUN sed -i '/^;rungroup = asterisk/s/^;//' asterisk.conf
+
 ## Expose ports
 EXPOSE 5060/tcp
 EXPOSE 5061/tcp
