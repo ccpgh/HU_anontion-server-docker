@@ -67,8 +67,8 @@ RUN menuselect/menuselect --enable-category MENUSELECT_CHANNELS --enable-categor
     --enable-category MENUSELECT_CDR --enable-category MENUSELECT_CORE_SOUNDS --enable-category MENUSELECT_MOH \
     --enable-category MENUSELECT_UTILS --enable-category MENUSELECT_AGIS --enable-category MENUSELECT_CEL \
     --enable-category MENUSELECT_EXTRA_SOUNDS --enable-category MENUSELECT_RES --enable-category MENUSELECT_TESTS \
-    --enable res_pjsip --enable res_pjsip_pubsub --enable res_pjsip_pidf_body_generator --enable res_config_odbc \
-    --enable res_odbc --enable res_config_mysql menuselect.makeopts
+    --enable res_pjsip --enable res_pjsip_pubsub --enable res_pjsip_pidf_body_generator --enable res_manager_presencestate --enable res_pjsip_publish_asterisk --enable func_presencestate \
+    --enable res_config_odbc --enable res_odbc --enable res_config_mysql menuselect.makeopts
 
 RUN make -j$(nproc)
 
