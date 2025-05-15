@@ -1,6 +1,20 @@
 services:
+
+  anontion-db:
+    container_name: "${TAG_DB}"
+    build:
+      context: "../${BUILD_DIR}"
+      dockerfile: "../src/main/docker/Dockerfile_DB"
+      no_cache: true
+    image: "${TAG_PREFIX_DB}"
+    network_mode: host
+    #ports:
+    #  - "3306:3306/tcp"
+
   anontion-server:
-    container_name: "${TAG_ID_SERVER}"
+    container_name: "${TAG_SERVER}"
+    depends_on:
+      - anontion-db
     build:
       context: "../${BUILD_DIR}"
       dockerfile: "../src/main/docker/Dockerfile_WAS"
@@ -15,7 +29,10 @@ services:
     #  - "12121:22/tcp"
 
   anontion-asterisk:
-    container_name: "${TAG_ID_ASTERISK}"
+    container_name: "${TAG_ASTERISK}"
+    depends_on:
+      - anontion-db
+      - anontion-server
     build:
       context: "../${BUILD_DIR}"
       dockerfile: "../src/main/docker/Dockerfile_ASTERISK"
@@ -28,3 +45,4 @@ services:
     #  - "5060:5060/udp"
     #  - "5061:5061/udp"
     #  - "10000-20000:10000-20000/udp"
+

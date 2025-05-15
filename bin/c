@@ -4,13 +4,17 @@
 export BUILD_DIR=build
 export TAG_ORG=anontion
 
-export TAG_ID_SERVER=HU_anontion-server
+export TAG_SERVER=server
+export TAG_ID_SERVER=HU_${TAG_ORG}-${TAG_SERVER}
 export TAG_PREFIX_SERVER=`echo "${TAG_ORG}/${TAG_ID_SERVER}" | tr '[:upper:]' '[:lower:]' `
-export TAG_SERVER="${TAG_PREFIX_SERVER}:latest"
 
-export TAG_ID_ASTERISK=HU_anontion-asterisk
+export TAG_ASTERISK=asterisk
+export TAG_ID_ASTERISK=HU_${TAG_ORG}-${TAG_ASTERISK}
 export TAG_PREFIX_ASTERISK=`echo "${TAG_ORG}/${TAG_ID_ASTERISK}" | tr '[:upper:]' '[:lower:]' `
-export TAG_ASTERISK="${TAG_PREFIX_ASTERISK}:latest"
+
+export TAG_DB=db
+export TAG_ID_DB=HU_${TAG_ORG}-${TAG_DB}
+export TAG_PREFIX_DB=`echo "${TAG_ORG}/${TAG_ID_DB}" | tr '[:upper:]' '[:lower:]' `
 
 export ANONTION_DOCKER_GIT_USER=ccpgh
 
@@ -33,21 +37,21 @@ else
 fi
 
 # cleanup
-for i in ` (docker ps 2>&1) | grep -v 'CONTAINER ID' | egrep "${TAG_PREFIX_SERVER}|${TAG_PREFIX_ASTERISK}" | cut -d' ' -f1`
+for i in ` (docker ps 2>&1) | grep -v 'CONTAINER ID' | egrep "${TAG_PREFIX_SERVER}|${TAG_PREFIX_ASTERISK}|${TAG_PREFIX_DB}" | cut -d' ' -f1`
 do
   \echo "stop container $i"
   docker stop "$i" 2>/dev/null
   \sleep 5
 done
 
-for i in ` (docker ps --all 2>&1) | grep -v 'CONTAINER ID' | egrep "${TAG_PREFIX_SERVER}|${TAG_PREFIX_ASTERISK}" | cut -d' ' -f1 `
+for i in ` (docker ps --all 2>&1) | grep -v 'CONTAINER ID' | egrep "${TAG_PREFIX_SERVER}|${TAG_PREFIX_ASTERISK}|${TAG_PREFIX_DB}" | cut -d' ' -f1 `
 do
   \echo "remove container $i"
   docker rm "$i" 2>/dev/null
   \sleep 1
 done
 
-for i in ` (docker images -a 2>&1) | grep -v 'REPOSITORY' | egrep "${TAG_PREFIX_SERVER}|${TAG_PREFIX_ASTERISK}" | awk '{ print $3 }' `
+for i in ` (docker images -a 2>&1) | grep -v 'REPOSITORY' | egrep "${TAG_PREFIX_SERVER}|${TAG_PREFIX_ASTERISK}|${TAG_PREFIX_DB}" | awk '{ print $3 }' `
 do
   \echo "remove image $i"
   docker rmi -f "$i" 2>/dev/null
@@ -137,5 +141,5 @@ docker ps --all
 
 rm -fr "./build/*"
 
-docker exec -it "${TAG_ID_ASTERISK}" bash
+docker exec -it "${TAG_ASTERISK}" bash
 

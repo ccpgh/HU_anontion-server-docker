@@ -8,5 +8,12 @@ CREATE DATABASE IF NOT EXISTS anontion_live;
 
 GRANT ALL PRIVILEGES ON anontion_live.* TO 'anontion'@'%';
 
-FLUSH PRIVILEGES;
+DROP USER IF EXISTS 'asterisk'@'localhost';
 
+CREATE USER 'asterisk'@'%' IDENTIFIED BY 'NNNNN';
+
+CREATE DATABASE IF NOT EXISTS asterisk_live;
+
+GRANT ALL PRIVILEGES ON asterisk_live.* TO 'asterisk'@'%';
+
+FLUSH PRIVILEGES;
