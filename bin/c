@@ -87,7 +87,7 @@ do
   fi
 done
 
-echo -n "${SQL_ANONTIONPWD}" > build/password
+echo -n "${SQL_ANONTION_PWD}" > build/password
 
 cd ./build
 
