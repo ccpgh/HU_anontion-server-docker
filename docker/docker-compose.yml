@@ -4,7 +4,7 @@ services:
     container_name: "${TAG_DB}"
     build:
       context: "../${BUILD_DIR}"
-      dockerfile: "../src/main/docker/Dockerfile_DB"
+      dockerfile: "../docker/dockerfile-db"
       no_cache: true
     image: "${TAG_PREFIX_DB}"
     network_mode: host
@@ -17,7 +17,7 @@ services:
       - anontion-db
     build:
       context: "../${BUILD_DIR}"
-      dockerfile: "../src/main/docker/Dockerfile_WAS"
+      dockerfile: "../docker/dockerfile-server"
       no_cache: true
       args:
         ANONTION_DOCKER_GITUSER: "${ANONTION_DOCKER_GIT_USER}"
@@ -35,7 +35,7 @@ services:
       - anontion-server
     build:
       context: "../${BUILD_DIR}"
-      dockerfile: "../src/main/docker/Dockerfile_ASTERISK"
+      dockerfile: "../docker/dockerfile-asterisk"
       no_cache: true
       args:
         ANONTION_DOCKER_GITUSER: "${ANONTION_DOCKER_GIT_USER}"
