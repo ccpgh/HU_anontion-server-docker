@@ -5,15 +5,7 @@ FROM ubuntu:24.04
 
 # Environment
 ARG ANONTION_DOCKER_GITUSER=default_value
-ARG ANONTION_SERVER_USER=default_value
-ARG ANONTION_SERVER_PASSWORD=default_value
 ARG TAG_ID=default_value
-
-# Diagnostic
-RUN echo ANONTION_DOCKER_GITUSER=$ANONTION_DOCKER_GITUSER
-RUN echo ANONTION_SERVER_USER=$ANONTION_SERVER_USER
-RUN echo ANONTION_SERVER_PASSWORD=$ANONTION_SERVER_PASSWORD
-RUN echo TAG_ID=$TAG_ID
 
 # Info
 RUN bash -c "echo starting using github user ${ANONTION_DOCKER_GITUSER} "
@@ -58,9 +50,9 @@ RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential && \
     rm -rf /var/lib/apt/lists/*
 
-# Install mysql
+# Install mysql client
 RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-client && \
     rm -rf /var/lib/apt/lists/*
 
 # Set the working directory
@@ -167,17 +159,7 @@ RUN mkdir sql
 
 WORKDIR /usr/local/src/sql
 
-COPY ./r r
-
-RUN chmod +x r
-
-COPY ./install.sql install.sql
-
 COPY ./password password
-
-RUN ( mysqld & ) ; \
-    sleep 10 && \
-    ./r
 
 # Set the working directory
 WORKDIR /usr/local/src/${TAG_ID}/bin
@@ -244,7 +226,6 @@ EXPOSE 22
 #EXPOSE 80
 EXPOSE 443
 #EXPOSE 8080
-#EXPOSE 3306
 
 # Set CATALINA_BASE and update PATH to include catalina.sh
 ENV CATALINA_BASE /var/lib/tomcat10
@@ -253,8 +234,4 @@ ENV PATH $CATALINA_HOME/bin:$PATH
 
 WORKDIR /var/lib/tomcat10/
 
-# start apache and tomcat when the container starts
-CMD apachectl start && ( mysqld & ) && catalina.sh run
-
-
-
+CMD apachectl start && catalina.sh run

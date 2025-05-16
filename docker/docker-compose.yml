@@ -1,0 +1,50 @@
+services:
+
+  anontion-db:
+    container_name: "${TAG_DB}"
+    build:
+      context: "../${BUILD_DIR}"
+      dockerfile: "../src/main/docker/Dockerfile_DB"
+      no_cache: true
+    image: "${TAG_PREFIX_DB}"
+    network_mode: host
+    #ports:
+    #  - "3306:3306/tcp"
+
+  anontion-server:
+    container_name: "${TAG_SERVER}"
+    depends_on:
+      - anontion-db
+    build:
+      context: "../${BUILD_DIR}"
+      dockerfile: "../src/main/docker/Dockerfile_WAS"
+      no_cache: true
+      args:
+        ANONTION_DOCKER_GITUSER: "${ANONTION_DOCKER_GIT_USER}"
+        TAG_ID: "${TAG_ID_SERVER}"
+    image: "${TAG_PREFIX_SERVER}"
+    network_mode: host
+    #ports:
+    #  - "443:443/tcp"
+    #  - "12121:22/tcp"
+
+  anontion-asterisk:
+    container_name: "${TAG_ASTERISK}"
+    depends_on:
+      - anontion-db
+      - anontion-server
+    build:
+      context: "../${BUILD_DIR}"
+      dockerfile: "../src/main/docker/Dockerfile_ASTERISK"
+      no_cache: true
+      args:
+        ANONTION_DOCKER_GITUSER: "${ANONTION_DOCKER_GIT_USER}"
+    image: "${TAG_PREFIX_ASTERISK}"
+    network_mode: host
+    #ports:
+    #  - "5060:5060/tcp"
+    #  - "5061:5061/tcp"
+    #  - "5060:5060/udp"
+    #  - "5061:5061/udp"
+    #  - "10000-20000:10000-20000/udp"
+

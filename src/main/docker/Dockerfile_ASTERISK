@@ -1,0 +1,109 @@
+# Dockerfile
+
+# Use the official Ubuntu 24.04 base image
+FROM ubuntu:24.04
+
+# Environment
+ARG ANONTION_DOCKER_GITUSER=default_value
+
+RUN apt update && \
+    apt upgrade -y
+
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y unzip git sox gnupg2 curl libnewt-dev libssl-dev libncurses5-dev \
+    subversion libsqlite3-dev build-essential libjansson-dev libxml2-dev libedit-dev uuid-dev && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y openssh-server net-tools && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y kmod && \
+    rm -rf /var/lib/apt/lists/*
+
+# Install mysql client
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-client && \
+    rm -rf /var/lib/apt/lists/*
+
+WORKDIR /usr/local/src
+
+RUN git clone "https://github.com/${ANONTION_DOCKER_GITUSER}/HU_anontion-asterisk"
+
+RUN ln -s "HU_anontion-asterisk/code/asterisk-22.4.0" "asterisk"
+
+WORKDIR "/usr/local/src/asterisk/contrib/scripts"
+
+RUN ./get_mp3_source.sh
+
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive ./install_prereq install
+
+#RUN ./install_prereq install-unpackaged
+
+WORKDIR "/usr/local/src/asterisk/"
+
+#RUN ./configure --with-pjproject-bundled
+RUN ./configure
+
+RUN make menuselect
+
+#--enable-category MENUSELECT_OPTS_app_voicemail
+RUN menuselect/menuselect --enable-category MENUSELECT_CHANNELS --enable-category MENUSELECT_APPS \
+    --enable-category MENUSELECT_PBX --enable-category MENUSELECT_FUNCS --enable-category MENUSELECT_CODECS \
+    --enable-category MENUSELECT_CDR --enable-category MENUSELECT_CORE_SOUNDS --enable-category MENUSELECT_MOH \
+    --enable-category MENUSELECT_UTILS --enable-category MENUSELECT_AGIS --enable-category MENUSELECT_CEL \
+    --enable-category MENUSELECT_EXTRA_SOUNDS --enable-category MENUSELECT_RES --enable-category MENUSELECT_TESTS \
+    --enable res_pjsip --enable res_pjsip_pubsub --enable res_pjsip_pidf_body_generator --enable res_manager_presencestate --enable res_pjsip_publish_asterisk --enable func_presencestate \
+    --enable res_config_odbc --enable res_odbc --enable res_config_mysql menuselect.makeopts
+
+RUN make -j$(nproc)
+
+RUN make install
+
+#RUN make basix-pbx
+
+RUN ldconfig
+
+RUN groupadd asterisk
+
+RUN useradd -r -d /var/lib/asterisk -g asterisk asterisk
+
+RUN make samples
+
+RUN make progdocs
+
+RUN make config
+
+RUN chown -R asterisk:asterisk /etc/asterisk /var/lib/asterisk /var/log/asterisk /var/spool/asterisk /usr/lib/asterisk
+
+WORKDIR /etc/asterisk
+
+COPY ./extensions.conf extensions.conf
+
+RUN chown asterisk:asterisk extensions.conf
+
+COPY ./pjsip.conf pjsip.conf
+
+RUN chown asterisk:asterisk pjsip.conf
+
+COPY ./voicemail.conf voicemail.conf
+
+RUN chown asterisk:asterisk voicemail.conf
+
+RUN sed -i '/^;runuser = asterisk/s/^;//' asterisk.conf
+
+RUN sed -i '/^;rungroup = asterisk/s/^;//' asterisk.conf
+
+## Expose ports
+EXPOSE 5060/tcp
+EXPOSE 5061/tcp
+EXPOSE 5060/udp
+EXPOSE 5061/udp
+EXPOSE 10000-20000/udp
+
+WORKDIR /usr/local/src
+
+# start asterisk and (blocking command) tail when the container starts
+CMD ( service asterisk start ) && ( tail -f /dev/null )

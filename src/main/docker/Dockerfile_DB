@@ -1,0 +1,48 @@
+# Dockerfile
+
+# Use the official Ubuntu 24.04 base image
+FROM ubuntu:24.04
+
+# Install apt-utils and net-tools
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y apt-utils net-tools && \
+    rm -rf /var/lib/apt/lists/*
+
+# Install other named tools
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y git software-properties-common curl wget openssl gosu openssh-server xemacs21 unzip zip && \
+    rm -rf /var/lib/apt/lists/*
+
+# Install mysql
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server && \
+    rm -rf /var/lib/apt/lists/*
+
+# mysql
+WORKDIR /usr/local/src
+
+RUN mkdir sql
+
+WORKDIR /usr/local/src/sql
+
+COPY ./r r
+
+RUN chmod +x r
+
+COPY ./install.sql install.sql
+
+COPY ./password password
+
+RUN ( mysqld & ) ; \
+    sleep 10 && \
+    ./r
+
+# Set the working directory
+#echo /usr/local/src/sql/password
+
+# Expose ports
+EXPOSE 3306
+
+WORKDIR /user/local/src
+
+CMD ( mysqld & ) && ( tail -f /dev/null )

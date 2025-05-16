@@ -1,5 +1,14 @@
 #!/bin/bash
 
-echo sudo ufw allow ssh
-echo sudo ufw allow 443
-echo sudo ufw allow http
+exit 1
+
+sudo ufw allow 22/tcp
+sudo ufw allow 12121/tcp
+sudo ufw allow 443/tcp
+sudo ufw allow 5060/tcp
+sudo ufw allow 5060/udp
+sudo ufw allow 5061/tcp
+sudo ufw allow 5061/udp
+sudo ufw allow 10000:20000/udp
+sudo ufw allow 3306/tcp
+
