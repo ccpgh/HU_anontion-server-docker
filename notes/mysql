@@ -1,0 +1,13 @@
+#!/bin/bash 
+
+exit 1
+
+echo brew services start mysql
+
+echo brew services stop mysql
+
+echo /opt/homebrew/bin/mysql
+echo /opt/homebrew/bin/mysqld
+echo /opt/homebrew/Cellar/mysql/9.1.0_1
+
+
