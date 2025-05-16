@@ -37,6 +37,8 @@ services:
       context: "../${BUILD_DIR}"
       dockerfile: "../src/main/docker/Dockerfile_ASTERISK"
       no_cache: true
+      args:
+        ANONTION_DOCKER_GITUSER: "${ANONTION_DOCKER_GIT_USER}"
     image: "${TAG_PREFIX_ASTERISK}"
     network_mode: host
     #ports:

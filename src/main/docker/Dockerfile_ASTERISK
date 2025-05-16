@@ -3,6 +3,9 @@
 # Use the official Ubuntu 24.04 base image
 FROM ubuntu:24.04
 
+# Environment
+ARG ANONTION_DOCKER_GITUSER=default_value
+
 RUN apt update && \
     apt upgrade -y
 
@@ -26,29 +29,9 @@ RUN apt-get update && \
 
 WORKDIR /usr/local/src
 
-#libpri
-#RUN wget https://downloads.asterisk.org/pub/telephony/libpri/libpri-current.tar.gz
+RUN git clone "https://github.com/${ANONTION_DOCKER_GITUSER}/HU_anontion-asterisk"
 
-#dahdi linux
-#RUN wget https://downloads.asterisk.org/pub/telephony/dahdi-linux/dahdi-linux-current.tar.gz
-
-#dahdi tools
-#RUN wget https://downloads.asterisk.org/pub/telephony/dahdi-tools/dahdi-tools-current.tar.gz
-
-#dahdi-complete
-#RUN wget https://downloads.asterisk.org/pub/telephony/dahdi-linux-complete/dahdi-linux-complete-current.tar.gz
-
-RUN wget "https://downloads.asterisk.org/pub/telephony/asterisk/asterisk-22.4.0.tar.gz"
-
-RUN tar -zxf asterisk-22.4.0.tar.gz
-
-RUN mkdir tar
-
-RUN mv *gz tar/.
-
-WORKDIR "/usr/local/src"
-
-RUN ln -s "asterisk-22.4.0" "asterisk"
+RUN ln -s "HU_anontion-asterisk/code/asterisk-22.4.0" "asterisk"
 
 WORKDIR "/usr/local/src/asterisk/contrib/scripts"
 
