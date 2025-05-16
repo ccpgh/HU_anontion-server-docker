@@ -223,9 +223,11 @@ RUN echo "." >  /var/www/html/index.html
 
 # Expose ports
 EXPOSE 22
-#EXPOSE 80
+# TODO/NYI REMOVE 80
+EXPOSE 80
 EXPOSE 443
-#EXPOSE 8080
+# TODO/NYI REMOVE 8080
+EXPOSE 8080
 
 # Set CATALINA_BASE and update PATH to include catalina.sh
 ENV CATALINA_BASE /var/lib/tomcat10
