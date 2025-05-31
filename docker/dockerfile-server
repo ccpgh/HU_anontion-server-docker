@@ -152,7 +152,7 @@ RUN awk 'BEGIN { found = 0; RS = "\0"; ORS = ""; }                         \
 
 RUN apachectl start
 
-# mysql
+# Mysql
 WORKDIR /usr/local/src
 
 RUN mkdir sql
@@ -167,6 +167,15 @@ WORKDIR /usr/local/src/${TAG_ID}/bin
 RUN for i in `find /usr/local/src/${TAG_ID}/anontion/src/main/common -type f -name application-context.xml`; do ( sed -i "s|NNNNN|`cat /usr/local/src/sql/password`|" "${i}" ); done
 
 RUN rm -f /usr/local/src/sql/password
+
+# Set the working directory
+WORKDIR /usr/local/src/${TAG_ID}/anontion/src/main/common/resource
+
+# Server key
+COPY ./server.key server.key
+
+# Set the working directory
+WORKDIR /usr/local/src/${TAG_ID}/bin
 
 # Build
 RUN ./c
