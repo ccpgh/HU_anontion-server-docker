@@ -103,6 +103,12 @@ EXPOSE 5060/udp
 EXPOSE 5061/udp
 EXPOSE 10000-20000/udp
 
+WORKDIR /root
+
+RUN echo ""
+
+RUN echo "LS_COLORS=\$LS_COLORS:'di=0;33:' ; export LS_COLOR" >> .bashrc
+
 WORKDIR /usr/local/src
 
 # start asterisk and (blocking command) tail when the container starts
