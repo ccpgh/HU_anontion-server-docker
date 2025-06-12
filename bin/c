@@ -102,11 +102,11 @@ fi
 
 LHS1=NNNNN
 RHS1="${SQL_ROOT_PWD}"
-sed -i.bak1 "s|${LHS1}|${RHS1}|" r
+sed -i.bak1 "s|${LHS1}|${RHS1}|" install.sh
 
 if [[ "$?" != "0" ]]
 then
-  echo "sed of r failed"
+  echo "sed of install.sh failed"
   exit 1
 fi
 
@@ -137,6 +137,16 @@ sed -i.bak1 "s|${LHS4}|${RHS4}|" res_odbc.conf
 if [[ "$?" != "0" ]]
 then
   echo "sed of res_odbc.conf failed"
+  exit 1
+fi
+
+LHS5=NNNNN
+RHS5="${SQL_ROOT_PWD}"
+sed -i.bak1 "s|${LHS5}|${RHS5}|" anontion.sh
+
+if [[ "$?" != "0" ]]
+then
+  echo "sed of anontion.sh failed"
   exit 1
 fi
 

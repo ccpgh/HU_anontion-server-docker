@@ -145,6 +145,14 @@ RUN echo 'ps_aors => odbc,asterisk,ps_aors' >> ./extconfig.conf
 RUN echo 'extensions => odbc,asterisk,extensions' >> ./extconfig.conf
 RUN echo '' >> ./extconfig.conf
 
+WORKDIR /usr/local/src/sql
+
+COPY ./anontion.sh anontion.sh
+
+RUN chmod +x anontion.sh
+
+RUN ./anontion.sh
+
 WORKDIR /usr/local/src/lib
 
 COPY ./mysql-connector-odbc_9.3.0-1ubuntu24.04_amd64.deb mysql-connector-odbc_9.3.0-1ubuntu24.04_amd64.deb

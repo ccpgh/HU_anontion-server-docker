@@ -36,14 +36,6 @@ RUN ( mysqld & ) ; \
     sleep 10 && \
     ./install.sh
 
-COPY ./anontion.sh anontion.sh
-
-RUN chmod +x anontion.sh
-
-RUN ( mysqld & ) ; \
-    sleep 10 && \
-    ./anontion.sh
-
 EXPOSE 3306
 
 WORKDIR /user/local/src
