@@ -30,8 +30,6 @@ RUN chmod +x install.sh
 
 COPY ./install.sql install.sql
 
-COPY ./password password
-
 RUN ( mysqld & ) ; \
     sleep 10 && \
     ./install.sh
