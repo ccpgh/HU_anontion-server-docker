@@ -76,7 +76,8 @@ then
   exit 1
 fi
 
-for i in "keys/anontion.key" "keys/www_anontion_com.ca-bundle" "keys/www_anontion_com.crt" "sql/r" "sql/install.sql"  "conf/extensions.conf" "conf/voicemail.conf" "conf/pjsip.conf" "keys/server.key" "conf/odbc.ini" "conf/res_odbc.conf"
+for i in "keys/anontion.key" "keys/www_anontion_com.ca-bundle" "keys/www_anontion_com.crt" "sql/r" "sql/install.sql"  "conf/extensions.conf" "conf/voicemail.conf" "conf/pjsip.conf" \
+  "keys/server.key" "conf/odbc.ini" "conf/res_odbc.conf" "lib/mysql-connector-odbc_9.3.0-1ubuntu24.04_amd64.deb"
 do
   if [ ! -f "${i}" ]
   then

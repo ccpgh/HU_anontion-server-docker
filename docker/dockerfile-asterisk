@@ -24,8 +24,10 @@ RUN apt-get update && \
 
 # Install mysql client
 RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-client && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-client unixodbc unixodbc-dev && \
     rm -rf /var/lib/apt/lists/*
+
+#maybe odbcinst libodbc2
 
 WORKDIR /usr/local/src
 
@@ -126,6 +128,15 @@ WORKDIR /etc/asterisk
 RUN echo '' >> ./modules.conf
 RUN echo 'load => res_odbc.so' >> ./modules.conf
 RUN echo 'load => res_config_odbc.so' >> ./modules.conf
+
+WORKDIR /usr/local/src/lib
+
+COPY ./mysql-connector-odbc_9.3.0-1ubuntu24.04_amd64.deb mysql-connector-odbc_9.3.0-1ubuntu24.04_amd64.deb
+
+RUN apt-get update && \
+    dpkg -i mysql-connector-odbc_9.3.0-1ubuntu24.04_amd64.deb || true && \
+    apt-get install -f -y && \
+    rm -rf /var/lib/apt/lists/*
 
 WORKDIR /usr/local/src
 
