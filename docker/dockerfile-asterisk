@@ -166,10 +166,6 @@ COPY ./anontion.sh anontion.sh
 
 RUN chmod +x anontion.sh
 
-RUN ./anontion.sh
-
-RUN rm -fr ./anontion.sh
-
 WORKDIR /usr/local/src
 
 # start asterisk and (blocking command) tail when the container starts

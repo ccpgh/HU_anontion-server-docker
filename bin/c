@@ -176,9 +176,26 @@ do
 
 done
 
+docker exec -it "${TAG_ASTERISK}" /usr/local/src/sql/anontion.sh
+
+if [[ "$?" != "0" ]]
+then
+  echo "anontion.sh failed"
+  exit 1
+fi
+
+docker exec -it "${TAG_ASTERISK}" (rm -fr /usr/local/src/sql/anontion.sh)
+
+if [[ "$?" != "0" ]]
+then
+  echo "anontion.sh removal failed"
+  exit 1
+fi
+
 docker ps --all
 
 rm -fr "./build/*"
 
 docker exec -it "${TAG_ASTERISK}" bash
+
 
