@@ -94,6 +94,8 @@ COPY ./voicemail.conf voicemail.conf
 
 RUN chown asterisk:asterisk voicemail.conf
 
+RUN touch voicemail.conf pjsip.conf extensions.conf
+
 RUN sed -i '/^;runuser = asterisk/s/^;//' asterisk.conf
 
 RUN sed -i '/^;rungroup = asterisk/s/^;//' asterisk.conf
@@ -119,9 +121,13 @@ RUN if [ ! -f "odbc.ini" ] || [ ! -s "odbc.ini" ]; then mv odbc.ini.BUILD odbc.i
 
 RUN if [ ! -f "odbc.ini" ] || [ ! -s "odbc.ini" ]; then echo "odbc.ini update failed"; exit 1; fi
 
+RUN chown asterisk:asterisk odbc.ini
+
 WORKDIR /etc/asterisk
 
 COPY ./res_odbc.conf res_odbc.conf
+
+RUN chown asterisk:asterisk res_odbc.conf
 
 WORKDIR /etc/asterisk
 

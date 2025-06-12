@@ -32,3 +32,25 @@ Queues → Often needs to be custom or adapted from community
 
 If you're using PostgreSQL, use the .pgsql equivalents in the same folder.
 
+-
+
+isql -v MySQL-asterisk <user> <password>
+
+-
+
+to add db to asterisk
+
+1. edit /etc/asterisk/res_odbc.conf to add
+
+2. edit /etc/odbc.ini
+
+3. edit /etc/asterisk/modules.conf
+
+4. edit /etc/odbcinst.ini - install mysql odbc .deb from https://dev.mysql.com/downloads/connector/odbc/ and should configure this file for you
+
+5. edit /etc/asterisk/extconfig.config for each entity to be stored in db
+
+6. run sql scripts for entries in step 5. above
+
+
+
