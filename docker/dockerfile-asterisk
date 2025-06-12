@@ -153,4 +153,4 @@ RUN apt-get update && \
 WORKDIR /usr/local/src
 
 # start asterisk and (blocking command) tail when the container starts
-CMD ( service asterisk start ) && ( tail -f /dev/null )
+CMD (echo "waiting for DB to awaken") && (sleep 60) && ( service asterisk start ) && ( tail -f /dev/null )

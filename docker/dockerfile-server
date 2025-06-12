@@ -243,4 +243,4 @@ ENV PATH $CATALINA_HOME/bin:$PATH
 
 WORKDIR /var/lib/tomcat10/
 
-CMD apachectl start && catalina.sh run
+CMD (echo "waiting for DB to awaken") && (sleep 60) && ( apachectl start ) && ( catalina.sh run )
