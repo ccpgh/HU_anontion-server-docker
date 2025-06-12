@@ -134,10 +134,16 @@ WORKDIR /etc/asterisk
 RUN echo '' >> ./modules.conf
 RUN echo 'load => res_odbc.so' >> ./modules.conf
 RUN echo 'load => res_config_odbc.so' >> ./modules.conf
+RUN echo 'noload => res_config_pgsql.so' >> ./modules.conf
+RUN echo 'noload => res_config_mysql.so' >> ./modules.conf
 
 WORKDIR /usr/local/src/lib
 
 COPY ./mysql-connector-odbc_9.3.0-1ubuntu24.04_amd64.deb mysql-connector-odbc_9.3.0-1ubuntu24.04_amd64.deb
+
+RUN apt-get update && \
+    apt-get install xemacs21 vim-tiny -y && \
+    rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update && \
     dpkg -i mysql-connector-odbc_9.3.0-1ubuntu24.04_amd64.deb || true && \
