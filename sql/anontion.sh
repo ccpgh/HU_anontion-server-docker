@@ -8,7 +8,7 @@ then
   exit 1
 fi
 
-#TODO uncomment mysql -u root -pNNNN -h 127.0.0.1 anontion_live < ${MYSQL_CONFIGFILE}
+mysql -u root -pNNNNN -h 127.0.0.1 anontion_live < ${MYSQL_CONFIGFILE}
 
 if [[ "$?" != "0" ]]
 then

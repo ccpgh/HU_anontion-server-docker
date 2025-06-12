@@ -34,6 +34,8 @@ RUN ( mysqld & ) ; \
     sleep 10 && \
     ./install.sh
 
+RUN rm -fr install.sh install.sql
+
 EXPOSE 3306
 
 WORKDIR /user/local/src
