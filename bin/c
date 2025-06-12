@@ -152,29 +152,37 @@ fi
 
 cd ./..
 
-DOCKER_INFRASTRUCTURE=docker-compose-infrastructure.yml
-DOCKER_SERVICE=docker-compose-service.yml
+docker compose -p anontion-infrastructure -f "./docker/docker-compose-infrastructure.yml" build
 
-for i in "${DOCKER_INFRASTRUCTURE}" "${DOCKER_SERVICE}"
-do
+if [[ "$?" != "0" ]]
+then
+  echo "command docker-compose -p anontion-infrastructure -f ./docker/docker-compose-infrastructure.yml build failed"
+  exit 1
+fi
 
-  docker compose -f "./docker/${i}" build
+docker compose -p anontion-infrastructure -f "./docker/docker-compose-infrastructure.yml" up -d
 
-  if [[ "$?" != "0" ]]
-  then
-    echo "command docker-compose -f ./docker/${i} build failed"
-    exit 1
-  fi
+if [[ "$?" != "0" ]]
+then
+  echo "command docker-compose -p anontion-infrastructure -f ./docker/docker-compose-infrastructure.yml up -d failed"
+  exit 1
+fi
 
-  docker compose -f "./docker/${i}" up -d
+docker compose -p anontion-service -f "./docker/docker-compose-service.yml" build
 
-  if [[ "$?" != "0" ]]
-  then
-    echo "command docker-compose -f ./docker/${i} up -d failed"
-    exit 1
-  fi
+if [[ "$?" != "0" ]]
+then
+  echo "command docker-compose -p anontion-service -f ./docker/docker-compose-service.yml build failed"
+  exit 1
+fi
 
-done
+docker compose -p anontion-service -f "./docker/docker-compose-service.yml" up -d
+
+if [[ "$?" != "0" ]]
+then
+  echo "command docker-service -p anontion-service -f ./docker/docker-compose-service.yml up -d failed"
+  exit 1
+fi
 
 docker exec -it "${TAG_ASTERISK}" /usr/local/src/sql/anontion.sh
 
