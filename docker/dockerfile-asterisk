@@ -109,6 +109,18 @@ RUN echo ""
 
 RUN echo "LS_COLORS=\$LS_COLORS:'di=0;33:' ; export LS_COLOR" >> .bashrc
 
+WORKDIR /etc
+
+COPY ./odbc.ini odbc.ini.BUILD
+
+RUN if [ ! -f "odbc.ini" ] || [ ! -s "odbc.ini" ]; then mv odbc.ini.BUILD odbc.ini; else exit 1; fi
+
+RUN if [ ! -f "odbc.ini" ] || [ ! -s "odbc.ini" ]; then echo "odbc.ini update failed"; exit 1; fi
+
+WORKDIR /etc/asterisk
+
+COPY ./res_odbc.conf res_odbc.conf
+
 WORKDIR /usr/local/src
 
 # start asterisk and (blocking command) tail when the container starts

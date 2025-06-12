@@ -76,7 +76,7 @@ then
   exit 1
 fi
 
-for i in "keys/anontion.key" "keys/www_anontion_com.ca-bundle" "keys/www_anontion_com.crt" "sql/r" "sql/install.sql"  "conf/extensions.conf" "conf/voicemail.conf" "conf/pjsip.conf" "keys/server.key"
+for i in "keys/anontion.key" "keys/www_anontion_com.ca-bundle" "keys/www_anontion_com.crt" "sql/r" "sql/install.sql"  "conf/extensions.conf" "conf/voicemail.conf" "conf/pjsip.conf" "keys/server.key" "conf/odbc.ini" "conf/res_odbc.conf"
 do
   if [ ! -f "${i}" ]
   then
@@ -116,6 +116,26 @@ sed -i.bak1 "s|${LHS2}|${RHS2}|" install.sql
 if [[ "$?" != "0" ]]
 then
   echo "sed of install.sql failed"
+  exit 1
+fi
+
+LHS3=NNNNN
+RHS3="${SQL_ANONTION_PWD}"
+sed -i.bak1 "s|${LHS3}|${RHS3}|" odbc.ini
+
+if [[ "$?" != "0" ]]
+then
+  echo "sed of odbc.ini failed"
+  exit 1
+fi
+
+LHS4=NNNNN
+RHS4="${SQL_ANONTION_PWD}"
+sed -i.bak1 "s|${LHS4}|${RHS4}|" res_odbc.conf
+
+if [[ "$?" != "0" ]]
+then
+  echo "sed of res_odbc.conf failed"
   exit 1
 fi
 
