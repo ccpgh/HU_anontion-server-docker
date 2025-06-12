@@ -147,14 +147,6 @@ RUN echo '' >> ./extconfig.conf
 
 WORKDIR /usr/local/src/sql
 
-COPY ./anontion.sh anontion.sh
-
-RUN chmod +x anontion.sh
-
-RUN ./anontion.sh
-
-RUN rm -fr ./anontion.sh
-
 WORKDIR /usr/local/src/lib
 
 COPY ./mysql-connector-odbc_9.3.0-1ubuntu24.04_amd64.deb mysql-connector-odbc_9.3.0-1ubuntu24.04_amd64.deb
@@ -167,6 +159,14 @@ RUN apt-get update && \
     dpkg -i mysql-connector-odbc_9.3.0-1ubuntu24.04_amd64.deb || true && \
     apt-get install -f -y && \
     rm -rf /var/lib/apt/lists/*
+
+COPY ./anontion.sh anontion.sh
+
+RUN chmod +x anontion.sh
+
+RUN ./anontion.sh
+
+RUN rm -fr ./anontion.sh
 
 WORKDIR /usr/local/src
 
