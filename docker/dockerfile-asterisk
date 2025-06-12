@@ -160,6 +160,8 @@ RUN apt-get update && \
     apt-get install -f -y && \
     rm -rf /var/lib/apt/lists/*
 
+WORKDIR /usr/local/src/sql
+
 COPY ./anontion.sh anontion.sh
 
 RUN chmod +x anontion.sh
