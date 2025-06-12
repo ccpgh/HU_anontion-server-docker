@@ -121,6 +121,12 @@ WORKDIR /etc/asterisk
 
 COPY ./res_odbc.conf res_odbc.conf
 
+WORKDIR /etc/asterisk
+
+RUN echo '' >> ./modules.conf
+RUN echo 'load => res_odbc.so' >> ./modules.conf
+RUN echo 'load => res_config_odbc.so' >> ./modules.conf
+
 WORKDIR /usr/local/src
 
 # start asterisk and (blocking command) tail when the container starts
