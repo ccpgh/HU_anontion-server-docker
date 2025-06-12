@@ -184,7 +184,7 @@ then
   exit 1
 fi
 
-docker exec -it "${TAG_ASTERISK}" (rm -fr /usr/local/src/sql/anontion.sh)
+docker exec -it "${TAG_ASTERISK}" bash -c "rm -fr /usr/local/src/sql/anontion.sh"
 
 if [[ "$?" != "0" ]]
 then
