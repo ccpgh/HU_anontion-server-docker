@@ -136,6 +136,14 @@ RUN echo 'load => res_odbc.so' >> ./modules.conf
 RUN echo 'load => res_config_odbc.so' >> ./modules.conf
 RUN echo 'noload => res_config_pgsql.so' >> ./modules.conf
 RUN echo 'noload => res_config_mysql.so' >> ./modules.conf
+RUN echo '' >> ./modules.conf
+
+RUN echo '' >> ./extconfig.conf
+RUN echo 'ps_endpoints => odbc,asterisk,ps_endpoints' >> ./extconfig.conf
+RUN echo 'ps_auths => odbc,asterisk,ps_auths' >> ./extconfig.conf
+RUN echo 'ps_aors => odbc,asterisk,ps_aors' >> ./extconfig.conf
+RUN echo 'extensions => odbc,asterisk,extensions' >> ./extconfig.conf
+RUN echo '' >> ./extconfig.conf
 
 WORKDIR /usr/local/src/lib
 
