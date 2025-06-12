@@ -1,0 +1,13 @@
+services:
+
+  anontion-db:
+    container_name: "${TAG_DB}"
+    build:
+      context: "../${BUILD_DIR}"
+      dockerfile: "../docker/dockerfile-db"
+      no_cache: true
+    image: "${TAG_PREFIX_DB}"
+    network_mode: host
+    #ports:
+    #  - "3306:3306/tcp"
+

@@ -76,7 +76,7 @@ then
   exit 1
 fi
 
-for i in "keys/anontion.key" "keys/www_anontion_com.ca-bundle" "keys/www_anontion_com.crt" "sql/r" "sql/install.sql"  "conf/extensions.conf" "conf/voicemail.conf" "conf/pjsip.conf" \
+for i in "keys/anontion.key" "keys/www_anontion_com.ca-bundle" "keys/www_anontion_com.crt" "sql/anontion.sh" "sql/install.sh" "sql/install.sql"  "conf/extensions.conf" "conf/voicemail.conf" "conf/pjsip.conf" \
   "keys/server.key" "conf/odbc.ini" "conf/res_odbc.conf" "lib/mysql-connector-odbc_9.3.0-1ubuntu24.04_amd64.deb"
 do
   if [ ! -f "${i}" ]
@@ -142,21 +142,29 @@ fi
 
 cd ./..
 
-docker compose -f ./docker/docker-compose.yml build
+DOCKER_INFRASTRUCTURE=docker-compose-infrastructure.yml
+DOCKER_SERVICE=docker-compose-service.yml
 
-if [[ "$?" != "0" ]]
-then
-  echo "command docker-compose -f ./docker/docker-compose.yml build failed"
-  exit 1
-fi
+for i in "${DOCKER_INFRASTRUCTURE}" "${DOCKER_SERVICE}"
+do
 
-docker compose -f ./docker/docker-compose.yml up -d
+  docker compose -f "./docker/${i}" build
 
-if [[ "$?" != "0" ]]
-then
-  echo "command docker-compose -f ./docker/docker-compose.yml up -d failed"
-  exit 1
-fi
+  if [[ "$?" != "0" ]]
+  then
+    echo "command docker-compose -f ./docker/${i} build failed"
+    exit 1
+  fi
+
+  docker compose -f "./docker/${i}" up -d
+
+  if [[ "$?" != "0" ]]
+  then
+    echo "command docker-compose -f ./docker/${i} up -d failed"
+    exit 1
+  fi
+
+done
 
 docker ps --all
 

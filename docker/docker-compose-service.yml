@@ -1,20 +1,7 @@
 services:
 
-  anontion-db:
-    container_name: "${TAG_DB}"
-    build:
-      context: "../${BUILD_DIR}"
-      dockerfile: "../docker/dockerfile-db"
-      no_cache: true
-    image: "${TAG_PREFIX_DB}"
-    network_mode: host
-    #ports:
-    #  - "3306:3306/tcp"
-
   anontion-server:
     container_name: "${TAG_SERVER}"
-    depends_on:
-      - anontion-db
     build:
       context: "../${BUILD_DIR}"
       dockerfile: "../docker/dockerfile-server"
@@ -31,7 +18,6 @@ services:
   anontion-asterisk:
     container_name: "${TAG_ASTERISK}"
     depends_on:
-      - anontion-db
       - anontion-server
     build:
       context: "../${BUILD_DIR}"

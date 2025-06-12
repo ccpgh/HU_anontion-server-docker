@@ -162,3 +162,5 @@ WORKDIR /usr/local/src
 
 # start asterisk and (blocking command) tail when the container starts
 CMD (echo "waiting for DB to awaken") && (sleep 60) && ( service asterisk start ) && ( tail -f /dev/null )
+
+/usr/local/src/asterisk/contrib/realtime/mysql/mysql_config.sql

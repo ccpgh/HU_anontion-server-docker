@@ -18,16 +18,15 @@ RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server && \
     rm -rf /var/lib/apt/lists/*
 
-# mysql
 WORKDIR /usr/local/src
 
 RUN mkdir sql
 
 WORKDIR /usr/local/src/sql
 
-COPY ./r r
+COPY ./install.sh install.sh
 
-RUN chmod +x r
+RUN chmod +x install.sh
 
 COPY ./install.sql install.sql
 
@@ -35,12 +34,16 @@ COPY ./password password
 
 RUN ( mysqld & ) ; \
     sleep 10 && \
-    ./r
+    ./install.sh
 
-# Set the working directory
-#echo /usr/local/src/sql/password
+COPY ./anontion.sh anontion.sh
 
-# Expose ports
+RUN chmod +x anontion.sh
+
+RUN ( mysqld & ) ; \
+    sleep 10 && \
+    ./anontion.sh
+
 EXPOSE 3306
 
 WORKDIR /user/local/src
