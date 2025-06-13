@@ -140,15 +140,15 @@ then
   exit 1
 fi
 
-LHS5=NNNNN
-RHS5="${SQL_ROOT_PWD}"
-sed -i.bak1 "s|${LHS5}|${RHS5}|" anontion.sh
-
-if [[ "$?" != "0" ]]
-then
-  echo "sed of anontion.sh failed"
-  exit 1
-fi
+#LHS5=NNNNN
+#RHS5="${SQL_ROOT_PWD}"
+#sed -i.bak1 "s|${LHS5}|${RHS5}|" anontion.sh
+#
+#if [[ "$?" != "0" ]]
+#then
+#  echo "sed of anontion.sh failed"
+#  exit 1
+#fi
 
 cd ./..
 
@@ -192,11 +192,11 @@ then
   exit 1
 fi
 
-docker exec -it "${TAG_ASTERISK}" bash -c "rm -fr /usr/local/src/sql/anontion.sh"
+docker exec -it "${TAG_ASTERISK}" bash -c "rm -fr /usr/local/src/sql/password /usr/local/src/sql/anontion.sh "
 
 if [[ "$?" != "0" ]]
 then
-  echo "anontion.sh removal failed"
+  echo "password file removal failed"
   exit 1
 fi
 
