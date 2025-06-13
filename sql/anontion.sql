@@ -1,13 +1,17 @@
-DELIMITER
-//
+DELIMITER //
 
-DROP PROCEDURE IF EXISTS insert_pjsip_data;
+DROP PROCEDURE IF EXISTS insert_pjsip_data; //
+
+TRUNCATE ps_transports; //
+TRUNCATE ps_endpoints; //
+TRUNCATE ps_auths; //
+TRUNCATE ps_aors; //
 
 CREATE PROCEDURE insert_pjsip_data()
 BEGIN
-DECLARE
-EXIT HANDLER FOR SQLEXCEPTION
+  DECLARE EXIT HANDLER FOR SQLEXCEPTION
 BEGIN
+SELECT 'An SQL error occurred, rolling back.';
 ROLLBACK;
 END;
 
@@ -45,7 +49,7 @@ INSERT INTO ps_auths (id, auth_type, username, password)
 VALUES ('8000', 'userpass', '8000', 'password');
 
 COMMIT;
-END;
+END; //
 
 DELIMITER ;
 

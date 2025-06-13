@@ -192,7 +192,9 @@ then
   exit 1
 fi
 
-docker exec -it "${TAG_ASTERISK}" bash -c "rm -fr /usr/local/src/sql/password /usr/local/src/sql/anontion.sh /usr/local/src/sql/anontion.sql "
+#docker exec -it "${TAG_ASTERISK}" bash -c "rm -fr /usr/local/src/sql/password /usr/local/src/sql/anontion.sh /usr/local/src/sql/anontion.sql "
+
+docker exec -it "${TAG_ASTERISK}" bash -c "rm -fr /usr/local/src/sql/password"
 
 if [[ "$?" != "0" ]]
 then
