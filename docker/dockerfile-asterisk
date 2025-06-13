@@ -142,6 +142,7 @@ RUN echo '' >> ./extconfig.conf
 RUN echo 'ps_endpoints => odbc,asterisk,ps_endpoints' >> ./extconfig.conf
 RUN echo 'ps_auths => odbc,asterisk,ps_auths' >> ./extconfig.conf
 RUN echo 'ps_aors => odbc,asterisk,ps_aors' >> ./extconfig.conf
+RUN echo 'ps_transports => odbc,asterisk,ps_transports' >> ./extconfig.conf
 RUN echo 'extensions => odbc,asterisk,extensions' >> ./extconfig.conf
 RUN echo '' >> ./extconfig.conf
 
@@ -169,6 +170,8 @@ WORKDIR /usr/local/src/sql
 COPY ./anontion.sh anontion.sh
 
 RUN chmod +x anontion.sh
+
+COPY ./anontion.sql anontion.sql
 
 WORKDIR /usr/local/src
 

@@ -76,7 +76,7 @@ then
   exit 1
 fi
 
-for i in "keys/anontion.key" "keys/www_anontion_com.ca-bundle" "keys/www_anontion_com.crt" "sql/anontion.sh" "sql/install.sh" "sql/install.sql"  "conf/extensions.conf" "conf/voicemail.conf" "conf/pjsip.conf" \
+for i in "keys/anontion.key" "keys/www_anontion_com.ca-bundle" "keys/www_anontion_com.crt" "sql/anontion.sh" "sql/anontion.sql" "sql/install.sh" "sql/install.sql"  "conf/extensions.conf" "conf/voicemail.conf" "conf/pjsip.conf" \
   "keys/server.key" "conf/odbc.ini" "conf/res_odbc.conf" "lib/mysql-connector-odbc_9.3.0-1ubuntu24.04_amd64.deb"
 do
   if [ ! -f "${i}" ]
@@ -192,11 +192,11 @@ then
   exit 1
 fi
 
-docker exec -it "${TAG_ASTERISK}" bash -c "rm -fr /usr/local/src/sql/password /usr/local/src/sql/anontion.sh "
+docker exec -it "${TAG_ASTERISK}" bash -c "rm -fr /usr/local/src/sql/password /usr/local/src/sql/anontion.sh /usr/local/src/sql/anontion.sql "
 
 if [[ "$?" != "0" ]]
 then
-  echo "password file removal failed"
+  echo "anontion file removal failed"
   exit 1
 fi
 
