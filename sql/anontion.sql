@@ -17,11 +17,6 @@ END;
 
 START TRANSACTION;
 
---INSERT INTO ps_transports (id, protocol, bind, local_net,
---                         external_media_address, external_signaling_address)
---VALUES ('transport-id', 'udp', '0.0.0.0',
---        '10.0.0.0/24', '10.0.0.99', '10.0.0.99');
-
 INSERT INTO ps_endpoints (id, transport, aors, auth, context, disallow, allow, direct_media,
                           trust_id_outbound, dtmf_mode, force_rport, rtp_symmetric,
                           send_rpid, ice_support, tos_video, cos_video, allow_subscribe, callerid)
