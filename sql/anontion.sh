@@ -10,7 +10,7 @@ then
   exit 1
 fi
 
-mysql --defaults-extra-file=${MYSQL_PASSWORDFILE} -u root -h 127.0.0.1 asterisk_live < ${MYSQL_CONFIGFILE}
+mysql --defaults-extra-file=${MYSQL_PASSWORDFILE} -u asterisk -h 127.0.0.1 asterisk_live < ${MYSQL_CONFIGFILE}
 
 if [[ "$?" != "0" ]]
 then
@@ -18,7 +18,7 @@ then
   exit 1
 fi
 
-mysql --defaults-extra-file=${MYSQL_PASSWORDFILE} -u root -h 127.0.0.1 asterisk_live < ${MYSQL_DATAFILE}
+mysql --defaults-extra-file=${MYSQL_PASSWORDFILE} -u asterisk -h 127.0.0.1 asterisk_live < ${MYSQL_DATAFILE}
 
 if [[ "$?" != "0" ]]
 then

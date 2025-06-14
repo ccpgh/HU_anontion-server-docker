@@ -139,11 +139,11 @@ RUN echo 'noload => res_config_mysql.so' >> ./modules.conf
 RUN echo '' >> ./modules.conf
 
 RUN echo '' >> ./extconfig.conf
-RUN echo 'ps_endpoints => odbc,MySQL-asterisk,ps_endpoints' >> ./extconfig.conf
-RUN echo 'ps_auths => odbc,MySQL-asterisk,ps_auths' >> ./extconfig.conf
-RUN echo 'ps_aors => odbc,MySQL-asterisk,ps_aors' >> ./extconfig.conf
-#RUN echo 'ps_transports => odbc,MySQL-asterisk,ps_transports' >> ./extconfig.conf
-RUN echo 'extensions => odbc,MySQL-asterisk,extensions' >> ./extconfig.conf
+RUN echo 'ps_endpoints => odbc,asterisk,ps_endpoints' >> ./extconfig.conf
+RUN echo 'ps_auths => odbc,asterisk,ps_auths' >> ./extconfig.conf
+RUN echo 'ps_aors => odbc,asterisk,ps_aors' >> ./extconfig.conf
+#RUN echo 'ps_transports => odbc,asterisk,ps_transports' >> ./extconfig.conf
+RUN echo 'extensions => odbc,asterisk,extensions' >> ./extconfig.conf
 RUN echo '' >> ./extconfig.conf
 
 RUN echo '' >> ./sorcery.conf
