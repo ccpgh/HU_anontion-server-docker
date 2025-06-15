@@ -21,7 +21,7 @@ INSERT INTO ps_endpoints (id, transport, aors, auth, context, disallow, allow, d
                           trust_id_outbound, dtmf_mode, force_rport, rtp_symmetric,
                           send_rpid, ice_support, tos_video, cos_video, allow_subscribe, callerid)
 VALUES ('8001', 'transport-id', '8001', '8001', 'external', 'all',
-        'h264,g729,g711,g722,gsm,ulaw,alaw', 'no', 'yes', 'rfc4733', 'yes',
+        'h264,g729,g722,gsm,ulaw,alaw', 'no', 'yes', 'rfc4733', 'yes',
         'yes', 'yes', 'yes', 'af41', 4, 'yes', 'User <8001>');
 
 INSERT INTO ps_aors (id, max_contacts, remove_existing, qualify_frequency, support_path, mailboxes)
@@ -34,7 +34,7 @@ INSERT INTO ps_endpoints (id, transport, aors, auth, context, disallow, allow, d
                           trust_id_outbound, dtmf_mode, force_rport, rtp_symmetric,
                           send_rpid, ice_support, tos_video, cos_video, allow_subscribe, callerid)
 VALUES ('8000', 'transport-id', '8000', '8000', 'external', 'all',
-        'h264,g729,g711,g722,gsm,ulaw,alaw', 'no', 'yes', 'rfc4733', 'yes',
+        'h264,g729,g722,gsm,ulaw,alaw', 'no', 'yes', 'rfc4733', 'yes',
         'yes', 'yes', 'yes', 'af41', 4, 'yes', 'User <8000>');
 
 INSERT INTO ps_aors (id, max_contacts, remove_existing, qualify_frequency, support_path, mailboxes)
