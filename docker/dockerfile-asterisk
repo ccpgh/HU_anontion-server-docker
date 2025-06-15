@@ -132,25 +132,25 @@ RUN chown asterisk:asterisk res_odbc.conf
 WORKDIR /etc/asterisk
 
 RUN echo '' >> ./modules.conf
-RUN echo 'load => res_odbc.so' >> ./modules.conf
-RUN echo 'load => res_config_odbc.so' >> ./modules.conf
+RUN echo 'preload => res_odbc.so' >> ./modules.conf
+RUN echo 'preload => res_config_odbc.so' >> ./modules.conf
 RUN echo 'noload => res_config_pgsql.so' >> ./modules.conf
 RUN echo 'noload => res_config_mysql.so' >> ./modules.conf
 RUN echo '' >> ./modules.conf
 
 RUN echo '' >> ./extconfig.conf
-RUN echo 'ps_endpoints => odbc,asterisk,ps_endpoints' >> ./extconfig.conf
-RUN echo 'ps_auths => odbc,asterisk,ps_auths' >> ./extconfig.conf
-RUN echo 'ps_aors => odbc,asterisk,ps_aors' >> ./extconfig.conf
-#RUN echo 'ps_transports => odbc,asterisk,ps_transports' >> ./extconfig.conf
-RUN echo 'extensions => odbc,asterisk,extensions' >> ./extconfig.conf
+RUN echo 'ps_endpoints => odbc,asterisk' >> ./extconfig.conf
+RUN echo 'ps_auths => odbc,asterisk' >> ./extconfig.conf
+RUN echo 'ps_aors => odbc,asterisk' >> ./extconfig.conf
+#RUN echo 'ps_transports => odbc,asterisk' >> ./extconfig.conf
+RUN echo 'extensions => odbc,asterisk' >> ./extconfig.conf
 RUN echo '' >> ./extconfig.conf
 
 RUN echo '' >> ./sorcery.conf
 RUN echo '[res_pjsip]' >> ./sorcery.conf
-RUN echo 'endpoint=realtime,asterisk,cache' >> ./sorcery.conf
-RUN echo 'aor=realtime,asterisk,cache' >> ./sorcery.conf
-RUN echo 'auth=realtime,asterisk,cache' >> ./sorcery.conf
+RUN echo 'endpoint=realtime,ps_endpoints' >> ./sorcery.conf
+RUN echo 'aor=realtime,ps_aors' >> ./sorcery.conf
+RUN echo 'auth=realtime,ps_auths' >> ./sorcery.conf
 RUN echo '' >> ./sorcery.conf
 
 WORKDIR /usr/local/src/sql
