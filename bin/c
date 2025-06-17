@@ -76,8 +76,12 @@ then
   exit 1
 fi
 
-for i in "keys/anontion.key" "keys/www_anontion_com.ca-bundle" "keys/www_anontion_com.crt" "sql/anontion.sh" "sql/anontion.sql" "sql/install.sh" "sql/install.sql"  "conf/extensions.conf" "conf/voicemail.conf" "conf/pjsip.conf" \
-  "keys/server.key" "conf/odbc.ini" "conf/res_odbc.conf" "lib/mysql-connector-odbc_9.3.0-1ubuntu24.04_amd64.deb"
+for i in "artefact/keys/anontion.key" "artefact/keys/www_anontion_com.ca-bundle" "artefact/keys/www_anontion_com.crt" \
+"artefact/sh/anontion.sh" "artefact/sql/anontion.sql" "artefact/sh/install.sh" \
+"artefact/sql/install.sql"  "artefact/conf/extensions.conf" "artefact/conf/voicemail.conf" \
+"artefact/conf/pjsip.conf" "artefact/keys/server.key" "artefact/conf/odbc.ini" \
+"artefact/conf/res_odbc.conf" "artefact/agi/check_extension_id.py.agi" \
+"artefact/lib/mysql-connector-odbc_9.3.0-1ubuntu24.04_amd64.deb"
 do
   if [ ! -f "${i}" ]
   then

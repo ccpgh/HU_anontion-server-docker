@@ -1,0 +1,20 @@
+import sys
+import re
+
+def check_extension_id(extension):
+  if re.fullmatch(r'^[0-9]*$', extension):
+    print('SET VARIABLE match 1')
+  else:
+    print('SET VARIABLE match 0')
+  sys.stdout.flush()
+
+if __name__ == "__main__":
+  # Read AGI env vars (discard)
+  while True:
+    line = sys.stdin.readline().strip()
+    if line == '':
+      break
+
+  # Get extension param from ARGV (AGI param)
+  extension = sys.argv[1] if len(sys.argv) > 1 else ''
+  check_extension_id(extension)
