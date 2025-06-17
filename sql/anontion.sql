@@ -43,6 +43,21 @@ VALUES ('8000', 1, 'yes', 30, 'yes', '8000@example');
 INSERT INTO ps_auths (id, auth_type, username, password)
 VALUES ('8000', 'userpass', '8000', 'password');
 
+INSERT INTO extensions (context, exten, priority, app, appdata)
+VALUES ('external', '_X.', 1, 'NoOp', 'Auth check');
+
+INSERT INTO extensions (context, exten, priority, app, appdata)
+VALUES ('external', '_X.', 2, 'ExecIf', '$["${PJSIP_AUTHENTICATED}" != "yes"]?Playback(auth-incorrect)');
+
+INSERT INTO extensions (context, exten, priority, app, appdata)
+VALUES ('external', '_X.', 3, 'ExecIf', '$["${PJSIP_AUTHENTICATED}" != "yes"]?Hangup()');
+
+INSERT INTO extensions (context, exten, priority, app, appdata)
+VALUES ('external', '_X.', 4, 'Dial', 'PJSIP/${EXTEN},60');
+
+INSERT INTO extensions (context, exten, priority, app, appdata)
+VALUES ('external', '_X.', 5, 'Hangup', '');
+
 COMMIT;
 END; //
 
