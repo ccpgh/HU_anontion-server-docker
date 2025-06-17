@@ -44,19 +44,16 @@ INSERT INTO ps_auths (id, auth_type, username, password)
 VALUES ('8000', 'userpass', '8000', 'password');
 
 INSERT INTO extensions (context, exten, priority, app, appdata)
-VALUES ('external', '_[! ].', 1, 'NoOp', 'Auth check');
+VALUES ('external', '_.', 1, 'NoOp', 'Auth check');
 
 INSERT INTO extensions (context, exten, priority, app, appdata)
-VALUES ('external', '_[! ].', 2, 'ExecIf', '$["${PJSIP_AUTHENTICATED}" != "yes"]?Playback(auth-incorrect)');
+VALUES ('external', '_.', 2, 'ExecIf', '$["${PJSIP_AUTHENTICATED}" != "yes"]?Hangup()');
 
 INSERT INTO extensions (context, exten, priority, app, appdata)
-VALUES ('external', '_[! ].', 3, 'ExecIf', '$["${PJSIP_AUTHENTICATED}" != "yes"]?Hangup()');
+VALUES ('external', '_.', 3, 'Dial', 'PJSIP/${EXTEN},60');
 
 INSERT INTO extensions (context, exten, priority, app, appdata)
-VALUES ('external', '_[! ].', 4, 'Dial', 'PJSIP/${EXTEN},60');
-
-INSERT INTO extensions (context, exten, priority, app, appdata)
-VALUES ('external', '_[! ].', 5, 'Hangup', '');
+VALUES ('external', '_.', 4, 'Hangup', '');
 
 COMMIT;
 END; //
