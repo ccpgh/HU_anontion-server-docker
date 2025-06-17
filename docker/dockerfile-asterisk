@@ -145,7 +145,7 @@ RUN echo 'ps_endpoints => odbc,asterisk' >> ./extconfig.conf
 RUN echo 'ps_auths => odbc,asterisk' >> ./extconfig.conf
 RUN echo 'ps_aors => odbc,asterisk' >> ./extconfig.conf
 #RUN echo 'ps_transports => odbc,asterisk' >> ./extconfig.conf
-RUN echo 'extensions => odbc,asterisk' >> ./extconfig.conf
+#RUN echo 'extensions => odbc,asterisk' >> ./extconfig.conf
 RUN echo '' >> ./extconfig.conf
 
 RUN echo '' >> ./sorcery.conf

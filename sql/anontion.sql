@@ -43,18 +43,6 @@ VALUES ('8000', 1, 'yes', 30, 'yes', '8000@example');
 INSERT INTO ps_auths (id, auth_type, username, password)
 VALUES ('8000', 'userpass', '8000', 'password');
 
-INSERT INTO extensions (context, exten, priority, app, appdata)
-VALUES ('external', '_[0-9a-zA-Z+/][0-9a-zA-Z+/]*[=]*', 1, 'NoOp', 'External disp plan');
-
-INSERT INTO extensions (context, exten, priority, app, appdata)
-VALUES ('external', '_[0-9a-zA-Z+/][0-9a-zA-Z+/]*[=]*', 2, 'ExecIf', '$["${REGEX("^([A-Za-z0-9+/=]+)$" ${EXTEN})}" = "1"]?NoOp(Valid Base64):Hangup()');
-
-INSERT INTO extensions (context, exten, priority, app, appdata)
-VALUES ('external', '_[0-9a-zA-Z+/][0-9a-zA-Z+/]*[=]*', 3, 'Dial', 'PJSIP/${EXTEN},60');
-
-INSERT INTO extensions (context, exten, priority, app, appdata)
-VALUES ('external', '_[0-9a-zA-Z+/][0-9a-zA-Z+/]*[=]*', 4, 'Hangup', '');
-
 COMMIT;
 END; //
 
