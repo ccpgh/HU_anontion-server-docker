@@ -2,7 +2,7 @@ import sys
 import re
 
 def check_extension_id(extension):
-  if re.fullmatch(r'^[0-9]*$', extension):
+  if re.fullmatch(r'^[0-9a-zA-Z+/][0-9a-zA-Z+/]*[=]*$', extension):
     print('SET VARIABLE match 1')
   else:
     print('SET VARIABLE match 0')
