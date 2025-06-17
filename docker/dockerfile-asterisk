@@ -136,6 +136,8 @@ RUN echo 'preload => res_odbc.so' >> ./modules.conf
 RUN echo 'preload => res_config_odbc.so' >> ./modules.conf
 RUN echo 'noload => res_config_pgsql.so' >> ./modules.conf
 RUN echo 'noload => res_config_mysql.so' >> ./modules.conf
+RUN echo 'noload => pbx_lua.so' >> ./modules.conf
+RUN echo 'noload => pbx_ael.so' >> ./modules.conf
 RUN echo '' >> ./modules.conf
 
 RUN echo '' >> ./extconfig.conf
