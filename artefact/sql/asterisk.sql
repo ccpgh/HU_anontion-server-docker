@@ -24,8 +24,8 @@ VALUES ('8001', 'transport-id', '8001', '8001', 'external', 'all',
         'h264,g729,gsm', 'no', 'yes', 'rfc4733', 'yes',
         'yes', 'yes', 'yes', 'af41', 4, 'yes', 'User <8001>');
 
-INSERT INTO ps_aors (id, max_contacts, remove_existing, qualify_frequency, support_path, mailboxes)
-VALUES ('8001', 1, 'yes', 30, 'yes', '8001@example');
+INSERT INTO ps_aors (id, max_contacts, remove_existing, qualify_frequency, support_path)
+VALUES ('8001', 1, 'yes', 30, 'yes');
 
 INSERT INTO ps_auths (id, auth_type, username, password)
 VALUES ('8001', 'userpass', '8001', 'password');
@@ -37,8 +37,8 @@ VALUES ('8000', 'transport-id', '8000', '8000', 'external', 'all',
         'h264,g729,gsm', 'no', 'yes', 'rfc4733', 'yes',
         'yes', 'yes', 'yes', 'af41', 4, 'yes', 'User <8000>');
 
-INSERT INTO ps_aors (id, max_contacts, remove_existing, qualify_frequency, support_path, mailboxes)
-VALUES ('8000', 1, 'yes', 30, 'yes', '8000@example');
+INSERT INTO ps_aors (id, max_contacts, remove_existing, qualify_frequency, support_path)
+VALUES ('8000', 1, 'yes', 30, 'yes');
 
 INSERT INTO ps_auths (id, auth_type, username, password)
 VALUES ('8000', 'userpass', '8000', 'password');
