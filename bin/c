@@ -77,7 +77,7 @@ then
 fi
 
 for i in "artefact/keys/anontion.key" "artefact/keys/www_anontion_com.ca-bundle" "artefact/keys/www_anontion_com.crt" \
-"artefact/sh/anontion.sh" "artefact/sql/anontion.sql" "artefact/sh/install.sh" \
+"artefact/sh/asterisk.sh" "artefact/sql/asterisk.sql" "artefact/sh/install.sh" \
 "artefact/sql/install.sql"  "artefact/conf/extensions.conf" "artefact/conf/voicemail.conf" \
 "artefact/conf/pjsip.conf" "artefact/keys/server.key" "artefact/conf/odbc.ini" \
 "artefact/conf/res_odbc.conf" "artefact/agi/check_extension_id.py.agi" \
@@ -144,16 +144,6 @@ then
   exit 1
 fi
 
-#LHS5=NNNNN
-#RHS5="${SQL_ROOT_PWD}"
-#sed -i.bak1 "s|${LHS5}|${RHS5}|" anontion.sh
-#
-#if [[ "$?" != "0" ]]
-#then
-#  echo "sed of anontion.sh failed"
-#  exit 1
-#fi
-
 cd ./..
 
 docker compose -p anontion-infrastructure -f "./docker/docker-compose-infrastructure.yml" build
@@ -188,15 +178,13 @@ then
   exit 1
 fi
 
-docker exec -it "${TAG_ASTERISK}" /usr/local/src/sql/anontion.sh
+docker exec -it "${TAG_ASTERISK}" /usr/local/src/sql/asterisk.sh
 
 if [[ "$?" != "0" ]]
 then
-  echo "anontion.sh failed"
+  echo "asterisk.sh failed"
   exit 1
 fi
-
-#docker exec -it "${TAG_ASTERISK}" bash -c "rm -fr /usr/local/src/sql/password /usr/local/src/sql/anontion.sh /usr/local/src/sql/anontion.sql "
 
 docker exec -it "${TAG_ASTERISK}" bash -c "rm -fr /usr/local/src/sql/password"
 

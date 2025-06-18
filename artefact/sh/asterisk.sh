@@ -2,7 +2,7 @@
 
 MYSQL_CONFIGFILE=/usr/local/src/asterisk/contrib/realtime/mysql/mysql_config.sql
 MYSQL_PASSWORDFILE=/usr/local/src/sql/password
-MYSQL_DATAFILE=/usr/local/src/sql/anontion.sql
+MYSQL_DATAFILE=/usr/local/src/sql/asterisk.sql
 
 if [[ ! -f "${MYSQL_CONFIGFILE}" ]]
 then

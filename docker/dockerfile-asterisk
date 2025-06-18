@@ -176,11 +176,11 @@ RUN apt-get update && \
 
 WORKDIR /usr/local/src/sql
 
-COPY ./anontion.sh anontion.sh
+COPY ./asterisk.sh asterisk.sh
 
-RUN chmod +x anontion.sh
+RUN chmod +x asterisk.sh
 
-COPY ./anontion.sql anontion.sql
+COPY ./asterisk.sql asterisk.sql
 
 WORKDIR /var/lib/asterisk/agi-bin
 
