@@ -48,4 +48,4 @@ END; //
 
 DELIMITER ;
 
-CALL insert_pjsip_data();
+/* CALL insert_pjsip_data(); */
