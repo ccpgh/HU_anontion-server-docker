@@ -84,11 +84,11 @@ RUN echo git clone "https://github.com/${ANONTION_DOCKER_GITUSER}/${TAG_ID}.git"
 # Clone HU_anontion-server
 RUN git clone "https://github.com/${ANONTION_DOCKER_GITUSER}/${TAG_ID}.git"
 
-WORKDIR /usr/local/src/${TAG_ID}
+#WORKDIR /usr/local/src/${TAG_ID}
 
-RUN git checkout remotes/origin/merge_db # REMOVE TODO
+#RUN git checkout remotes/origin/merge_db # REMOVE TODO
 
-WORKDIR /usr/local/src
+#WORKDIR /usr/local/src
 
 # Create ssl placeholders
 RUN mkdir /etc/ssl/certs/anontion
