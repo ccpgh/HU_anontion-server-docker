@@ -1,0 +1,81 @@
+#!/bin/bash
+
+echo do not run
+
+exit 1
+
+git clone --recursive https://gitlab.linphone.org/BC/public/linphone-sdk/ 
+
+install list 
+
+brew install cmake
+brew install doxygen
+brew install yasm
+brew install meson
+brew install nasm
+
+python3.13 -m pip install --break-system-packages pystache
+python3.13 -m pip install --break-system-packages six
+
+cmake --preset=ios-sdk -G Xcode -B build-ios -DLINPHONESDK_IOS_PLATFORM=Iphone -DLINPHONESDK_IOS_ARCHS="arm64" -DENABLE_VIDEO= -DENABLE_ADVANCED_IM= -DENABLE_DB_STORAGE= -DENABLE_VCARD= -DENABLE_MKV= -DENABLE_LDAP=
+
+-
+
+cmake --preset=ios-arm64-simulator -G Xcode -B ios-arm64-simulator -DLINPHONESDK_IOS_PLATFORM=SIMULATOR -DLINPHONESDK_IOS_ARCHS="arm64" -DENABLE_VIDEO=ON -DENABLE_ADVANCED_IM=ON -DENABLE_DB_STORAGE=ON -DENABLE_VCARD=ON -DENABLE_MKV=ON -DENABLE_LDAP=ON
+
+cmake --preset=ios-arm64 -G Xcode -B ios-arm64 -DLINPHONESDK_IOS_PLATFORM=OS -DLINPHONESDK_IOS_ARCHS="arm64" -DENABLE_VIDEO=ON -DENABLE_ADVANCED_IM=ON -DENABLE_DB_STORAGE=ON -DENABLE_VCARD=ON -DENABLE_MKV=ON -DENABLE_LDAP=ON
+
+-
+
+cmake --preset=ios-sdk -G Xcode -B build-ios -DLINPHONESDK_IOS_PLATFORM=Iphone -DLINPHONESDK_IOS_ARCHS="arm64"
+
+cmake --build build-ios --config Debug
+
+-
+
+cmake --preset=ios-sdk -G Ninja -B spm-ios && cmake --build spm-ios
+
+cmake --list-presets
+
+Available configure presets:
+
+  "android-arm64"          - Config for Android arm64
+  "android-armv7"          - Config for Android armv7
+  "android-x86"            - Config for Android x86
+  "android-x86_64"         - Config for Android x86_64
+  "android-sdk"            - Config for Android
+  "bundled-android-arm64"  - Config for Android arm64 (Bundled in a single shared lib)
+  "bundled-android-armv7"  - Config for Android armv7 (Bundled in a single shared lib)
+  "bundled-android-x86"    - Config for Android x86 (Bundled in a single shared lib)
+  "bundled-android-x86_64" - Config for Android x86_64 (Bundled in a single shared lib)
+  "bundled-android-sdk"    - Config for Android (Bundled in a single shared lib)
+  "default"                - Default Config
+  "ios-arm64"              - Config for IOS arm64
+  "ios-arm64-simulator"    - Config for IOS arm64 simulator
+  "ios-x86_64-simulator"   - Config for IOS x86_64 simulator
+  "ios-sdk"                - Config for IOS
+  "java-sdk-linux"         - Config for Java
+  "mac-arm64"              - Config for Mac arm64
+  "mac-x86_64"             - Config for Mac x86_64
+  "mac-sdk"                - Config for Mac
+
+xcodebuild -create-xcframework \
+  -library path/to/ios-arm64/libyourlib.a -headers path/to/include \
+  -library path/to/ios-arm64-simulator/libyourlib.a -headers path/to/include \
+  -output YourLib.xcframework
+
+
+cmake --preset=ios-arm64-simulator -G Xcode -B ios-arm64-simulator -DLINPHONESDK_IOS_PLATFORM=SIMULATOR -DLINPHONESDK_IOS_ARCHS="arm64" -DENABLE_VIDEO=ON -DENABLE_ADVANCED_IM=ON -DENABLE_DB_STORAGE=ON -DENABLE_VCARD=ON -DENABLE_MKV=ON -DENABLE_LDAP=ON
+
+cmake --build ios-arm64-simulator --config Debug
+
+cmake --preset=ios-arm64 -G Xcode -B ios-arm64 -DLINPHONESDK_IOS_PLATFORM=OS -DLINPHONESDK_IOS_ARCHS="arm64" -DENABLE_VIDEO=ON -DENABLE_ADVANCED_IM=ON -DENABLE_DB_STORAGE=ON -DENABLE_VCARD=ON -DENABLE_MKV=ON -DENABLE_LDAP=ON
+
+cmake --build ios-arm64 --config Debug
+
+xcodebuild -create-xcframework \
+  -library ios-arm64-simulator/path/a/nameA.a -headers path/c/to/include \
+  -library ios-arm64/path/b/nameB.a -headers path/d/to/include \
+  -output anontion.xcframework
+
+
