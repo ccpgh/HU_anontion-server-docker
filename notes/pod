@@ -1,0 +1,17 @@
+#!/bin/bash
+
+echo do not run me
+
+exit 1
+
+pod init
+pod install
+
+for source links  
+pod init 
+pod repo update
+pod install
+
+to remove 
+pod deintegrate 
+
