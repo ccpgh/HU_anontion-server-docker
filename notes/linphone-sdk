@@ -6,6 +6,14 @@ exit 1
 
 git clone --recursive https://gitlab.linphone.org/BC/public/linphone-sdk/ 
 
+git clone https://gitlab.linphone.org/BC/public/linphone-sdk/
+
+cd linphone-sdk
+
+git checkout 5.3.108
+
+git submodule update --init --recursive
+
 install list 
 
 brew install cmake
