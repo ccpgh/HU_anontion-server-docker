@@ -184,7 +184,7 @@ COPY ./server.key server.key
 WORKDIR /usr/local/src/${TAG_ID}/bin
 
 # Build
-RUN ./c
+RUN ./compile
 
 # Application war
 RUN if [ ! -e "/usr/local/src/HU_anontion-server/anontion/build/libs/application-1.0.0.war" ]; then echo "missing application war file "; exit 1; fi
