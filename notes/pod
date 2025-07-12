@@ -4,6 +4,13 @@ echo do not run me
 
 exit 1
 
+brew install ruby
+sudo gem install securerandom -v 0.3.2
+sudo gem install drb -v 2.0.6
+sudo gem install zeitwerk -v 2.6.18
+sudo gem install activesupport -v 6.1.7.10
+sudo gem install cocoapods
+
 pod init
 pod install
 
