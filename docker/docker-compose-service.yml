@@ -15,20 +15,6 @@ services:
     #  - "443:443/tcp"
     #  - "12121:22/tcp"
 
-  anontion-coturn:
-    container_name: "${TAG_COTURN}"
-    depends_on:
-      - anontion-server
-    build:
-      context: "../${BUILD_DIR}"
-      dockerfile: "../docker/dockerfile-coturn"
-      no_cache: true
-    image: "${TAG_PREFIX_COTURN}"
-    network_mode: host
-    #ports:
-    #  - "3478:3478/udp"
-    #  - "49152-65535:49152-65535/udp"
-
   anontion-asterisk:
     container_name: "${TAG_ASTERISK}"
     depends_on:
@@ -47,4 +33,3 @@ services:
     #  - "5060:5060/udp"
     #  - "5061:5061/udp"
     #  - "10000-20000:10000-20000/udp"
-
