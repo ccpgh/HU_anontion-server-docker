@@ -146,7 +146,7 @@ RUN echo 'ps_auths => odbc,asterisk' >> ./extconfig.conf
 RUN echo 'ps_aors => odbc,asterisk' >> ./extconfig.conf
 #RUN echo 'ps_transports => odbc,asterisk' >> ./extconfig.conf
 #RUN echo 'extensions => odbc,asterisk' >> ./extconfig.conf
-RUN echo 'ps_contacts => odbc,asterisk' >> ./extconfig.conf
+#RUN echo 'ps_contacts => odbc,asterisk' >> ./extconfig.conf
 RUN echo '' >> ./extconfig.conf
 
 RUN echo '' >> ./sorcery.conf
@@ -154,7 +154,7 @@ RUN echo '[res_pjsip]' >> ./sorcery.conf
 RUN echo 'endpoint=realtime,ps_endpoints' >> ./sorcery.conf
 RUN echo 'aor=realtime,ps_aors' >> ./sorcery.conf
 RUN echo 'auth=realtime,ps_auths' >> ./sorcery.conf
-RUN echo 'contact=realtime,ps_contacts' >> ./sorcery.conf
+#RUN echo 'contact=realtime,ps_contacts' >> ./sorcery.conf
 RUN echo '' >> ./sorcery.conf
 
 WORKDIR /usr/local/src/sql
