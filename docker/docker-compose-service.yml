@@ -18,7 +18,7 @@ services:
   anontion-coturn:
     container_name: "${TAG_COTURN}"
     depends_on:
-      - ${TAG_SERVER}
+      - anontion-server
     build:
       context: "../${BUILD_DIR}"
       dockerfile: "../docker/dockerfile-coturn"
@@ -32,7 +32,7 @@ services:
   anontion-asterisk:
     container_name: "${TAG_ASTERISK}"
     depends_on:
-      - ${TAG_SERVER}
+      - anontion-server
     build:
       context: "../${BUILD_DIR}"
       dockerfile: "../docker/dockerfile-asterisk"
