@@ -173,6 +173,26 @@ then
   exit 1
 fi
 
+LHS5=NNNNN
+RHS5="${SQL_ANONTION_PWD}"
+sed -i.bak1 "s|${LHS5}|${RHS5}|" pjsip.conf
+
+if [[ "$?" != "0" ]]
+then
+  echo "sed of pjsip.conf failed"
+  exit 1
+fi
+
+LHS6=NNNNN
+RHS6="${SQL_ANONTION_PWD}"
+sed -i.bak1 "s|${LHS6}|${RHS6}|" turnserver.conf
+
+if [[ "$?" != "0" ]]
+then
+  echo "sed of turnserver.conf failed"
+  exit 1
+fi
+
 cd ./..
 
 docker compose -p anontion-infrastructure -f "./docker/docker-compose-infrastructure.yml" build
