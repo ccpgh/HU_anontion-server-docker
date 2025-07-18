@@ -18,49 +18,60 @@ export TAG_PREFIX_DB=`echo "${TAG_ORG}/${TAG_ID_DB}" | tr '[:upper:]' '[:lower:]
 
 export ANONTION_DOCKER_GIT_USER=ccpgh
 
+export TAG_COTURN=coturn
+export TAG_ID_COTURN=HU_${TAG_ORG}-${TAG_COTURN}
+export TAG_PREFIX_COTURN=`echo "${TAG_ORG}/${TAG_ID_COTURN}" | tr '[:upper:]' '[:lower:]' `
+
 export SQL_ROOT_PWD=
 export SQL_ANONTION_PWD=
 
+# build type: must be 'dev' or 'prod'
+if [[ "$1" != "dev" && "$1" != "prod" ]]
+then
+  echo "first parameter must be 'dev' or 'prod' to indicate build type."
+  exit 1
+fi
+
 # password
-if [[ "$1" == "" ]]
+if [[ "$2" == "" ]]
 then
   SQL_ROOT_PWD=password
 else
-  SQL_ROOT_PWD="${1}"
+  SQL_ROOT_PWD="${2}"
 fi
 
-if [[ "$2" == "" ]]
+if [[ "$3" == "" ]]
 then
   SQL_ANONTION_PWD=password
 else
-  SQL_ANONTION_PWD="${2}"
+  SQL_ANONTION_PWD="${3}"
 fi
 
 # cleanup
 for i in ` (docker ps 2>&1) | grep -v 'CONTAINER ID' | egrep "${TAG_PREFIX_SERVER}|${TAG_PREFIX_ASTERISK}|${TAG_PREFIX_DB}" | cut -d' ' -f1`
 do
-  \echo "stop container $i"
+  echo "stop container $i"
   docker stop "$i" 2>/dev/null
-  \sleep 5
+  sleep 5
 done
 
 for i in ` (docker ps --all 2>&1) | grep -v 'CONTAINER ID' | egrep "${TAG_PREFIX_SERVER}|${TAG_PREFIX_ASTERISK}|${TAG_PREFIX_DB}" | cut -d' ' -f1 `
 do
-  \echo "remove container $i"
+  echo "remove container $i"
   docker rm "$i" 2>/dev/null
-  \sleep 1
+  sleep 1
 done
 
 for i in ` (docker images -a 2>&1) | grep -v 'REPOSITORY' | egrep "${TAG_PREFIX_SERVER}|${TAG_PREFIX_ASTERISK}|${TAG_PREFIX_DB}" | awk '{ print $3 }' `
 do
-  \echo "remove image $i"
+  echo "remove image $i"
   docker rmi -f "$i" 2>/dev/null
-  \sleep 1
+  sleep 1
 done
 
 cd ..
 
-\rm -fr "$BUILD_DIR" 2>/dev/null
+rm -fr "$BUILD_DIR" 2>/dev/null
 
 if [[ -d "$BUILD_DIR"  ]]
 then
@@ -68,27 +79,45 @@ then
   exit 1
 fi
 
-\mkdir -p "$BUILD_DIR"
+mkdir -p "$BUILD_DIR"
 
 if [[ ! -d "$BUILD_DIR" ]]
 then
-  \echo "dir '$BUILD_DIR' could not be created"
+  echo "dir '$BUILD_DIR' could not be created"
   exit 1
+fi
+
+if [[ "$1" == "dev" ]]
+then
+  cp -ip "artefact/conf/pjsip-dev.conf" "build/pjsip.conf"
+  if [[ "$?" != "0" ]]
+  then
+    echo "cp of pjsip-dev.conf to build dir failed."
+    exit 1
+  fi
+elif [[ "$1" == "prod" ]]
+then
+  cp -ip "artefact/conf/pjsip-prod.conf" "build/pjsip.conf"
+  if [[ "$?" != "0" ]]
+  then
+    echo "cp of pjsip-prod.conf to build dir failed."
+    exit 1
+  fi
 fi
 
 for i in "artefact/keys/anontion.key" "artefact/keys/www_anontion_com.ca-bundle" "artefact/keys/www_anontion_com.crt" \
 "artefact/sh/asterisk.sh" "artefact/sql/asterisk.sql" "artefact/sh/install.sh" \
-"artefact/sql/install.sql"  "artefact/conf/extensions.conf" "artefact/conf/voicemail.conf" \
-"artefact/conf/pjsip.conf" "artefact/keys/server.key" "artefact/conf/odbc.ini" \
+"artefact/sql/install.sql" "artefact/conf/extensions.conf" "artefact/conf/voicemail.conf" \
+"artefact/conf/turnserver.conf" "artefact/keys/server.key" "artefact/conf/odbc.ini" \
 "artefact/conf/res_odbc.conf" "artefact/agi/check_extension_id.py.agi" \
 "artefact/lib/mysql-connector-odbc_9.3.0-1ubuntu24.04_amd64.deb"
 do
   if [ ! -f "${i}" ]
   then
-    \echo "mandatory keys file '${i}' missing"
-    \exit 1
+    echo "mandatory keys file '${i}' missing"
+    exit 1
   else
-    \cp -ip "${i}" build/`basename "${i}"`
+    cp -ip "${i}" build/`basename "${i}"`
   fi
 done
 
@@ -98,11 +127,11 @@ cd ./build
 
 if [[ "$?" != "0" ]]
 then
-  \echo "cd to build failed"
-  \exit 1
+  echo "cd to build failed"
+  exit 1
 fi
 
-\pwd
+pwd
 
 LHS1=NNNNN
 RHS1="${SQL_ROOT_PWD}"
