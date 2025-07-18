@@ -5,10 +5,16 @@ exit 1
 sudo ufw allow 22/tcp
 sudo ufw allow 12121/tcp
 sudo ufw allow 443/tcp
-sudo ufw allow 5060/tcp
-sudo ufw allow 5060/udp
-sudo ufw allow 5061/tcp
-sudo ufw allow 5061/udp
-sudo ufw allow 10000:20000/udp
-sudo ufw allow 3306/tcp
+sudo ufw allow 80/tcp -> apt get
+sudo ufw allow 5060/tcp -> asterisk
+sudo ufw allow 5060/udp -> asterisk
+sudo ufw allow 5061/tcp -> asterisk
+sudo ufw allow 5061/udp -> asterisk
+sudo ufw allow 10000:20000/udp -> asterisk
+sudo ufw allow 3306/tcp -> mysql
+sudo ufw allow 3478/udp -> coturn
+sudo ufw allow 49152:65535/udp -> coturn
+
+1024 - 65535 ephemeral ports stateless
+
 
