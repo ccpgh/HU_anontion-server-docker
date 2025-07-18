@@ -1,6 +1,5 @@
 # Dockerfile
 
-# Use the official Ubuntu 24.04 base image
 FROM instrumentisto/coturn
 
 WORKDIR /etc
