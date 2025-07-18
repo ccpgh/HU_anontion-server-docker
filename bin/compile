@@ -211,11 +211,34 @@ then
   exit 1
 fi
 
+##
+
+if [[ "$1" == "prod" ]]
+then
+  docker compose -p anontion-coturn -f "./docker/docker-compose-coturn.yml" build
+
+  if [[ "$?" != "0" ]]
+  then
+    echo "command docker compose -p anontion-coturn -f ./docker/docker-compose-coturn.yml build failed"
+    exit 1
+  fi
+
+  docker compose -p anontion-coturn -f "./docker/docker-compose-coturn.yml" up -d
+
+  if [[ "$?" != "0" ]]
+  then
+    echo "command docker compose -p anontion-coturn -f ./docker/docker-compose-coturn.yml up -d failed"
+    exit 1
+  fi
+fi
+
+##
+
 docker compose -p anontion-service -f "./docker/docker-compose-service.yml" build
 
 if [[ "$?" != "0" ]]
 then
-  echo "command docker-compose -p anontion-service -f ./docker/docker-compose-service.yml build failed"
+  echo "command docker compose -p anontion-service -f ./docker/docker-compose-service.yml build failed"
   exit 1
 fi
 
@@ -223,9 +246,11 @@ docker compose -p anontion-service -f "./docker/docker-compose-service.yml" up -
 
 if [[ "$?" != "0" ]]
 then
-  echo "command docker-service -p anontion-service -f ./docker/docker-compose-service.yml up -d failed"
+  echo "command docker-compose -p anontion-service -f ./docker/docker-compose-service.yml up -d failed"
   exit 1
 fi
+
+##
 
 docker exec -it "${TAG_ASTERISK}" /usr/local/src/sql/asterisk.sh
 
