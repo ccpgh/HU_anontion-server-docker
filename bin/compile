@@ -48,21 +48,21 @@ else
 fi
 
 # cleanup
-for i in ` (docker ps 2>&1) | grep -v 'CONTAINER ID' | egrep "${TAG_PREFIX_SERVER}|${TAG_PREFIX_ASTERISK}|${TAG_PREFIX_DB}" | cut -d' ' -f1`
+for i in ` (docker ps 2>&1) | grep -v 'CONTAINER ID' | egrep "${TAG_PREFIX_SERVER}|${TAG_PREFIX_ASTERISK}|${TAG_PREFIX_DB}|${TAG_PREFIX_COTURN}" | cut -d' ' -f1`
 do
   echo "stop container $i"
   docker stop "$i" 2>/dev/null
   sleep 5
 done
 
-for i in ` (docker ps --all 2>&1) | grep -v 'CONTAINER ID' | egrep "${TAG_PREFIX_SERVER}|${TAG_PREFIX_ASTERISK}|${TAG_PREFIX_DB}" | cut -d' ' -f1 `
+for i in ` (docker ps --all 2>&1) | grep -v 'CONTAINER ID' | egrep "${TAG_PREFIX_SERVER}|${TAG_PREFIX_ASTERISK}|${TAG_PREFIX_DB}|${TAG_PREFIX_COTURN}" | cut -d' ' -f1 `
 do
   echo "remove container $i"
   docker rm "$i" 2>/dev/null
   sleep 1
 done
 
-for i in ` (docker images -a 2>&1) | grep -v 'REPOSITORY' | egrep "${TAG_PREFIX_SERVER}|${TAG_PREFIX_ASTERISK}|${TAG_PREFIX_DB}" | awk '{ print $3 }' `
+for i in ` (docker images -a 2>&1) | grep -v 'REPOSITORY' | egrep "${TAG_PREFIX_SERVER}|${TAG_PREFIX_ASTERISK}|${TAG_PREFIX_DB}|${TAG_PREFIX_COTURN}" | awk '{ print $3 }' `
 do
   echo "remove image $i"
   docker rmi -f "$i" 2>/dev/null
