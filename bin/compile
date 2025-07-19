@@ -25,22 +25,21 @@ export TAG_PREFIX_COTURN=`echo "${TAG_ORG}/${TAG_ID_COTURN}" | tr '[:upper:]' '[
 export SQL_ROOT_PWD=
 export SQL_ANONTION_PWD=
 
-# build type: must be 'dev' or 'prod'
-if [[ "$1" != "dev" && "$1" != "prod" ]]
+if [[ "${1}" != "dev" && "${1}" != "prod" && "${1}" != "uat" ]]
 then
-  echo "first parameter must be 'dev' or 'prod' to indicate build type."
+  echo "first parameter must be 'dev' or 'uat' or 'prod' to indicate build type."
   exit 1
 fi
 
 # password
-if [[ "$2" == "" ]]
+if [[ "${2}" == "" ]]
 then
   SQL_ROOT_PWD=password
 else
   SQL_ROOT_PWD="${2}"
 fi
 
-if [[ "$3" == "" ]]
+if [[ "${3}" == "" ]]
 then
   SQL_ANONTION_PWD=password
 else
@@ -87,20 +86,19 @@ then
   exit 1
 fi
 
-if [[ "$1" == "dev" ]]
+cp -ip "artefact/conf/pjsip-${1}.conf" "build/pjsip.conf"
+if [[ "$?" != "0" ]]
 then
-  cp -ip "artefact/conf/pjsip-dev.conf" "build/pjsip.conf"
+  echo "cp of pjsip-${1}.conf to build dir failed."
+  exit 1
+fi
+
+if [[ "$1" == "uat" || "$1" == "prod" ]]
+then
+  cp -ip "artefact/conf/tunrserver-${1}.conf" "build/tunrserver.conf"
   if [[ "$?" != "0" ]]
   then
-    echo "cp of pjsip-dev.conf to build dir failed."
-    exit 1
-  fi
-elif [[ "$1" == "prod" ]]
-then
-  cp -ip "artefact/conf/pjsip-prod.conf" "build/pjsip.conf"
-  if [[ "$?" != "0" ]]
-  then
-    echo "cp of pjsip-prod.conf to build dir failed."
+    echo "cp of tunrserver-${1}.conf to build dir failed."
     exit 1
   fi
 fi
@@ -108,7 +106,7 @@ fi
 for i in "artefact/keys/anontion.key" "artefact/keys/www_anontion_com.ca-bundle" "artefact/keys/www_anontion_com.crt" \
 "artefact/sh/asterisk.sh" "artefact/sql/asterisk.sql" "artefact/sh/install.sh" \
 "artefact/sql/install.sql" "artefact/conf/extensions.conf" "artefact/conf/voicemail.conf" \
-"artefact/conf/turnserver.conf" "artefact/keys/server.key" "artefact/conf/odbc.ini" \
+"artefact/keys/server.key" "artefact/conf/odbc.ini" \
 "artefact/conf/res_odbc.conf" "artefact/agi/check_extension_id.py.agi" \
 "artefact/lib/mysql-connector-odbc_9.3.0-1ubuntu24.04_amd64.deb"
 do
@@ -183,14 +181,17 @@ then
   exit 1
 fi
 
-LHS6=NNNNN
-RHS6="${SQL_ANONTION_PWD}"
-sed -i.bak1 "s|${LHS6}|${RHS6}|" turnserver.conf
-
-if [[ "$?" != "0" ]]
+if [[ "$1" == "prod" || "$1" == "uat" ]]
 then
-  echo "sed of turnserver.conf failed"
-  exit 1
+  LHS6=NNNNN
+  RHS6="${SQL_ANONTION_PWD}"
+  sed -i.bak1 "s|${LHS6}|${RHS6}|" turnserver.conf
+
+  if [[ "$?" != "0" ]]
+  then
+    echo "sed of turnserver.conf failed"
+    exit 1
+  fi
 fi
 
 cd ./..
@@ -213,7 +214,7 @@ fi
 
 ##
 
-if [[ "$1" == "prod" ]]
+if [[ "$1" == "prod" || "$1" == "uat" ]]
 then
   docker compose -p anontion-coturn -f "./docker/docker-compose-coturn.yml" build
 
