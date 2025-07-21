@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [[ "${SQL_ROOT_PWD}" == "" || "${SQL_ANONTION_PWD}" == "" ]]
+if [[ -z "${SQL_ROOT_PWD}" || -z "${SQL_ANONTION_PWD}" ]]
 then
   echo "password not populated"
   exit 1
