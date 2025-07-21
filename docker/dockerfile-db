@@ -36,6 +36,8 @@ RUN ( mysqld & ) ; \
 
 RUN rm -fr install.sh install.sql
 
+COPY ./rootpassword p
+
 EXPOSE 3306
 
 WORKDIR /user/local/src

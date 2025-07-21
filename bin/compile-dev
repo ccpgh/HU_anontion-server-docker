@@ -1,2 +1,9 @@
 #!/bin/bash
+
+if [[ "${SQL_ROOT_PWD}" == "" || "${SQL_ANONTION_PWD}" == "" ]]
+then
+  echo "password not populated"
+  exit 1
+fi
+
 . ./compile dev

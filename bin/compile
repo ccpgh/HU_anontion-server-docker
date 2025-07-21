@@ -22,8 +22,11 @@ export TAG_COTURN=coturn
 export TAG_ID_COTURN=HU_${TAG_ORG}-${TAG_COTURN}
 export TAG_PREFIX_COTURN=`echo "${TAG_ORG}/${TAG_ID_COTURN}" | tr '[:upper:]' '[:lower:]' `
 
-export SQL_ROOT_PWD=
-export SQL_ANONTION_PWD=
+if [[ $# -gt 1 ]]
+then
+  echo "too many params"
+  exit 1
+fi
 
 if [[ "${1}" != "dev" && "${1}" != "prod" && "${1}" != "uat" ]]
 then
@@ -31,19 +34,10 @@ then
   exit 1
 fi
 
-# password
-if [[ "${2}" == "" ]]
+if [[ "${SQL_ROOT_PWD}" == "" || "${SQL_ANONTION_PWD}" == "" ]]
 then
-  SQL_ROOT_PWD=password
-else
-  SQL_ROOT_PWD="${2}"
-fi
-
-if [[ "${3}" == "" ]]
-then
-  SQL_ANONTION_PWD=password
-else
-  SQL_ANONTION_PWD="${3}"
+  echo "password not populated"
+  exit 1
 fi
 
 # cleanup
@@ -120,6 +114,8 @@ do
     cp -ip "${i}" build/`basename "${i}"`
   fi
 done
+
+echo -n "${SQL_ROOT_PWD}" > build/rootpassword
 
 echo -n "${SQL_ANONTION_PWD}" > build/password
 
