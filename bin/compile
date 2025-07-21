@@ -165,8 +165,15 @@ then
   exit 1
 fi
 
-( docker exec -it "${TAG_ASTERISK}" /usr/local/src/sql/asterisk.sh ) && \
-( docker exec -it "${TAG_ASTERISK}" bash -c "rm -fr /usr/local/src/sql/password" )
+docker exec -it "${TAG_ASTERISK}" /usr/local/src/sql/asterisk.sh
+
+if [[ "$?" != "0" ]]
+then
+  echo "anontion run and file removal failed"
+  exit 1
+fi
+
+docker exec -it "${TAG_ASTERISK}" bash -c "rm -fr /usr/local/src/sql/password"
 
 if [[ "$?" != "0" ]]
 then
