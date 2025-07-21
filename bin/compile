@@ -129,63 +129,21 @@ then
   exit 1
 fi
 
-pwd
-
-LHS1=NNNNN
-RHS1="${SQL_ROOT_PWD}"
-sed -i.bak1 "s|${LHS1}|${RHS1}|" install.sh
-
-if [[ "$?" != "0" ]]
-then
-  echo "sed of install.sh failed"
-  exit 1
-fi
-
-LHS2=NNNNN
-RHS2="${SQL_ANONTION_PWD}"
-sed -i.bak1 "s|${LHS2}|${RHS2}|" install.sql
+( sed -i.bak1 "s|NNNNN|${SQL_ROOT_PWD}|"     install.sh )    && \
+( sed -i.bak1 "s|NNNNN|${SQL_ANONTION_PWD}|" install.sql )   && \
+( sed -i.bak1 "s|NNNNN|${SQL_ANONTION_PWD}|" odbc.ini )      && \
+( sed -i.bak1 "s|NNNNN|${SQL_ANONTION_PWD}|" res_odbc.conf ) && \
+( sed -i.bak1 "s|NNNNN|${SQL_ANONTION_PWD}|" pjsip.conf )
 
 if [[ "$?" != "0" ]]
 then
-  echo "sed of install.sql failed"
-  exit 1
-fi
-
-LHS3=NNNNN
-RHS3="${SQL_ANONTION_PWD}"
-sed -i.bak1 "s|${LHS3}|${RHS3}|" odbc.ini
-
-if [[ "$?" != "0" ]]
-then
-  echo "sed of odbc.ini failed"
-  exit 1
-fi
-
-LHS4=NNNNN
-RHS4="${SQL_ANONTION_PWD}"
-sed -i.bak1 "s|${LHS4}|${RHS4}|" res_odbc.conf
-
-if [[ "$?" != "0" ]]
-then
-  echo "sed of res_odbc.conf failed"
-  exit 1
-fi
-
-LHS5=NNNNN
-RHS5="${SQL_ANONTION_PWD}"
-sed -i.bak1 "s|${LHS5}|${RHS5}|" pjsip.conf
-
-if [[ "$?" != "0" ]]
-then
-  echo "sed of pjsip.conf failed"
+  echo "bulk sed of password failed"
   exit 1
 fi
 
 if [[ "$1" == "prod" || "$1" == "uat" ]]
 then
-  LHS6=NNNNN
-  RHS6="${SQL_ANONTION_PWD}"
-  sed -i.bak1 "s|${LHS6}|${RHS6}|" turnserver.conf
+  sed -i.bak1 "s|NNNNN|${SQL_ANONTION_PWD}|" turnserver.conf
 
   if [[ "$?" != "0" ]]
   then
@@ -196,76 +154,42 @@ fi
 
 cd ./..
 
-docker compose -p anontion-infrastructure -f "./docker/docker-compose-infrastructure.yml" build
+( docker compose -p anontion-infrastructure -f "./docker/docker-compose-infrastructure.yml" build ) && \
+( docker compose -p anontion-infrastructure -f "./docker/docker-compose-infrastructure.yml" up -d )
 
 if [[ "$?" != "0" ]]
 then
-  echo "command docker-compose -p anontion-infrastructure -f ./docker/docker-compose-infrastructure.yml build failed"
+  echo "command docker-compose -p anontion-infrastructure -f ./docker/docker-compose-infrastructure.yml build and up failed"
   exit 1
 fi
-
-docker compose -p anontion-infrastructure -f "./docker/docker-compose-infrastructure.yml" up -d
-
-if [[ "$?" != "0" ]]
-then
-  echo "command docker-compose -p anontion-infrastructure -f ./docker/docker-compose-infrastructure.yml up -d failed"
-  exit 1
-fi
-
-##
 
 if [[ "$1" == "prod" || "$1" == "uat" ]]
 then
-  docker compose -p anontion-coturn -f "./docker/docker-compose-coturn.yml" build
+  ( docker compose -p anontion-coturn -f "./docker/docker-compose-coturn.yml" build ) && \
+  ( docker compose -p anontion-coturn -f "./docker/docker-compose-coturn.yml" up -d )
 
   if [[ "$?" != "0" ]]
   then
-    echo "command docker compose -p anontion-coturn -f ./docker/docker-compose-coturn.yml build failed"
-    exit 1
-  fi
-
-  docker compose -p anontion-coturn -f "./docker/docker-compose-coturn.yml" up -d
-
-  if [[ "$?" != "0" ]]
-  then
-    echo "command docker compose -p anontion-coturn -f ./docker/docker-compose-coturn.yml up -d failed"
+    echo "command docker compose -p anontion-coturn -f ./docker/docker-compose-coturn.yml build and up failed"
     exit 1
   fi
 fi
 
-##
-
-docker compose -p anontion-service -f "./docker/docker-compose-service.yml" build
+( docker compose -p anontion-service -f "./docker/docker-compose-service.yml" build ) && \
+( docker compose -p anontion-service -f "./docker/docker-compose-service.yml" up -d )
 
 if [[ "$?" != "0" ]]
 then
-  echo "command docker compose -p anontion-service -f ./docker/docker-compose-service.yml build failed"
+  echo "command docker compose -p anontion-service -f ./docker/docker-compose-service.yml build and up failed"
   exit 1
 fi
 
-docker compose -p anontion-service -f "./docker/docker-compose-service.yml" up -d
+( docker exec -it "${TAG_ASTERISK}" /usr/local/src/sql/asterisk.sh ) && \
+( docker exec -it "${TAG_ASTERISK}" bash -c "rm -fr /usr/local/src/sql/password" )
 
 if [[ "$?" != "0" ]]
 then
-  echo "command docker-compose -p anontion-service -f ./docker/docker-compose-service.yml up -d failed"
-  exit 1
-fi
-
-##
-
-docker exec -it "${TAG_ASTERISK}" /usr/local/src/sql/asterisk.sh
-
-if [[ "$?" != "0" ]]
-then
-  echo "asterisk.sh failed"
-  exit 1
-fi
-
-docker exec -it "${TAG_ASTERISK}" bash -c "rm -fr /usr/local/src/sql/password"
-
-if [[ "$?" != "0" ]]
-then
-  echo "anontion file removal failed"
+  echo "anontion run and file removal failed"
   exit 1
 fi
 
