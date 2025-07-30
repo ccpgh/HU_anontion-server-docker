@@ -63,4 +63,10 @@ openssl s_client -showcerts anontion.com:443 | openssl x509 -outform PEM | opens
 
 hOk9N2y4oF5mv5FgZel5X6dJ2n+giD7SC3ce50VThXo=
 
+-
+
+gen ec keys 
+
+openssl ecparam -name secp256k1 -genkey -noout -out private_key.pem
+openssl ec -in private_key.pem -pubout -out public_key.pem
 
