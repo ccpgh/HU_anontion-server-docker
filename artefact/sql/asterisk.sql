@@ -18,6 +18,18 @@ END;
 START TRANSACTION;
 
 
+INSERT INTO ps_endpoints (id, transport, aors, auth, context, disallow, allow, direct_media,
+                          trust_id_outbound, dtmf_mode, force_rport, rtp_symmetric,
+                          send_rpid, ice_support, tos_video, cos_video, allow_subscribe, callerid)
+VALUES ('8000', 'transport-id', '8000', '8000', 'external', 'all',
+        'opus,h264,g729,gsm', 'no', 'yes', 'rfc4733', 'yes',
+        'yes', 'yes', 'yes', 'af41', 4, 'yes', 'User <8001>');
+
+INSERT INTO ps_aors (id, max_contacts, remove_existing, qualify_frequency, support_path)
+VALUES ('8000', 1, 'yes', 30, 'yes');
+
+INSERT INTO ps_auths (id, auth_type, username, password)
+VALUES ('8000', 'userpass', '8000', 'password');
 
 
 INSERT INTO ps_endpoints (id, transport, aors, auth, context, disallow, allow, direct_media,
