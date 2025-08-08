@@ -17,6 +17,9 @@ END;
 
 START TRANSACTION;
 
+
+
+
 INSERT INTO ps_endpoints (id, transport, aors, auth, context, disallow, allow, direct_media,
                           trust_id_outbound, dtmf_mode, force_rport, rtp_symmetric,
                           send_rpid, ice_support, tos_video, cos_video, allow_subscribe, callerid)
@@ -29,6 +32,22 @@ VALUES ('8001', 1, 'yes', 30, 'yes');
 
 INSERT INTO ps_auths (id, auth_type, username, password)
 VALUES ('8001', 'userpass', '8001', 'password');
+
+
+INSERT INTO ps_endpoints (id, transport, aors, auth, context, disallow, allow, direct_media,
+                          trust_id_outbound, dtmf_mode, force_rport, rtp_symmetric,
+                          send_rpid, ice_support, tos_video, cos_video, allow_subscribe, callerid)
+VALUES ('8002', 'transport-id', '8002', '8002', 'external', 'all',
+        'opus,h264,g729,gsm', 'no', 'yes', 'rfc4733', 'yes',
+        'yes', 'yes', 'yes', 'af41', 4, 'yes', 'User <8002>');
+
+INSERT INTO ps_aors (id, max_contacts, remove_existing, qualify_frequency, support_path)
+VALUES ('8002', 1, 'yes', 30, 'yes');
+
+INSERT INTO ps_auths (id, auth_type, username, password)
+VALUES ('8002', 'userpass', '8002', 'password');
+
+
 
 INSERT INTO ps_endpoints (id, transport, aors, auth, context, disallow, allow, direct_media,
                           trust_id_outbound, dtmf_mode, force_rport, rtp_symmetric,
@@ -43,6 +62,8 @@ VALUES ('8000', 1, 'yes', 30, 'yes');
 INSERT INTO ps_auths (id, auth_type, username, password)
 VALUES ('8000', 'userpass', '8000', 'password');
 
+
+
 INSERT INTO ps_endpoints (id, transport, aors, auth, context, disallow, allow, direct_media,
                           trust_id_outbound, dtmf_mode, force_rport, rtp_symmetric,
                           send_rpid, ice_support, tos_video, cos_video, allow_subscribe, callerid)
@@ -54,7 +75,9 @@ INSERT INTO ps_aors (id, max_contacts, remove_existing, qualify_frequency, suppo
 VALUES ('NEH3pWZLb-Y6vobsYxx0B6U12p6XchXPgGZnbATL', 1, 'yes', 30, 'yes');
 
 INSERT INTO ps_auths (id, auth_type, username, password)
-VALUES ('BKPKBkHMq0ZBvutaIX6ngjQs7urTAgeKCjl/XcXOal3lqb9vBB9JHCcH7cIetYH/w0t7ChsXGMrV6S/DWlvxMYw=', 'userpass', '8002', 'password');
+VALUES ('BKPKBkHMq0ZBvutaIX6ngjQs7urTAgeKCjl/XcXOal3lqb9vBB9JHCcH7cIetYH/w0t7ChsXGMrV6S/DWlvxMYw=', 'userpass', '8003', 'password');
+
+
 
 COMMIT;
 END; //
