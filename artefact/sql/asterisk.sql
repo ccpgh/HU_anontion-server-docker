@@ -54,7 +54,7 @@ INSERT INTO ps_aors (id, max_contacts, remove_existing, qualify_frequency, suppo
 VALUES ('NEH3pWZLb-Y6vobsYxx0B6U12p6XchXPgGZnbATL', 1, 'yes', 30, 'yes');
 
 INSERT INTO ps_auths (id, auth_type, username, password)
-VALUES ('BKPKBkHMq0ZBvutaIX6ngjQs7urTAgeKCjl/XcXOal3lqb9vBB9JHCcH7cIetYH/w0t7ChsXGMrV6S/DWlvxMYw=', 'userpass', '8000', 'password');
+VALUES ('BKPKBkHMq0ZBvutaIX6ngjQs7urTAgeKCjl/XcXOal3lqb9vBB9JHCcH7cIetYH/w0t7ChsXGMrV6S/DWlvxMYw=', 'userpass', '8002', 'password');
 
 COMMIT;
 END; //
