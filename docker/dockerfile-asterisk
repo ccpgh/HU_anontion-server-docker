@@ -105,12 +105,12 @@ WORKDIR /etc/asterisk/keys
 
 COPY ./asterisk.cnf asterisk.cnf
 
-COPY ./selfsigned.sh selfsigned.sh
+COPY ./certificate.sh certificate.sh
 
 RUN if [ "$ANONTION_DOCKER_BUILD" = "uat" ]; then \
-      chmod +x selfsigned.sh ; ./selfsigned.sh; \
+      chmod +x certificate.sh ; ./certificate.sh; \
     else \
-      echo "Not running selfsigned.sh"; \
+      echo "Not running certificate.sh"; \
     fi
 
 ## Expose ports
