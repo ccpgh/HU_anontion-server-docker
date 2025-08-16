@@ -131,6 +131,27 @@ do
   fi
 done
 
+if [[ -f asterisk.crt ]]
+then
+  echo "asterisk.crt already exists"
+  exit 1
+fi
+
+if [[ -f asterisk.key ]]
+then
+  echo "asterisk.key already exists"
+  exit 1
+fi
+
+if [[ "$1" == "prod" ]]
+then
+  cp "artefact/keys/www_anontion_com.crt" asterisk.crt
+  cp "artefact/keys/anontion.key" asterisk.key
+else
+  touch asterisk.crt
+  touch asterisk.key
+fi
+
 echo -n "${SQL_ROOT_PWD}" > build/rootpassword
 
 echo -n "${SQL_ANONTION_PWD}" > build/password

@@ -107,10 +107,20 @@ COPY ./asterisk.cnf asterisk.cnf
 
 COPY ./certificate.sh certificate.sh
 
+COPY ./asterisk.key asterisk.key
+
+COPY ./asterisk.crt asterisk.crt
+
 RUN if [ "$ANONTION_DOCKER_BUILD" = "uat" ]; then \
       chmod +x certificate.sh ; ./certificate.sh; \
     else \
       echo "Not running certificate.sh"; \
+    fi
+
+RUN if [ "$ANONTION_DOCKER_BUILD" = "prod" ]; then \
+      chown 400 asterisk.*; chown asterisk asterisk.* ; \
+    else \
+      echo "Not changing cert files"; \
     fi
 
 ## Expose ports
