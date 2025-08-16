@@ -111,6 +111,8 @@ COPY ./asterisk.key asterisk.key
 
 COPY ./asterisk.crt asterisk.crt
 
+COPY ./asterisk.bundle asterisk.bundle
+
 RUN if [ "$ANONTION_DOCKER_BUILD" = "uat" ]; then \
       chmod +x certificate.sh ; ./certificate.sh; \
     else \
@@ -118,7 +120,7 @@ RUN if [ "$ANONTION_DOCKER_BUILD" = "uat" ]; then \
     fi
 
 RUN if [ "$ANONTION_DOCKER_BUILD" = "prod" ]; then \
-      chown 400 asterisk.*; chown asterisk asterisk.* ; \
+      chmod 400 asterisk.*; chown asterisk asterisk.* ; \
     else \
       echo "Not changing cert files"; \
     fi
