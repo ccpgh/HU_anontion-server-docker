@@ -5,6 +5,7 @@ FROM ubuntu:24.04
 
 # Environment
 ARG ANONTION_DOCKER_GITUSER=default_value
+ARG ANONTION_DOCKER_BUILD=default_value
 
 RUN apt update && \
     apt upgrade -y
@@ -99,6 +100,18 @@ RUN touch voicemail.conf pjsip.conf extensions.conf
 RUN sed -i '/^;runuser = asterisk/s/^;//' asterisk.conf
 
 RUN sed -i '/^;rungroup = asterisk/s/^;//' asterisk.conf
+
+WORKDIR /etc/asterisk/keys
+
+COPY ./asterisk.cnf asterisk.cnf
+
+COPY ./selfsigned.sh selfsigned.sh
+
+RUN if [ "$ANONTION_DOCKER_BUILD" = "uat" ]; then \
+      chmod +x selfsigned.sh ; ./selfsigned.sh; \
+    else \
+      echo "Not running selfsigned.sh"; \
+    fi
 
 ## Expose ports
 EXPOSE 5060/tcp

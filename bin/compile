@@ -17,6 +17,7 @@ export TAG_ID_DB=HU_${TAG_ORG}-${TAG_DB}
 export TAG_PREFIX_DB=`echo "${TAG_ORG}/${TAG_ID_DB}" | tr '[:upper:]' '[:lower:]' `
 
 export ANONTION_DOCKER_GIT_USER=ccpgh
+export ANONTION_DOCKER_BUILD="${1}"
 
 export TAG_COTURN=coturn
 export TAG_ID_COTURN=HU_${TAG_ORG}-${TAG_COTURN}
@@ -100,6 +101,18 @@ then
   fi
 fi
 
+if [[ "$1" == "uat" ]]
+then
+  cp -ip "artefact/conf/asterisk-${1}.cnf" "build/asterisk.cnf"
+  if [[ "$?" != "0" ]]
+  then
+    echo "cp of asterisk-${1}.cnf to build dir failed."
+    exit 1
+  fi
+else
+  touch "build/asterisk.cnf"
+fi
+
 touch "build/turnserver.conf"
 
 for i in "artefact/keys/anontion.key" "artefact/keys/www_anontion_com.ca-bundle" \
@@ -107,7 +120,7 @@ for i in "artefact/keys/anontion.key" "artefact/keys/www_anontion_com.ca-bundle"
 "artefact/sql/install.sql" "artefact/conf/extensions.conf" "artefact/conf/voicemail.conf" \
 "artefact/keys/server.key" "artefact/conf/odbc.ini" "artefact/keys/www_anontion_com.crt" \
 "artefact/conf/res_odbc.conf" "artefact/agi/check_extension_id.py.agi" \
-"artefact/lib/mysql-connector-odbc_9.3.0-1ubuntu24.04_amd64.deb"
+"artefact/lib/mysql-connector-odbc_9.3.0-1ubuntu24.04_amd64.deb" "artefact/sh/selfsigned.sh"
 do
   if [ ! -f "${i}" ]
   then

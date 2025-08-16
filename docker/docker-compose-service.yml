@@ -25,6 +25,7 @@ services:
       no_cache: true
       args:
         ANONTION_DOCKER_GITUSER: "${ANONTION_DOCKER_GIT_USER}"
+        ANONTION_DOCKER_BUILD: "${ANONTION_DOCKER_BUILD}"
     image: "${TAG_PREFIX_ASTERISK}"
     network_mode: host
     #ports:
