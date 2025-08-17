@@ -36,7 +36,7 @@ RUN git clone "https://github.com/${ANONTION_DOCKER_GITUSER}/HU_anontion-asteris
 
 RUN ln -s "HU_anontion-asterisk/code/asterisk-22.4.0" "asterisk"
 
-WORKDIR "/usr/local/src/asterisk
+WORKDIR "/usr/local/src/asterisk"
 
 RUN git checkout -b custom remotes/origin/custom
 
