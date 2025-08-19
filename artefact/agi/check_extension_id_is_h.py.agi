@@ -4,18 +4,15 @@ import sys
 import re
 
 def check_extension_id(extension):
-  arr = ["s", "i", "t", ".", "!"] # expand this list
+  arr = ["h"] # expand this list
 
   for pattern in arr:
     if re.fullmatch('^' + re.escape(pattern) + '$', extension):
-      print('SET VARIABLE match 0')
+      print('SET VARIABLE match 1')
       sys.stdout.flush()
       return
 
-  if re.fullmatch(r'^[0-9a-zA-Z.\-_/]+[=]*$', extension):
-    print('SET VARIABLE match 1')
-  else:
-    print('SET VARIABLE match 0')
+  print('SET VARIABLE match 0')
   sys.stdout.flush()
 
 if __name__ == "__main__":
