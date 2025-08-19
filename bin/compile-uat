@@ -2,12 +2,12 @@
 
 if [[ -z "${SQL_ROOT_PWD}" ]]
 then
-  SQL_ROOT_PWD="`LC_ALL=C < /dev/urandom tr -dc 'A-Za-z0-9!@#$%*' | head -c $((12 + RANDOM % 13))`"
+  SQL_ROOT_PWD="`LC_ALL=C < /dev/urandom tr -dc 'A-Za-z0-9@%' | head -c $((12 + RANDOM % 13))`"
 fi
 
 if [[ -z "${SQL_ANONTION_PWD}" ]]
 then
-  SQL_ANONTION_PWD="`LC_ALL=C < /dev/urandom tr -dc 'A-Za-z0-9!@#$%*' | head -c $((12 + RANDOM % 13))`"
+  SQL_ANONTION_PWD="`LC_ALL=C < /dev/urandom tr -dc 'A-Za-z0-9@%' | head -c $((12 + RANDOM % 13))`"
 fi
 
 . ./compile uat
