@@ -119,7 +119,7 @@ for i in "artefact/keys/anontion.key" "artefact/keys/www_anontion_com.ca-bundle"
 "artefact/sh/asterisk.sh" "artefact/sql/asterisk.sql" "artefact/sh/install.sh" \
 "artefact/sql/install.sql" "artefact/conf/extensions.conf" "artefact/conf/voicemail.conf" \
 "artefact/keys/server.key" "artefact/conf/odbc.ini" "artefact/keys/www_anontion_com.crt" \
-"artefact/conf/res_odbc.conf" "artefact/agi/check_extension_id.py.agi" \
+"artefact/conf/res_odbc.conf" "artefact/agi/check_extension_id.py.agi" "artefact/agi/check_extension_id_is_h.py.agi" \
 "artefact/lib/mysql-connector-odbc_9.3.0-1ubuntu24.04_amd64.deb" "artefact/sh/certificate.sh"
 do
   if [ ! -f "${i}" ]

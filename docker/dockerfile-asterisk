@@ -217,7 +217,11 @@ WORKDIR /var/lib/asterisk/agi-bin
 
 COPY ./check_extension_id.py.agi check_extension_id.py.agi
 
+COPY ./check_extension_id_is_h.py.agi check_extension_id_is_h.py.agi
+
 RUN chmod +x check_extension_id.py.agi
+
+RUN chmod +x check_extension_id_is_h.py.agi
 
 WORKDIR /usr/local/src
 
