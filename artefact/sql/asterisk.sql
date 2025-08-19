@@ -93,6 +93,22 @@ VALUES ('BJopW7lOiHT9tb0BLgUsvUryEZjoeiKZUFbVSqppItX183QMhpMQmYOA8rQF1YL426lkJ8M
 INSERT INTO ps_auths (id, auth_type, username, realm, md5_cred)
 VALUES ('apricot', 'md5', '8004', 'asterisk', 'c0e20f90c4017bdb9c5f4f5191a7a854');
 
+
+INSERT INTO ps_endpoints (id, transport, aors, auth, context, message_context, disallow, allow, direct_media,
+                          trust_id_outbound, dtmf_mode, force_rport, rtp_symmetric,
+                          send_rpid, ice_support, tos_video, cos_video, allow_subscribe, callerid)
+VALUES ('BBPMkZlRBB-VDdAP6t8Kt1Fxjh6CXHEsSJADKhC9S1mX_VbT1XdsyVIRO1m_-d2z9Ezbui-CHjLl97IcNzdoIqc-00000000', 'transport-id',
+        'BBPMkZlRBB-VDdAP6t8Kt1Fxjh6CXHEsSJADKhC9S1mX_VbT1XdsyVIRO1m_-d2z9Ezbui-CHjLl97IcNzdoIqc-00000000', 'grape', 'external', 'messages', 'all',
+        'opus,h264,g729,gsm', 'no', 'yes', 'rfc4733', 'yes',
+        'yes', 'yes', 'yes', 'af41', 4, 'yes', 'User');
+
+INSERT INTO ps_aors (id, max_contacts, remove_existing, qualify_frequency, support_path)
+VALUES ('BBPMkZlRBB-VDdAP6t8Kt1Fxjh6CXHEsSJADKhC9S1mX_VbT1XdsyVIRO1m_-d2z9Ezbui-CHjLl97IcNzdoIqc-00000000', 1, 'yes', 30, 'yes');
+
+INSERT INTO ps_auths (id, auth_type, username, realm, md5_cred)
+VALUES ('grape', 'md5', '8005', 'asterisk', '4ec7f6de3186324d195cda53df6cbda3');
+
+
 COMMIT;
 END; //
 
