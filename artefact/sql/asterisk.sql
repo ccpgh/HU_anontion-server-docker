@@ -56,7 +56,7 @@ INSERT INTO ps_endpoints (id, transport, aors, auth, context, message_context, d
                           send_rpid, ice_support, tos_video, cos_video, allow_subscribe, callerid)
 VALUES ('8002', 'transport-id', '8002', 'peach', 'external', 'messages', 'all',
         'opus,h264,g729,gsm', 'no', 'yes', 'rfc4733', 'yes',
-        'yes', 'yes', 'yes', 'af41', 4, 'yes', 'User <8001>');
+        'yes', 'yes', 'yes', 'af41', 4, 'yes', 'User <8002>');
 
 INSERT INTO ps_aors (id, max_contacts, remove_existing, qualify_frequency, support_path)
 VALUES ('8002', 1, 'yes', 30, 'yes');
@@ -70,7 +70,7 @@ INSERT INTO ps_endpoints (id, transport, aors, auth, context, message_context, d
                           send_rpid, ice_support, tos_video, cos_video, allow_subscribe, callerid)
 VALUES ('8003', 'transport-id', '8003', 'orange', 'external', 'messages', 'all',
         'opus,h264,g729,gsm', 'no', 'yes', 'rfc4733', 'yes',
-        'yes', 'yes', 'yes', 'af41', 4, 'yes', 'User <8001>');
+        'yes', 'yes', 'yes', 'af41', 4, 'yes', 'User <8003>');
 
 INSERT INTO ps_aors (id, max_contacts, remove_existing, qualify_frequency, support_path)
 VALUES ('8003', 1, 'yes', 30, 'yes');
@@ -85,7 +85,7 @@ INSERT INTO ps_endpoints (id, transport, aors, auth, context, message_context, d
 VALUES ('BJopW7lOiHT9tb0BLgUsvUryEZjoeiKZUFbVSqppItX183QMhpMQmYOA8rQF1YL426lkJ8ML81XTmT412345678901234567890', 'transport-id',
         'BJopW7lOiHT9tb0BLgUsvUryEZjoeiKZUFbVSqppItX183QMhpMQmYOA8rQF1YL426lkJ8ML81XTmT412345678901234567890', 'apricot', 'external', 'messages', 'all',
         'opus,h264,g729,gsm', 'no', 'yes', 'rfc4733', 'yes',
-        'yes', 'yes', 'yes', 'af41', 4, 'yes', 'User');
+        'yes', 'yes', 'yes', 'af41', 4, 'yes', 'User <8004>');
 
 INSERT INTO ps_aors (id, max_contacts, remove_existing, qualify_frequency, support_path)
 VALUES ('BJopW7lOiHT9tb0BLgUsvUryEZjoeiKZUFbVSqppItX183QMhpMQmYOA8rQF1YL426lkJ8ML81XTmT412345678901234567890', 1, 'yes', 30, 'yes');
@@ -100,7 +100,7 @@ INSERT INTO ps_endpoints (id, transport, aors, auth, context, message_context, d
 VALUES ('BBPMkZlRBB-VDdAP6t8Kt1Fxjh6CXHEsSJADKhC9S1mX_VbT1XdsyVIRO1m_-d2z9Ezbui-CHjLl97IcNzdoIqc-00000000', 'transport-id',
         'BBPMkZlRBB-VDdAP6t8Kt1Fxjh6CXHEsSJADKhC9S1mX_VbT1XdsyVIRO1m_-d2z9Ezbui-CHjLl97IcNzdoIqc-00000000', 'grape', 'external', 'messages', 'all',
         'opus,h264,g729,gsm', 'no', 'yes', 'rfc4733', 'yes',
-        'yes', 'yes', 'yes', 'af41', 4, 'yes', 'User');
+        'yes', 'yes', 'yes', 'af41', 4, 'yes', 'User <8005>');
 
 INSERT INTO ps_aors (id, max_contacts, remove_existing, qualify_frequency, support_path)
 VALUES ('BBPMkZlRBB-VDdAP6t8Kt1Fxjh6CXHEsSJADKhC9S1mX_VbT1XdsyVIRO1m_-d2z9Ezbui-CHjLl97IcNzdoIqc-00000000', 1, 'yes', 30, 'yes');
