@@ -38,6 +38,8 @@ RUN ln -s "HU_anontion-asterisk/code/asterisk-22.4.0" "asterisk"
 
 WORKDIR "/usr/local/src/asterisk"
 
+RUN git fetch --all
+
 RUN git checkout -b custom remotes/origin/custom
 
 WORKDIR "/usr/local/src/asterisk/contrib/scripts"
