@@ -42,8 +42,6 @@ RUN git fetch --all
 
 RUN git checkout -b custom remotes/origin/custom
 
-RUN git pull
-
 WORKDIR "/usr/local/src/asterisk/contrib/scripts"
 
 RUN ./get_mp3_source.sh
