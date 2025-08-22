@@ -29,7 +29,7 @@ INSERT INTO ps_endpoints (id, transport, aors, auth, context, message_context, d
 VALUES ('BJDZURcI20OX6LBfxY7DTJioaWfYXWSoXFmD5fixzhXTe_E2NyRH3YYpBbtoMemlPk3kWIuULffesi2uTv7ZX_E', 'transport-id',
         'BJDZURcI20OX6LBfxY7DTJioaWfYXWSoXFmD5fixzhXTe_E2NyRH3YYpBbtoMemlPk3kWIuULffesi2uTv7ZX_E', 'banana', 'external', 'messages', 'all',
         'opus,h264,g729,gsm', 'no', 'yes', 'rfc4733', 'yes',
-        'yes', 'yes', 'yes', 'af41', 4, 'yes', 'User <8000>');
+        'yes', 'yes', 'yes', 'af41', 4, 'yes', '');
 
 INSERT INTO ps_aors (id, max_contacts, remove_existing, qualify_frequency, support_path)
 VALUES ('BJDZURcI20OX6LBfxY7DTJioaWfYXWSoXFmD5fixzhXTe_E2NyRH3YYpBbtoMemlPk3kWIuULffesi2uTv7ZX_E', 1, 'yes', 30, 'yes');
@@ -44,7 +44,7 @@ INSERT INTO ps_endpoints (id, transport, aors, auth, context, message_context, d
 VALUES ('BDbsZhqHkjFlQEO7qjJnsGuk6SZWLEjEHl_fWsnm0MIY-lKf-w2TdFlo0Nm6WmauzvprsrzBH34YEBb4Io6LWvo', 'transport-id',
         'BDbsZhqHkjFlQEO7qjJnsGuk6SZWLEjEHl_fWsnm0MIY-lKf-w2TdFlo0Nm6WmauzvprsrzBH34YEBb4Io6LWvo', 'apple', 'external', 'messages', 'all',
         'opus,h264,g729,gsm', 'no', 'yes', 'rfc4733', 'yes',
-        'yes', 'yes', 'yes', 'af41', 4, 'yes', 'User <8001>');
+        'yes', 'yes', 'yes', 'af41', 4, 'yes', '');
 
 INSERT INTO ps_aors (id, max_contacts, remove_existing, qualify_frequency, support_path)
 VALUES ('BDbsZhqHkjFlQEO7qjJnsGuk6SZWLEjEHl_fWsnm0MIY-lKf-w2TdFlo0Nm6WmauzvprsrzBH34YEBb4Io6LWvo', 1, 'yes', 30, 'yes');
@@ -59,7 +59,7 @@ INSERT INTO ps_endpoints (id, transport, aors, auth, context, message_context, d
 VALUES ('BM-p-Yt6UlGRevuusc364KMor28hM9pA4KlYNHEE87xjc0Z6U2D6NH31SsuEjNjLnWVO8mu_2r2ZktCxi9k4io4', 'transport-id',
         'BM-p-Yt6UlGRevuusc364KMor28hM9pA4KlYNHEE87xjc0Z6U2D6NH31SsuEjNjLnWVO8mu_2r2ZktCxi9k4io4', 'peach', 'external', 'messages', 'all',
         'opus,h264,g729,gsm', 'no', 'yes', 'rfc4733', 'yes',
-        'yes', 'yes', 'yes', 'af41', 4, 'yes', 'User <8002>');
+        'yes', 'yes', 'yes', 'af41', 4, 'yes', '');
 
 INSERT INTO ps_aors (id, max_contacts, remove_existing, qualify_frequency, support_path)
 VALUES ('BM-p-Yt6UlGRevuusc364KMor28hM9pA4KlYNHEE87xjc0Z6U2D6NH31SsuEjNjLnWVO8mu_2r2ZktCxi9k4io4', 1, 'yes', 30, 'yes');
@@ -74,7 +74,7 @@ INSERT INTO ps_endpoints (id, transport, aors, auth, context, message_context, d
 VALUES ('BMewqHrwplHCDspb1iViX1U3LMqL_VfQcVFNdTmnR15t638ygV8B8-W7hERkio9LD10JKt48Urzueof2B2SdVEo', 'transport-id',
         'BMewqHrwplHCDspb1iViX1U3LMqL_VfQcVFNdTmnR15t638ygV8B8-W7hERkio9LD10JKt48Urzueof2B2SdVEo', 'orange', 'external', 'messages', 'all',
         'opus,h264,g729,gsm', 'no', 'yes', 'rfc4733', 'yes',
-        'yes', 'yes', 'yes', 'af41', 4, 'yes', 'User <8003>');
+        'yes', 'yes', 'yes', 'af41', 4, 'yes', '');
 
 INSERT INTO ps_aors (id, max_contacts, remove_existing, qualify_frequency, support_path)
 VALUES ('BMewqHrwplHCDspb1iViX1U3LMqL_VfQcVFNdTmnR15t638ygV8B8-W7hERkio9LD10JKt48Urzueof2B2SdVEo', 1, 'yes', 30, 'yes');
@@ -89,7 +89,7 @@ INSERT INTO ps_endpoints (id, transport, aors, auth, context, message_context, d
 VALUES ('BDp6A_inG-oIQ3k-KNXdmPmD3VAGr9iEZpDnhnxWwV2-9K-TJEDuxpskilfoR1crWtKjb3kL8KZpNMl8wzDHL7k', 'transport-id',
         'BDp6A_inG-oIQ3k-KNXdmPmD3VAGr9iEZpDnhnxWwV2-9K-TJEDuxpskilfoR1crWtKjb3kL8KZpNMl8wzDHL7k', 'apricot', 'external', 'messages', 'all',
         'opus,h264,g729,gsm', 'no', 'yes', 'rfc4733', 'yes',
-        'yes', 'yes', 'yes', 'af41', 4, 'yes', 'User <8004>');
+        'yes', 'yes', 'yes', 'af41', 4, 'yes', '');
 
 INSERT INTO ps_aors (id, max_contacts, remove_existing, qualify_frequency, support_path)
 VALUES ('BDp6A_inG-oIQ3k-KNXdmPmD3VAGr9iEZpDnhnxWwV2-9K-TJEDuxpskilfoR1crWtKjb3kL8KZpNMl8wzDHL7k', 1, 'yes', 30, 'yes');
