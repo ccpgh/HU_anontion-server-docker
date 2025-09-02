@@ -201,6 +201,13 @@ RUN cp "/usr/local/src/HU_anontion-server/anontion/build/libs/account-1.0.0.war"
 
 RUN if [ ! -f /var/lib/tomcat10/webapps/account.war ]; then echo "missing account war copy "; exit 1; fi
 
+# Connection war
+RUN if [ ! -e "/usr/local/src/HU_anontion-server/anontion/build/libs/connection-1.0.0.war" ]; then echo "missing connection war file "; exit 1; fi
+
+RUN cp "/usr/local/src/HU_anontion-server/anontion/build/libs/connection-1.0.0.war" /var/lib/tomcat10/webapps/connection.war
+
+RUN if [ ! -f /var/lib/tomcat10/webapps/connection.war ]; then echo "missing connection war copy "; exit 1; fi
+
 # System war
 RUN if [ ! -e "/usr/local/src/HU_anontion-server/anontion/build/libs/system-1.0.0.war" ]; then echo "missing system war file "; exit 1; fi
 
