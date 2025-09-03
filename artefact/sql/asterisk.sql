@@ -97,6 +97,36 @@ VALUES ('BDp6A_inG-oIQ3k-KNXdmPmD3VAGr9iEZpDnhnxWwV2-9K-TJEDuxpskilfoR1crWtKjb3k
 INSERT INTO ps_auths (id, auth_type, username, realm, md5_cred)
 VALUES ('apricot', 'md5', '8004', 'asterisk', 'c0e20f90c4017bdb9c5f4f5191a7a854');
 
+INSERT INTO anontion_account (account_id, client_id, client_name, client_pub, client_ts, client_uid, default_expiration,
+                              is_disabled, minimum_expiration, maximum_expiration, server_signature, client_signature)
+VALUES (0x00B4CEC6C41F42E6B1AEED00AAD0B419, 0xEE47F7F3F39445B588EA961517FFCDB6, '8000',
+        'BJDZURcI20OX6LBfxY7DTJioaWfYXWSoXFmD5fixzhXTe+E2NyRH3YYpBbtoMemlPk3kWIuULffesi2uTv7ZX+E=',
+        0, '8000:0:ee47f7f3-f394-45b5-88ea-961517ffcdb6', 300, b'0', 60, 360, '', '');
+
+INSERT INTO anontion_account (account_id, client_id, client_name, client_pub, client_ts, client_uid, default_expiration,
+                              is_disabled, minimum_expiration, maximum_expiration, server_signature, client_signature)
+VALUES (0x00B4CEC6C41F42E6B1AEED00AAD0B418, 0xEE47F7F3F39445B588EA961517FFCDB5, '8001',
+        'BDbsZhqHkjFlQEO7qjJnsGuk6SZWLEjEHl+fWsnm0MIY/lKf/w2TdFlo0Nm6WmauzvprsrzBH34YEBb4Io6LWvo=',
+        0, '8001:0:ee47f7f3-f394-45b5-88ea-961517ffcdb5', 300, b'0', 60, 360, '', '');
+
+INSERT INTO anontion_account (account_id, client_id, client_name, client_pub, client_ts, client_uid, default_expiration,
+                              is_disabled, minimum_expiration, maximum_expiration, server_signature, client_signature)
+VALUES (0x00B4CEC6C41F42E6B1AEED00AAD0B417, 0xEE47F7F3F39445B588EA961517FFCDB4, '8002',
+        'BM/p/Yt6UlGRevuusc364KMor28hM9pA4KlYNHEE87xjc0Z6U2D6NH31SsuEjNjLnWVO8mu+2r2ZktCxi9k4io4=',
+        0, '8002:0:ee47f7f3-f394-45b5-88ea-961517ffcdb4', 300, b'0', 60, 360, '', '');
+
+INSERT INTO anontion_account (account_id, client_id, client_name, client_pub, client_ts, client_uid, default_expiration,
+                              is_disabled, minimum_expiration, maximum_expiration, server_signature, client_signature)
+VALUES (0x00B4CEC6C41F42E6B1AEED00AAD0B416, 0xEE47F7F3F39445B588EA961517FFCDB3, '8003',
+        'BMewqHrwplHCDspb1iViX1U3LMqL+VfQcVFNdTmnR15t638ygV8B8/W7hERkio9LD10JKt48Urzueof2B2SdVEo=',
+        0, '8003:0:ee47f7f3-f394-45b5-88ea-961517ffcdb3', 300, b'0', 60, 360, '', '');
+
+INSERT INTO anontion_account (account_id, client_id, client_name, client_pub, client_ts, client_uid, default_expiration,
+                              is_disabled, minimum_expiration, maximum_expiration, server_signature, client_signature)
+VALUES (0x00B4CEC6C41F42E6B1AEED00AAD0B415, 0xEE47F7F3F39445B588EA961517FFCDB2, '8004',
+        'BDp6A+inG/oIQ3k/KNXdmPmD3VAGr9iEZpDnhnxWwV2/9K/TJEDuxpskilfoR1crWtKjb3kL8KZpNMl8wzDHL7k=',
+        0, '8004:0:ee47f7f3-f394-45b5-88ea-961517ffcdb2', 300, b'0', 60, 360, '', '');
+
 COMMIT;
 END; //
 
