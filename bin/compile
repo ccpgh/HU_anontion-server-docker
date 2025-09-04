@@ -131,8 +131,8 @@ fi
 
 touch "build/turnserver.conf"
 
-for i in "artefact/keys/anontion.key" "artefact/keys/www_anontion_com.ca-bundle" \
-"artefact/sh/asterisk.sh" "artefact/sql/asterisk.sql" "artefact/sh/install.sh" \
+for i in "artefact/keys/anontion.key" "artefact/keys/www_anontion_com.ca-bundle" "artefact/sql/asterisk2.sql" \
+"artefact/sh/asterisk1.sh" "artefact/sh/asterisk2.sh" "artefact/sh/install.sh" \
 "artefact/sql/install.sql" "artefact/conf/extensions.conf" "artefact/conf/voicemail.conf" \
 "artefact/keys/server.key" "artefact/conf/odbc.ini" "artefact/keys/www_anontion_com.crt" \
 "artefact/conf/res_odbc.conf" "artefact/agi/check_extension_id.py.agi" "artefact/agi/check_extension_id_is_h.py.agi" \
@@ -206,20 +206,41 @@ then
   fi
 fi
 
-( docker compose -p anontion-infrastructure -f "./docker/docker-compose-infrastructure.yml" build ) && \
-( docker compose -p anontion-infrastructure -f "./docker/docker-compose-infrastructure.yml" up -d ) && \
-( docker compose -p anontion-service -f "./docker/docker-compose-service.yml" build ) && \
-( docker compose -p anontion-service -f "./docker/docker-compose-service.yml" up -d )
+( docker compose -p anontion-db -f "./docker/docker-compose-db.yml" build ) && \
+( docker compose -p anontion-db -f "./docker/docker-compose-db.yml" up -d )
 
 if [[ "$?" != "0" ]]
 then
-  echo "command docker infrastructure and service build and up failed"
+  echo "command docker db build and up failed"
   exit 1
 fi
 
-sleep 120
+sleep 60
 
-docker exec -it "${TAG_ASTERISK}" /usr/local/src/sql/asterisk.sh
+docker exec -it "${TAG_DB}" /usr/local/src/sql/asterisk1.sh
+
+if [[ "$?" != "0" ]]
+then
+  echo "command docker service build and up failed"
+  exit 1
+fi
+
+docker exec -it "${TAG_DB}" bash -c "rm -fr /usr/local/src/sql/password"
+
+if [[ "$?" != "0" ]]
+then
+  echo "anontion run and ${TAG_DB} password file removal failed"
+  exit 1
+fi
+
+sleep 60
+
+( docker compose -p anontion-service -f "./docker/docker-compose-service.yml" build ) && \
+( docker compose -p anontion-service -f "./docker/docker-compose-service.yml" up -d )
+
+sleep 60
+
+docker exec -it "${TAG_ASTERISK}" /usr/local/src/sql/asterisk2.sh
 
 if [[ "$?" != "0" ]]
 then
@@ -231,7 +252,7 @@ docker exec -it "${TAG_ASTERISK}" bash -c "rm -fr /usr/local/src/sql/password"
 
 if [[ "$?" != "0" ]]
 then
-  echo "anontion run and file removal failed"
+  echo "anontion run and ${TAG_ASTERISK} password file removal failed"
   exit 1
 fi
 

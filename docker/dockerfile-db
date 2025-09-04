@@ -3,6 +3,9 @@
 # Use the official Ubuntu 24.04 base image
 FROM ubuntu:24.04
 
+# Environment
+ARG ANONTION_DOCKER_GITUSER=default_value
+
 # Install apt-utils and net-tools
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y apt-utils net-tools && \
@@ -24,6 +27,10 @@ RUN mkdir sql
 
 WORKDIR /usr/local/src/sql
 
+COPY ./asterisk1.sh asterisk1.sh
+
+RUN chmod +x asterisk1.sh
+
 COPY ./install.sh install.sh
 
 RUN chmod +x install.sh
@@ -38,8 +45,22 @@ RUN rm -fr install.sh install.sql
 
 COPY ./rootpassword p
 
+COPY ./password password
+
+RUN sed -i '1s/^/[client]\npassword=/' password
+
 EXPOSE 3306
 
 WORKDIR /usr/local/src
+
+RUN git clone "https://github.com/${ANONTION_DOCKER_GITUSER}/HU_anontion-asterisk"
+
+RUN ln -s "HU_anontion-asterisk/code/asterisk-22.4.0" "asterisk"
+
+WORKDIR "/usr/local/src/asterisk"
+
+RUN git fetch --all
+
+RUN git checkout -b custom remotes/origin/custom
 
 CMD ( mysqld & ) && ( tail -f /dev/null )

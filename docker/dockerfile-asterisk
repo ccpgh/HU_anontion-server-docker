@@ -64,8 +64,9 @@ RUN menuselect/menuselect --enable-category MENUSELECT_CHANNELS --enable-categor
     --enable-category MENUSELECT_CDR --enable-category MENUSELECT_CORE_SOUNDS --enable-category MENUSELECT_MOH \
     --enable-category MENUSELECT_UTILS --enable-category MENUSELECT_AGIS --enable-category MENUSELECT_CEL \
     --enable-category MENUSELECT_EXTRA_SOUNDS --enable-category MENUSELECT_RES --enable-category MENUSELECT_TESTS \
-    --enable res_pjsip --enable res_pjsip_pubsub --enable res_pjsip_pidf_body_generator --enable res_manager_presencestate --enable res_pjsip_publish_asterisk --enable func_presencestate \
-    --enable res_config_odbc --enable res_odbc --enable res_config_mysql menuselect.makeopts
+    --enable res_pjsip --enable res_pjsip_pubsub --enable res_pjsip_pidf_body_generator --enable res_manager_presencestate \
+    --enable res_pjsip_publish_asterisk --enable func_presencestate --enable res_config_odbc --enable res_odbc \
+    --enable res_config_mysql menuselect.makeopts
 
 RUN make -j$(nproc)
 
@@ -209,11 +210,11 @@ RUN apt-get update && \
 
 WORKDIR /usr/local/src/sql
 
-COPY ./asterisk.sh asterisk.sh
+COPY ./asterisk2.sh asterisk2.sh
 
-RUN chmod +x asterisk.sh
+RUN chmod +x asterisk2.sh
 
-COPY ./asterisk.sql asterisk.sql
+COPY ./asterisk2.sql asterisk2.sql
 
 WORKDIR /var/lib/asterisk/agi-bin
 

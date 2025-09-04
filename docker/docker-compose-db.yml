@@ -6,6 +6,8 @@ services:
       context: "../${BUILD_DIR}"
       dockerfile: "../docker/dockerfile-db"
       no_cache: true
+      args:
+        ANONTION_DOCKER_GITUSER: "${ANONTION_DOCKER_GIT_USER}"
     image: "${TAG_PREFIX_DB}"
     network_mode: host
     #ports:
