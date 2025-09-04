@@ -240,7 +240,7 @@ sleep 60
 ( docker compose -p anontion-service -f "./docker/docker-compose-service.yml" build ) && \
 ( docker compose -p anontion-service -f "./docker/docker-compose-service.yml" up -d )
 
-sleep 60
+sleep 150
 
 echo "running docker exec -it \"${TAG_ASTERISK}\" /usr/local/src/sql/asterisk2.sh"
 
