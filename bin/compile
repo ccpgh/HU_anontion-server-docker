@@ -66,6 +66,22 @@ do
   sleep 1
 done
 
+# check
+
+for i in ` (docker ps --all 2>&1) | grep -v 'CONTAINER ID' | \
+  egrep "${TAG_PREFIX_SERVER}|${TAG_PREFIX_ASTERISK}|${TAG_PREFIX_DB}|${TAG_PREFIX_COTURN}" | cut -d' ' -f1`
+do
+  echo "failed container still exists ${i}"
+  exit 1
+done
+
+for i in ` (docker images -a 2>&1) | grep -v 'REPOSITORY' | \
+  egrep "${TAG_PREFIX_SERVER}|${TAG_PREFIX_ASTERISK}|${TAG_PREFIX_DB}|${TAG_PREFIX_COTURN}" | awk '{ print $3 }' `
+do
+  echo "failed image still exists ${i}"
+  exit 1
+done
+
 cd ..
 
 rm -fr "$BUILD_DIR" 2>/dev/null
