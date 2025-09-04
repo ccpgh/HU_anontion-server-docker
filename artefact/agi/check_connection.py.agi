@@ -1,0 +1,53 @@
+#!/usr/bin/env python3
+
+import sys
+import urllib.parse
+import urllib.request
+
+protocol = "http"
+hostname = "localhost"
+context = "connection"
+method = "exists"
+port = "8080"
+paramname1 = "sipUsername1"
+paramname2 = "sipUsername2"
+uri = protocol + "://" + hostname + ":" + port + "/" + context + "/" + method
+
+def check_extension_connection(extension1, extension2):
+
+  try:
+    params = {
+        paramname1: extension1,
+        paramname2: extension2
+    }
+
+    query_string = urllib.parse.urlencode(params)
+    url = uri + "?" + query_string
+
+    with urllib.request.urlopen(url) as response:
+      if response.status == 200:
+        print("SET VARIABLE match 0")
+      else:
+        print("SET VARIABLE match 1")
+  except urllib.error.HTTPError as e:
+    print("SET VARIABLE match 1")
+  except Exception as e:
+    print("SET VARIABLE match 1")
+
+if __name__ == "__main__":
+  # Read AGI env vars (discard)
+  while True:
+    line = sys.stdin.readline().strip()
+    if line == '':
+      break
+
+  # Get extension param from ARGV (AGI param)
+  extension1 = sys.argv[1] if len(sys.argv) == 3 else ''
+  extension2 = sys.argv[2] if len(sys.argv) == 3 else ''
+  if extension1 != '' and extension2 != '':
+    if extension1 < extension2:
+      check_extension_connection(extension1, extension2)
+    else:
+      check_extension_connection(extension2, extension1)
+  else:
+    print('SET VARIABLE match 1')
