@@ -217,11 +217,13 @@ fi
 
 sleep 60
 
+echo "running docker exec -it \"${TAG_DB}\" /usr/local/src/sql/asterisk1.sh"
+
 docker exec -it "${TAG_DB}" /usr/local/src/sql/asterisk1.sh
 
 if [[ "$?" != "0" ]]
 then
-  echo "command docker service build and up failed"
+  echo "command ${TAG_DB} run failed"
   exit 1
 fi
 
@@ -229,7 +231,7 @@ docker exec -it "${TAG_DB}" bash -c "rm -fr /usr/local/src/sql/password"
 
 if [[ "$?" != "0" ]]
 then
-  echo "anontion run and ${TAG_DB} password file removal failed"
+  echo "anontion ${TAG_DB} password file removal failed"
   exit 1
 fi
 
@@ -240,11 +242,13 @@ sleep 60
 
 sleep 60
 
+echo "running docker exec -it \"${TAG_ASTERISK}\" /usr/local/src/sql/asterisk2.sh"
+
 docker exec -it "${TAG_ASTERISK}" /usr/local/src/sql/asterisk2.sh
 
 if [[ "$?" != "0" ]]
 then
-  echo "anontion run and file removal failed"
+  echo "anontion ${TAG_ASTERISK} run failed"
   exit 1
 fi
 
@@ -252,7 +256,7 @@ docker exec -it "${TAG_ASTERISK}" bash -c "rm -fr /usr/local/src/sql/password"
 
 if [[ "$?" != "0" ]]
 then
-  echo "anontion run and ${TAG_ASTERISK} password file removal failed"
+  echo "anontion ${TAG_ASTERISK} password file removal failed"
   exit 1
 fi
 
