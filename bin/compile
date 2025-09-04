@@ -201,6 +201,8 @@ then
   exit 1
 fi
 
+sleep 120
+
 docker exec -it "${TAG_ASTERISK}" /usr/local/src/sql/asterisk.sh
 
 if [[ "$?" != "0" ]]
