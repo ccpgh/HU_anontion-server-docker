@@ -6,12 +6,9 @@ TRUNCATE table ps_auths;
 
 TRUNCATE table ps_endpoints;
 
-DROP PROCEDURE IF EXISTS insert_pjsip_data; //
+TRUNCATE table anontion_account;
 
-TRUNCATE ps_transports; //
-TRUNCATE ps_endpoints; //
-TRUNCATE ps_auths; //
-TRUNCATE ps_aors; //
+DROP PROCEDURE IF EXISTS insert_pjsip_data; //
 
 CREATE PROCEDURE insert_pjsip_data()
 BEGIN
