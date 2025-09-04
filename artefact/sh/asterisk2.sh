@@ -1,7 +1,7 @@
 #!/bin/bash
 
 MYSQL_PASSWORDFILE=/usr/local/src/sql/password
-MYSQL_DATAFILE=/usr/local/src/sql/asterisk.sql
+MYSQL_DATAFILE=/usr/local/src/sql/asterisk2.sql
 
 if [[ ! -f "${MYSQL_DATAFILE}" ]]
 then
