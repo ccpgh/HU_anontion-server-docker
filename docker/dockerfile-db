@@ -63,4 +63,8 @@ RUN git fetch --all
 
 RUN git checkout -b custom remotes/origin/custom
 
+WORKDIR /usr/local/src/sql
+
+RUN ( echo "" >> ~/.bashrc && echo "alias sql='mysql -u root -p`cat /usr/local/src/sql/p` -h 127.0.0.1 anontion_live'" >> ~/.bashrc )
+
 CMD ( mysqld & ) && ( tail -f /dev/null )
