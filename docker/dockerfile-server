@@ -149,7 +149,7 @@ RUN if [ ! -f default-ssl.conf.bak6 ]; then echo "missing default-ssl.conf.bak "
 
 RUN awk 'BEGIN { found = 0; RS = "\0"; ORS = ""; }                         \
      /<\/Directory>[[:space:]\n]*<\/VirtualHost>/ && !found {              \
-         sub(/<\/Directory>[[:space:]\n]*<\/VirtualHost>/, "\n</Directory>\nProxyRequests Off\nProxyPass / http://localhost:8080/\nProxyPassReverse / http://localhost:8080/\n</VirtualHost>");  \
+         sub(/<\/Directory>[[:space:]\n]*<\/VirtualHost>/, "\n</Directory>\nProxyRequests Off\n<LocationMatch \”^/connection/exists(/.*)?$\”>\nRequire all denied\n</LocationMatch>\n\nProxyPass / http://localhost:8080/\nProxyPassReverse / http://localhost:8080/\n</VirtualHost>");  \
          found = 1;                                                        \
      }                                                                     \
      { print; }' default-ssl.conf.bak6 > default-ssl.conf
