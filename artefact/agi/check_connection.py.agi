@@ -3,6 +3,7 @@
 import sys
 import urllib.parse
 import urllib.request
+#import ssl
 
 protocol = "http"
 hostname = "localhost"
@@ -16,6 +17,8 @@ uri = protocol + "://" + hostname + ":" + port + "/" + context + "/" + method
 def check_extension_connection(extension1, extension2):
 
   try:
+    #ssl_context = ssl._create_unverified_context()
+
     params = {
         paramname1: extension1,
         paramname2: extension2
