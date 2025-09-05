@@ -194,6 +194,8 @@ fi
 
 cd ./..
 
+# ( docker compose -p anontion-coturn -f "./docker/docker-compose-coturn.yml" build --no-cache )
+
 if [[ "$1" == "prod" || "$1" == "uat" ]]
 then
   ( docker compose -p anontion-coturn -f "./docker/docker-compose-coturn.yml" build ) && \
@@ -206,6 +208,7 @@ then
   fi
 fi
 
+#( docker compose -p anontion-db -f "./docker/docker-compose-db.yml" build --no-cache )
 ( docker compose -p anontion-db -f "./docker/docker-compose-db.yml" build ) && \
 ( docker compose -p anontion-db -f "./docker/docker-compose-db.yml" up -d )
 
@@ -237,6 +240,7 @@ fi
 
 sleep 60
 
+#( docker compose -p anontion-service -f "./docker/docker-compose-service.yml" build --no-cache )
 ( docker compose -p anontion-service -f "./docker/docker-compose-service.yml" build ) && \
 ( docker compose -p anontion-service -f "./docker/docker-compose-service.yml" up -d )
 
