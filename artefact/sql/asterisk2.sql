@@ -23,13 +23,13 @@ START TRANSACTION;
 INSERT INTO ps_endpoints (id, transport, aors, auth, context, message_context, disallow, allow, direct_media,
                           trust_id_outbound, dtmf_mode, force_rport, rtp_symmetric,
                           send_rpid, ice_support, tos_video, cos_video, allow_subscribe, callerid)
-VALUES ('BJDZURcI20OX6LBfxY7DTJioaWfYXWSoXFmD5fixzhXTe_E2NyRH3YYpBbtoMemlPk3kWIuULffesi2uTv7ZX_E', 'transport-id',
-        'BJDZURcI20OX6LBfxY7DTJioaWfYXWSoXFmD5fixzhXTe_E2NyRH3YYpBbtoMemlPk3kWIuULffesi2uTv7ZX_E', 'banana', 'external', 'messages', 'all',
+VALUES ('BF-L61lMATOy095wGpHwOQRhIOVs0SBiuUzagOgadh5otJLenPVRYdczp4HIqW5JJfpLjIQsQ08k6yyEJ28pmos', 'transport-id',
+        'BF-L61lMATOy095wGpHwOQRhIOVs0SBiuUzagOgadh5otJLenPVRYdczp4HIqW5JJfpLjIQsQ08k6yyEJ28pmos', 'banana', 'external', 'messages', 'all',
         'opus,h264,g729,gsm', 'no', 'yes', 'rfc4733', 'yes',
         'yes', 'yes', 'yes', 'af41', 4, 'yes', '');
 
 INSERT INTO ps_aors (id, max_contacts, remove_existing, qualify_frequency, support_path)
-VALUES ('BJDZURcI20OX6LBfxY7DTJioaWfYXWSoXFmD5fixzhXTe_E2NyRH3YYpBbtoMemlPk3kWIuULffesi2uTv7ZX_E', 1, 'yes', 30, 'yes');
+VALUES ('BF-L61lMATOy095wGpHwOQRhIOVs0SBiuUzagOgadh5otJLenPVRYdczp4HIqW5JJfpLjIQsQ08k6yyEJ28pmos', 1, 'yes', 30, 'yes');
 
 INSERT INTO ps_auths (id, auth_type, username, realm, md5_cred)
 VALUES ('banana', 'md5', '8000', 'asterisk' ,'f8be3b93cee4e6fae1a08890b20f0a68');
@@ -97,7 +97,7 @@ VALUES ('apricot', 'md5', '8004', 'asterisk', 'c0e20f90c4017bdb9c5f4f5191a7a854'
 INSERT INTO anontion_account (account_id, client_id, client_name, client_pub, client_ts, client_uid, default_expiration,
                               is_disabled, minimum_expiration, maximum_expiration, server_signature, client_signature)
 VALUES (0x00B4CEC6C41F42E6B1AEED00AAD0B419, 0xEE47F7F3F39445B588EA961517FFCDB6, '8000',
-        'BJDZURcI20OX6LBfxY7DTJioaWfYXWSoXFmD5fixzhXTe+E2NyRH3YYpBbtoMemlPk3kWIuULffesi2uTv7ZX+E=',
+        'BF-L61lMATOy095wGpHwOQRhIOVs0SBiuUzagOgadh5otJLenPVRYdczp4HIqW5JJfpLjIQsQ08k6yyEJ28pmos',
         0, '8000:0:ee47f7f3-f394-45b5-88ea-961517ffcdb6', 300, b'0', 60, 360, '', '');
 
 INSERT INTO anontion_account (account_id, client_id, client_name, client_pub, client_ts, client_uid, default_expiration,
