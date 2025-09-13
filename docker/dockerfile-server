@@ -90,9 +90,9 @@ RUN git pull
 
 # TODO remove following two lines
 
-RUN git checkout -b multi_login remotes/origin/multi_login
+# RUN git checkout -b multi_login remotes/origin/multi_login
 
-RUN git pull
+# RUN git pull
 
 # Create ssl placeholders
 RUN mkdir /etc/ssl/certs/anontion
