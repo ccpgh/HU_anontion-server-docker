@@ -30,12 +30,16 @@ def check_extension_connection(extension1, extension2):
     with urllib.request.urlopen(url) as response:
       if response.status == 200:
         print("SET VARIABLE match 0")
+        sys.stdout.flush()
       else:
         print("SET VARIABLE match 1")
+        sys.stdout.flush()
   except urllib.error.HTTPError as e:
     print("SET VARIABLE match 1")
+    sys.stdout.flush()
   except Exception as e:
     print("SET VARIABLE match 1")
+    sys.stdout.flush()
 
 if __name__ == "__main__":
   # Read AGI env vars (discard)
@@ -54,3 +58,4 @@ if __name__ == "__main__":
       check_extension_connection(extension2, extension1)
   else:
     print('SET VARIABLE match 1')
+    sys.stdout.flush()
