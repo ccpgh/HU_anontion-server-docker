@@ -98,31 +98,31 @@ INSERT INTO anontion_account (account_id, client_id, client_name, client_pub, cl
                               is_disabled, minimum_expiration, maximum_expiration, server_signature, client_signature, account_type)
 VALUES (0x00B4CEC6C41F42E6B1AEED00AAD0B419, 0xEE47F7F3F39445B588EA961517FFCDB6, 'auth1',
         'BF/L61lMATOy095wGpHwOQRhIOVs0SBiuUzagOgadh5otJLenPVRYdczp4HIqW5JJfpLjIQsQ08k6yyEJ28pmos=',
-        0, 'auth1:0:ee47f7f3-f394-45b5-88ea-961517ffcdb6', 300, b'0', 60, 360, '', '', 'auth');
+        0, 'auth1:0:ee47f7f3-f394-45b5-88ea-961517ffcdb6', 300, b'0', 60, 360, '', '', 'authorized');
 
 INSERT INTO anontion_account (account_id, client_id, client_name, client_pub, client_ts, client_uid, default_expiration,
                               is_disabled, minimum_expiration, maximum_expiration, server_signature, client_signature, account_type)
 VALUES (0x00B4CEC6C41F42E6B1AEED00AAD0B418, 0xEE47F7F3F39445B588EA961517FFCDB5, 'auth2',
         'BJkCHL2UZlW7ak1W4Pcwvsz8wiCG8mZPU9rTfqexDLYsqro4F5EhS6+UkvfplurOmrVwfIXdRptuYS5QZ1K9aBw=',
-        0, 'auth2:0:ee47f7f3-f394-45b5-88ea-961517ffcdb5', 300, b'0', 60, 360, '', '','auth');
+        0, 'auth2:0:ee47f7f3-f394-45b5-88ea-961517ffcdb5', 300, b'0', 60, 360, '', '','authorized');
 
 INSERT INTO anontion_account (account_id, client_id, client_name, client_pub, client_ts, client_uid, default_expiration,
                               is_disabled, minimum_expiration, maximum_expiration, server_signature, client_signature, account_type)
 VALUES (0x00B4CEC6C41F42E6B1AEED00AAD0B417, 0xEE47F7F3F39445B588EA961517FFCDB4, 'auth3',
         'BF8btYvuAUT/fe0GnlOgwOArdJB8+qcYB+bqRLGYOjmuVY5wT92JbbrBVNO89GHbycqR5dOScrOilM0iz4zfT6c=',
-        0, 'auth3:0:ee47f7f3-f394-45b5-88ea-961517ffcdb4', 300, b'0', 60, 360, '', '', 'auth');
+        0, 'auth3:0:ee47f7f3-f394-45b5-88ea-961517ffcdb4', 300, b'0', 60, 360, '', '', 'authorized');
 
 INSERT INTO anontion_account (account_id, client_id, client_name, client_pub, client_ts, client_uid, default_expiration,
                               is_disabled, minimum_expiration, maximum_expiration, server_signature, client_signature, account_type)
 VALUES (0x00B4CEC6C41F42E6B1AEED00AAD0B416, 0xEE47F7F3F39445B588EA961517FFCDB3, 'auth4',
         'BCo7XbR6THLHOylTzfQHULASjB+Hpyxi1aRTTfGvoz2iLRP3Zhd6BNM9quUBicYJN0vpRtc1Bjvq5Kzl53oQIkk=',
-        0, 'auth4:0:ee47f7f3-f394-45b5-88ea-961517ffcdb3', 300, b'0', 60, 360, '', '', 'auth');
+        0, 'auth4:0:ee47f7f3-f394-45b5-88ea-961517ffcdb3', 300, b'0', 60, 360, '', '', 'authorized');
 
 INSERT INTO anontion_account (account_id, client_id, client_name, client_pub, client_ts, client_uid, default_expiration,
                               is_disabled, minimum_expiration, maximum_expiration, server_signature, client_signature, account_type)
 VALUES (0x00B4CEC6C41F42E6B1AEED00AAD0B415, 0xEE47F7F3F39445B588EA961517FFCDB2, 'auth5',
         'BHUj/MXrlUPcVOXPHVDwu5p7rEkp5gi34ONc0Rs2xNPjx1lXp/RR5MH0f+i5opJRxaAUJAQjVHTkZmnMp+11ZLk=',
-        0, 'auth5:0:ee47f7f3-f394-45b5-88ea-961517ffcdb2', 300, b'0', 60, 360, '', '', 'auth');
+        0, 'auth5:0:ee47f7f3-f394-45b5-88ea-961517ffcdb2', 300, b'0', 60, 360, '', '', 'authorized');
 
 COMMIT;
 END; //
