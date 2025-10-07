@@ -32,7 +32,7 @@ INSERT INTO ps_aors (id, max_contacts, remove_existing, qualify_frequency, suppo
 VALUES ('BF-L61lMATOy095wGpHwOQRhIOVs0SBiuUzagOgadh5otJLenPVRYdczp4HIqW5JJfpLjIQsQ08k6yyEJ28pmos', 1, 'yes', 30, 'yes');
 
 INSERT INTO ps_auths (id, auth_type, username, realm, md5_cred)
-VALUES ('banana', 'md5', 'auth1', 'asterisk' ,'f8be3b93cee4e6fae1a08890b20f0a68');
+VALUES ('banana', 'md5', 'auth1', 'asterisk' ,'0f4959067ae9f8de26a96082e29c34f6');
 
 
 INSERT INTO ps_endpoints (id, transport, aors, auth, context, message_context, disallow, allow, direct_media,
@@ -47,7 +47,7 @@ INSERT INTO ps_aors (id, max_contacts, remove_existing, qualify_frequency, suppo
 VALUES ('BJkCHL2UZlW7ak1W4Pcwvsz8wiCG8mZPU9rTfqexDLYsqro4F5EhS6_UkvfplurOmrVwfIXdRptuYS5QZ1K9aBw', 1, 'yes', 30, 'yes');
 
 INSERT INTO ps_auths (id, auth_type, username, realm, md5_cred)
-VALUES ('apple', 'md5', 'auth2', 'asterisk', '62c44cb9b3f25220a66516dd7a817a50');
+VALUES ('apple', 'md5', 'auth2', 'asterisk', 'f10e9d545d2089b8023b168ddadc2261');
 
 
 INSERT INTO ps_endpoints (id, transport, aors, auth, context, message_context, disallow, allow, direct_media,
@@ -62,7 +62,7 @@ INSERT INTO ps_aors (id, max_contacts, remove_existing, qualify_frequency, suppo
 VALUES ('BF8btYvuAUT-fe0GnlOgwOArdJB8_qcYB_bqRLGYOjmuVY5wT92JbbrBVNO89GHbycqR5dOScrOilM0iz4zfT6c', 1, 'yes', 30, 'yes');
 
 INSERT INTO ps_auths (id, auth_type, username, realm, md5_cred)
-VALUES ('peach', 'md5', 'auth3', 'asterisk', '7ed445adb0eb41907f06ccc4b6864e9e');
+VALUES ('peach', 'md5', 'auth3', 'asterisk', '951b759e24827ca611630874a9bccf2e');
 
 
 INSERT INTO ps_endpoints (id, transport, aors, auth, context, message_context, disallow, allow, direct_media,
@@ -77,7 +77,7 @@ INSERT INTO ps_aors (id, max_contacts, remove_existing, qualify_frequency, suppo
 VALUES ('BCo7XbR6THLHOylTzfQHULASjB_Hpyxi1aRTTfGvoz2iLRP3Zhd6BNM9quUBicYJN0vpRtc1Bjvq5Kzl53oQIkk', 1, 'yes', 30, 'yes');
 
 INSERT INTO ps_auths (id, auth_type, username, realm, md5_cred)
-VALUES ('orange', 'md5', 'auth4', 'asterisk', '2cccf6d656f972249d8416292414da9c');
+VALUES ('orange', 'md5', 'auth4', 'asterisk', '121125a5d3a72247e9d243ca2a8ad939');
 
 
 INSERT INTO ps_endpoints (id, transport, aors, auth, context, message_context, disallow, allow, direct_media,
@@ -92,7 +92,7 @@ INSERT INTO ps_aors (id, max_contacts, remove_existing, qualify_frequency, suppo
 VALUES ('BHUj-MXrlUPcVOXPHVDwu5p7rEkp5gi34ONc0Rs2xNPjx1lXp-RR5MH0f_i5opJRxaAUJAQjVHTkZmnMp_11ZLk', 1, 'yes', 30, 'yes');
 
 INSERT INTO ps_auths (id, auth_type, username, realm, md5_cred)
-VALUES ('apricot', 'md5', 'auth5', 'asterisk', 'c0e20f90c4017bdb9c5f4f5191a7a854');
+VALUES ('apricot', 'md5', 'auth5', 'asterisk', 'e8765a9f8846afb9dfa722e844368079');
 
 INSERT INTO anontion_account (account_id, client_id, client_name, client_pub, client_ts, client_uid, default_expiration,
                               is_disabled, minimum_expiration, maximum_expiration, server_signature, client_signature, account_type)
