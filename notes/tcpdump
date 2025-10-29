@@ -1,0 +1,8 @@
+#!/bin/bash 
+
+exit 1
+
+tcpdump -i wlp1s0 -n udp portrange 10000-20000 -X -w tcpdump.out
+
+ip link show | grep UP
+
