@@ -22,11 +22,11 @@ START TRANSACTION;
 
 INSERT INTO ps_endpoints (id, transport, aors, auth, context, message_context, disallow, allow, direct_media,
                           trust_id_outbound, dtmf_mode, force_rport, rtp_symmetric,
-                          send_rpid, ice_support, tos_video, cos_video, allow_subscribe, callerid, media_encryption)
+                          send_rpid, ice_support, tos_video, cos_video, allow_subscribe, callerid, media_encryption, media_encryption_optimistic)
 VALUES ('BF-L61lMATOy095wGpHwOQRhIOVs0SBiuUzagOgadh5otJLenPVRYdczp4HIqW5JJfpLjIQsQ08k6yyEJ28pmos', 'transport-id',
         'BF-L61lMATOy095wGpHwOQRhIOVs0SBiuUzagOgadh5otJLenPVRYdczp4HIqW5JJfpLjIQsQ08k6yyEJ28pmos', 'banana', 'external', 'messages', 'all',
         'opus,h264,g729,gsm', 'no', 'yes', 'rfc4733', 'yes',
-        'yes', 'yes', 'yes', 'af41', 4, 'yes', '', 'sdes');
+        'yes', 'yes', 'yes', 'af41', 4, 'yes', '', 'sdes', 'no');
 
 INSERT INTO ps_aors (id, max_contacts, remove_existing, qualify_frequency, support_path)
 VALUES ('BF-L61lMATOy095wGpHwOQRhIOVs0SBiuUzagOgadh5otJLenPVRYdczp4HIqW5JJfpLjIQsQ08k6yyEJ28pmos', 1, 'yes', 30, 'yes');
@@ -37,11 +37,11 @@ VALUES ('banana', 'md5', 'auth1', 'asterisk' ,'0f4959067ae9f8de26a96082e29c34f6'
 
 INSERT INTO ps_endpoints (id, transport, aors, auth, context, message_context, disallow, allow, direct_media,
                           trust_id_outbound, dtmf_mode, force_rport, rtp_symmetric,
-                          send_rpid, ice_support, tos_video, cos_video, allow_subscribe, callerid, media_encryption)
+                          send_rpid, ice_support, tos_video, cos_video, allow_subscribe, callerid, media_encryption, media_encryption_optimistic)
 VALUES ('BJkCHL2UZlW7ak1W4Pcwvsz8wiCG8mZPU9rTfqexDLYsqro4F5EhS6_UkvfplurOmrVwfIXdRptuYS5QZ1K9aBw', 'transport-id',
         'BJkCHL2UZlW7ak1W4Pcwvsz8wiCG8mZPU9rTfqexDLYsqro4F5EhS6_UkvfplurOmrVwfIXdRptuYS5QZ1K9aBw', 'apple', 'external', 'messages', 'all',
         'opus,h264,g729,gsm', 'no', 'yes', 'rfc4733', 'yes',
-        'yes', 'yes', 'yes', 'af41', 4, 'yes', '','sdes');
+        'yes', 'yes', 'yes', 'af41', 4, 'yes', '','sdes', 'no');
 
 INSERT INTO ps_aors (id, max_contacts, remove_existing, qualify_frequency, support_path)
 VALUES ('BJkCHL2UZlW7ak1W4Pcwvsz8wiCG8mZPU9rTfqexDLYsqro4F5EhS6_UkvfplurOmrVwfIXdRptuYS5QZ1K9aBw', 1, 'yes', 30, 'yes');
@@ -52,11 +52,11 @@ VALUES ('apple', 'md5', 'auth2', 'asterisk', 'f10e9d545d2089b8023b168ddadc2261')
 
 INSERT INTO ps_endpoints (id, transport, aors, auth, context, message_context, disallow, allow, direct_media,
                           trust_id_outbound, dtmf_mode, force_rport, rtp_symmetric,
-                          send_rpid, ice_support, tos_video, cos_video, allow_subscribe, callerid, media_encryption)
+                          send_rpid, ice_support, tos_video, cos_video, allow_subscribe, callerid, media_encryption, media_encryption_optimistic)
 VALUES ('BF8btYvuAUT-fe0GnlOgwOArdJB8_qcYB_bqRLGYOjmuVY5wT92JbbrBVNO89GHbycqR5dOScrOilM0iz4zfT6c', 'transport-id',
         'BF8btYvuAUT-fe0GnlOgwOArdJB8_qcYB_bqRLGYOjmuVY5wT92JbbrBVNO89GHbycqR5dOScrOilM0iz4zfT6c', 'peach', 'external', 'messages', 'all',
         'opus,h264,g729,gsm', 'no', 'yes', 'rfc4733', 'yes',
-        'yes', 'yes', 'yes', 'af41', 4, 'yes', '','sdes');
+        'yes', 'yes', 'yes', 'af41', 4, 'yes', '','sdes', 'no');
 
 INSERT INTO ps_aors (id, max_contacts, remove_existing, qualify_frequency, support_path)
 VALUES ('BF8btYvuAUT-fe0GnlOgwOArdJB8_qcYB_bqRLGYOjmuVY5wT92JbbrBVNO89GHbycqR5dOScrOilM0iz4zfT6c', 1, 'yes', 30, 'yes');
@@ -67,11 +67,11 @@ VALUES ('peach', 'md5', 'auth3', 'asterisk', '951b759e24827ca611630874a9bccf2e')
 
 INSERT INTO ps_endpoints (id, transport, aors, auth, context, message_context, disallow, allow, direct_media,
                           trust_id_outbound, dtmf_mode, force_rport, rtp_symmetric,
-                          send_rpid, ice_support, tos_video, cos_video, allow_subscribe, callerid, media_encryption)
+                          send_rpid, ice_support, tos_video, cos_video, allow_subscribe, callerid, media_encryption, media_encryption_optimistic)
 VALUES ('BCo7XbR6THLHOylTzfQHULASjB_Hpyxi1aRTTfGvoz2iLRP3Zhd6BNM9quUBicYJN0vpRtc1Bjvq5Kzl53oQIkk', 'transport-id',
         'BCo7XbR6THLHOylTzfQHULASjB_Hpyxi1aRTTfGvoz2iLRP3Zhd6BNM9quUBicYJN0vpRtc1Bjvq5Kzl53oQIkk', 'orange', 'external', 'messages', 'all',
         'opus,h264,g729,gsm', 'no', 'yes', 'rfc4733', 'yes',
-        'yes', 'yes', 'yes', 'af41', 4, 'yes', '','sdes');
+        'yes', 'yes', 'yes', 'af41', 4, 'yes', '','sdes', 'no');
 
 INSERT INTO ps_aors (id, max_contacts, remove_existing, qualify_frequency, support_path)
 VALUES ('BCo7XbR6THLHOylTzfQHULASjB_Hpyxi1aRTTfGvoz2iLRP3Zhd6BNM9quUBicYJN0vpRtc1Bjvq5Kzl53oQIkk', 1, 'yes', 30, 'yes');
@@ -82,11 +82,11 @@ VALUES ('orange', 'md5', 'auth4', 'asterisk', '121125a5d3a72247e9d243ca2a8ad939'
 
 INSERT INTO ps_endpoints (id, transport, aors, auth, context, message_context, disallow, allow, direct_media,
                           trust_id_outbound, dtmf_mode, force_rport, rtp_symmetric,
-                          send_rpid, ice_support, tos_video, cos_video, allow_subscribe, callerid, media_encryption)
+                          send_rpid, ice_support, tos_video, cos_video, allow_subscribe, callerid, media_encryption, media_encryption_optimistic)
 VALUES ('BHUj-MXrlUPcVOXPHVDwu5p7rEkp5gi34ONc0Rs2xNPjx1lXp-RR5MH0f_i5opJRxaAUJAQjVHTkZmnMp_11ZLk', 'transport-id',
         'BHUj-MXrlUPcVOXPHVDwu5p7rEkp5gi34ONc0Rs2xNPjx1lXp-RR5MH0f_i5opJRxaAUJAQjVHTkZmnMp_11ZLk', 'apricot', 'external', 'messages', 'all',
         'opus,h264,g729,gsm', 'no', 'yes', 'rfc4733', 'yes',
-        'yes', 'yes', 'yes', 'af41', 4, 'yes', '','sdes');
+        'yes', 'yes', 'yes', 'af41', 4, 'yes', '','sdes', 'no');
 
 INSERT INTO ps_aors (id, max_contacts, remove_existing, qualify_frequency, support_path)
 VALUES ('BHUj-MXrlUPcVOXPHVDwu5p7rEkp5gi34ONc0Rs2xNPjx1lXp-RR5MH0f_i5opJRxaAUJAQjVHTkZmnMp_11ZLk', 1, 'yes', 30, 'yes');
