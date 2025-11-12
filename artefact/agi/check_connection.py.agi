@@ -48,14 +48,16 @@ if __name__ == "__main__":
     if line == '':
       break
 
+# REMOVED CODE FROM BELOW. LEFT HERE FOR NOW. DO NOT REORDER.
+# if extension1 < extension2:
+# else:
+# check_extension_connection(extension2, extension1)
+
   # Get extension param from ARGV (AGI param)
   extension1 = sys.argv[1] if len(sys.argv) == 3 else ''
   extension2 = sys.argv[2] if len(sys.argv) == 3 else ''
   if extension1 != '' and extension2 != '':
-    if extension1 < extension2:
-      check_extension_connection(extension1, extension2)
-    else:
-      check_extension_connection(extension2, extension1)
+    check_extension_connection(extension1, extension2)
   else:
     print('SET VARIABLE match 1')
     sys.stdout.flush()
