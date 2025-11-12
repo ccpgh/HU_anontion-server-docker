@@ -1,0 +1,6 @@
+#!/bin/bash 
+
+exit 1
+
+curl --insecure -X GET 'http://localhost:8080/connection/exists?sipUsername2=BDKqUGWZzSKi4AsjMp8-KXzq9i39Mbd1J6wj0yYMLmMGhjaQsSh-aivnFan7pj0hzHiGCKiD9IPVvv2gHq1dJgU&sipUsername1=BIB6fFAgy3tJKnkYCxgd8P4QrjOkxiDFlXRMu0v1oLo5vGUiSVbdchXBv7UOIGQCR25O85q0l_U6XAuJCoQn7NU'
+
