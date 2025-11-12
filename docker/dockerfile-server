@@ -144,7 +144,7 @@ RUN sed -i.bak3 "s|${LHS3}|${RHS3}|" default-ssl.conf
 
 ARG LHS5='SSLEngine on'
 #ARG RHS5='\nServerName anontion.com\nServerAlias www.anontion.com\nSSLEngine on'
-ARG RHS5='\nServerName anontion.com\nServerAlias www.anontion.com\nSSLEngine on\nSSLProtocol all -SSLv2 -SSLv3 -TLSv1 -TLSv1.1\nSSLCipherSuite HIGH:!aNULL:!MD5:!3DES:!CAMELLIA\nSSLHonorCipherOrder on\nHeader always set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"\nHeader always set X-Content-Type-Options "nosniff"\nHeader always set X-Frame-Options "SAMEORIGIN"\nHeader always set Referrer-Policy "strict-origin-when-cross-origin"\n'
+ARG RHS5='\nServerName anontion.com\nServerAlias www.anontion.com\nSSLEngine on\nSSLProtocol -all +TLSv1.2 +TLSv1.3\nSSLCipherSuite HIGH:!aNULL:!MD5:!3DES:!CAMELLIA\nSSLHonorCipherOrder on\nHeader always set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"\nHeader always set X-Content-Type-Options "nosniff"\nHeader always set X-Frame-Options "SAMEORIGIN"\nHeader always set Referrer-Policy "strict-origin-when-cross-origin"\nHeader always set Content-Security-Policy "default-src \'none\'; frame-ancestors \'none\';"\n'
 RUN sed -i.bak5 "s|${LHS5}|${RHS5}|" default-ssl.conf
 
 # Config
