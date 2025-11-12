@@ -118,6 +118,7 @@ RUN a2enmod ssl
 RUN a2ensite default-ssl.conf
 RUN a2enmod proxy
 RUN a2enmod proxy_http
+RUN a2enmod headers
 
 RUN apachectl stop
 
