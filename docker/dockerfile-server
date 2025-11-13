@@ -144,7 +144,7 @@ RUN sed -i.bak3 "s|${LHS3}|${RHS3}|" default-ssl.conf
 
 ARG LHS5='SSLEngine on'
 #ARG RHS5='\nServerName anontion.com\nServerAlias www.anontion.com\nSSLEngine on'
-ARG RHS5='\nServerName anontion.com\nServerAlias www.anontion.com\nSSLEngine on\nSSLProtocol -all +TLSv1.2 +TLSv1.3\nSSLCipherSuite HIGH:!aNULL:!MD5:!3DES:!CAMELLIA\nSSLHonorCipherOrder on\nHeader always set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"\nHeader always set X-Content-Type-Options "nosniff"\nHeader always set X-Frame-Options "SAMEORIGIN"\nHeader always set Referrer-Policy "strict-origin-when-cross-origin"\nFOOBAR\n'
+ARG RHS5='\nServerName anontion.com\nServerAlias www.anontion.com\nSSLEngine on\nSSLProtocol -all +TLSv1.2 +TLSv1.3\nSSLCipherSuite HIGH:!aNULL:!MD5:!3DES:!CAMELLIA\nSSLHonorCipherOrder on\nHeader always set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"\nHeader always set X-Content-Type-Options "nosniff"\nHeader always set X-Frame-Options "SAMEORIGIN"\nHeader always set Referrer-Policy "strict-origin-when-cross-origin"\nFOOBAR\nHeader always set X-XSS-Protection "1; mode=block"\n'
 RUN sed -i.bak5 "s|${LHS5}|${RHS5}|" default-ssl.conf
 
 ARG LHS7='FOOBAR'
@@ -162,7 +162,7 @@ RUN if [ ! -f default-ssl.conf.bak6 ]; then echo "missing default-ssl.conf.bak "
 
 RUN awk 'BEGIN { found = 0; RS = "\0"; ORS = ""; }                         \
      /<\/Directory>[[:space:]\n]*<\/VirtualHost>/ && !found {              \
-         sub(/<\/Directory>[[:space:]\n]*<\/VirtualHost>/, "\n</Directory>\nProxyRequests Off\n<LocationMatch \"^/connection/exists(/.*)?$\">\nRequire all denied\n</LocationMatch>\n<LocationMatch \"^/connection/connection/exists(/.*)?$\">\nRequire all denied\n</LocationMatch>\n\nProxyPass / http://localhost:8080/\nProxyPassReverse / http://localhost:8080/\n</VirtualHost>");  \
+         sub(/<\/Directory>[[:space:]\n]*<\/VirtualHost>/, "\n</Directory>\nProxyRequests Off\n<LocationMatch \"^/connection/exists(/.*)?$\">\nRequire all denied\n</LocationMatch>\n<LocationMatch \"^/connection/connection/exists(/.*)?$\">\nRequire all denied\n</LocationMatch>\n\nProxyPreserveHost On\nProxyPass / http://localhost:8080/\nProxyPassReverse / http://localhost:8080/\n</VirtualHost>");  \
          found = 1;                                                        \
      }                                                                     \
      { print; }' default-ssl.conf.bak6 > default-ssl.conf
